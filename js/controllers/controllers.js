@@ -1,4 +1,4 @@
-app.controller("loginCtrl", function($scope, $state, API, User, Loader) {
+app.controller("homeCtrl", function($scope, $state, API, User, Loader) {
 
 });
 

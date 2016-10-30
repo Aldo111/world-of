@@ -1,5 +1,10 @@
-<div class="navBar row">
-  <div ng-repeat="tab in ctrl.tabs" ng-click="ctrl.goto(tab.page)">
-    <md-icon>{{ tab.icon }}</md-icon>
+<div class="navBar row" ng-if="ctrl.currentState !== 'main.home'">
+  <div
+    ng-repeat="tab in ctrl.tabs"
+    ng-click="ctrl.goto(tab.page)"
+    class="navTab noSelect"
+    ng-class="{currentTab: ctrl.currentState == tab.page}"
+    >
+    <md-icon class="noSelect">{{ tab.icon }}</md-icon>
   </div>
 </div>

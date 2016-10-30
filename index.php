@@ -61,7 +61,7 @@
 
   </head>
 
-  <body ng-app="geog" style="height:100%" layout="column">
+  <body ng-app="worldof" style="height:100%" layout="column">
 
     <!-- loader -->
     <div id="loaderOverlay" class='loading'>

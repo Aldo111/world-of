@@ -1,4 +1,4 @@
-var app = angular.module("geog", ['ui.router', 'ngMaterial']);
+var app = angular.module("worldof", ['ui.router', 'ngMaterial']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -9,10 +9,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
       abstract: true,
       templateUrl: "templates/main.html"
     })
-    .state("main.login", {
-      url: "/login",
-      templateUrl: "templates/login.html",
-      controller: "loginCtrl",
+    .state("main.home", {
+      url: "/",
+      templateUrl: "templates/home.html",
+      controller: "homeCtrl",
       data: {
         stateIfAuthorized: "main.dash"
       }
@@ -32,7 +32,7 @@ app.run(function($rootScope, $state, User) {
   $rootScope.$on('$stateChangeSuccess',
     function(event, toState, toParams, fromState, fromParams) {
       if (!User.loggedIn() && toState.data && toState.data.authorization) {
-        $state.go("main.login");
+        $state.go("main.home");
       }
       if (User.loggedIn() && toState.data && toState.data.stateIfAuthorized) {
         $state.go(toState.data.stateIfAuthorized);
