@@ -1,0 +1,114 @@
+* {
+  -webkit-user-select: auto;
+}
+html,body {
+}
+
+body {
+  margin:0;
+  font-family: "HelveticaNeue-Light", Calibri !important;
+  background-color:#f7f6f6 !important;
+}
+
+.logo {
+  width: 65px;
+  height: 65px;
+  padding-top: 4px;
+  margin-right: 8px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color:#232323;
+  height:73px;
+  color: white;
+  font-family: 'Aguafina Script', cursive;
+  font-size: 30pt;
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+header > .row {
+  align-items: center;
+}
+
+.navBar {
+  background-color: #424242;
+  height: 55px;
+}
+
+.navBar md-icon {
+  font-size: 30pt;
+  margin: 0 auto;
+  color: #000;
+}
+
+.navBar > div {
+  flex: 1;
+  max-width: 100px;
+  text-align: center;
+  padding-top: 6px;
+  padding-right: 12px;
+}
+
+.accountBox {
+  flex: 1;
+  color: white;
+  text-align: right;
+  align-self: flex-start;
+}
+
+.accountBox > md-icon {
+  font-size: 34pt;
+  color: white;
+  margin-right: 30px;
+}
+
+.content {
+  margin: 10px;
+}
+
+.centerBox {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+
+.loader {
+  background-color:black;
+  width:50px;
+  height:50px;
+  padding-top:15px;
+  border-radius:10px;
+  opacity:1;
+}
+
+.loading {
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:1100;
+  background-color:#333;
+  color:white;
+  opacity:0.8;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  text-align:center;
+}
+
+#loaderOverlay {
+  display:none;
+}
+
