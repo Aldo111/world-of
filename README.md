@@ -12,7 +12,7 @@ After you've done so, you will need to do a couple of things to get the project 
 
 3. Create api/config.php and define PHP constants for DB_HOST, DB_USER, DB_PASS, and DB that store the respective mysql connection details. Just take the following code and replace the second parameter in each of the definitions with the correct string values.
 
-```php
+ ```php
 <?php
   define("DB_HOST", "your_db_host..usually localhost");
   define("DB_USER", "your_db_username..usually root");
@@ -20,5 +20,5 @@ After you've done so, you will need to do a couple of things to get the project 
   define("DB", "worldof_db");
 ?>
 ```
-
+                
 4. Create your local database based on the appropriate details you've specified.
