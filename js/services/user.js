@@ -7,7 +7,7 @@ app.factory("User", function(API, Storage, EventManager) {
   var init = function() {
     var u = Storage.getObject(storageName);
     if (u) {
-      user = u;
+      setUser(u);
     }
     return u != null;
   };

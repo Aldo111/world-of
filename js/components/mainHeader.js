@@ -7,12 +7,13 @@ app.component('mainHeader', {
     this.username = '';
 
     EventManager.onUserLoggedIn(function(user) {
+      console.log(user);
       this.username = user.username;
-    });
+    }.bind(this));
 
     EventManager.onUserLoggedOut(function() {
       this.username = '';
-    });
+    }.bind(this));
 
     this.openAccountOptions = function() {
       $mdDialog.show({
