@@ -1,6 +1,6 @@
-<!-- If not logged in -->
 <md-dialog aria-label="Account Form">
-  <form ng-cloak ng-if="!ctrl.user" ng-submit="ctrl.login()">
+  <!-- If not logged in -->
+  <form name='accountForm' ng-cloak ng-if="!ctrl.user" ng-submit="ctrl.login()">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>World Of Who?</h2>
@@ -15,13 +15,15 @@
       <br>
       <md-input-container class="md-icon-float md-block">
         <label>Username</label>
-        <input ng-model="ctrl.formData.username" type="text" focus>
+        <input ng-model="ctrl.formData.username" required type="text" focus>
       </md-input-container>
 
       <md-input-container class="md-icon-float md-block">
         <label>Password</label>
-        <input ng-model="ctrl.formData.password" type="password">
+        <input ng-model="ctrl.formData.password" required type="password">
       </md-input-container>
+
+      <div class='warning' ng-if='ctrl.error' ng-bind='ctrl.error'></div>
     </md-dialog-content>
 
     <md-dialog-actions class='accountDialogActions' layout="row">
@@ -29,13 +31,17 @@
        Register
       </md-button>
       <span flex></span>
-      <md-button type='submit' class="md-primary" ng-click="ctrl.login()">
+      <md-button type='submit'
+        class="md-primary"
+        ng-click="ctrl.login()"
+        ng-disabled="accountForm.$invalid">
         Login
       </md-button>
     </md-dialog-actions>
   </form>
 
-    <form ng-cloak ng-if="ctrl.user">
+  <!-- If logged in - might consider making this a separate component -->
+  <form ng-cloak ng-if="ctrl.user">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Account Options</h2>

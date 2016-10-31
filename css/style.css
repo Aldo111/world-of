@@ -3,9 +3,13 @@
 }
 
 body {
-  margin:0;
+  margin: 0;
   font-family: "HelveticaNeue-Light", Calibri !important;
-  background-color:#f7f6f6 !important;
+  background-color: #f7f6f6 !important;
+}
+
+h1, h2, h3, h4 {
+  font-family: Abel;
 }
 
 .logo {
@@ -18,6 +22,7 @@ body {
 .row {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .column {
@@ -41,7 +46,7 @@ header > .row {
 }
 
 .headerUsername {
-  color: #ffc581;
+  color: #ffc581 !important;
 }
 
 .navBar {
@@ -59,8 +64,7 @@ header > .row {
   flex: 1;
   max-width: 100px;
   text-align: center;
-  padding-top: 6px;
-  padding-right: 12px;
+  padding: 8px;
 }
 
 .accountBox {
@@ -77,7 +81,7 @@ header > .row {
 }
 
 .content {
-  margin: 10px;
+  padding: 16px;
 }
 
 .centerBox {
@@ -158,10 +162,19 @@ md-icon {
   height: inherit;
 }
 
+md-button {
+  box-shadow: none !important;
+  -webkit-box-shadow: none;
+}
+
 .md-toolbar-tools {
   background-color: #111;
 }
 
 .accountDialogActions {
   border-top: 1px solid #eee  ;
+}
+
+.warning {
+  color: red;
 }

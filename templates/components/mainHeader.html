@@ -8,7 +8,8 @@
     </div>
     <div class="accountBox">
       <md-button class="accountButton" ng-click="ctrl.openAccountOptions()">
-        <md-icon class="material-icons">
+        <md-icon class="material-icons"
+          ng-class="{headerUsername: ctrl.username.length > 0}">
           account_box
         </md-icon>
       </button>

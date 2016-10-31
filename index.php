@@ -30,6 +30,8 @@
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Aguafina+Script"
       rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel"
+    rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <?php
