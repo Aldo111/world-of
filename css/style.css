@@ -82,6 +82,7 @@ header > .row {
 
 .content {
   padding: 16px;
+  padding-top: 0;
 }
 
 .centerBox {

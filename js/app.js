@@ -25,6 +25,14 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       data: {
         authorization: true
       }
+    })
+    .state("main.player-templates", {
+      url: "/templates",
+      templateUrl: "templates/player-templates.html",
+      controller: "DashCtrl",
+      data: {
+        authorization: true
+      }
     });
 
   // Define theme

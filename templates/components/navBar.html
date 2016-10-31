@@ -4,6 +4,7 @@
     ng-click="ctrl.goto(tab.page)"
     class="navTab noSelect"
     ng-class="{currentTab: ctrl.currentState == tab.page}"
+    ng-if="!tab.authOnly || (tab.authOnly && ctrl.user)"
     >
     <md-icon class="noSelect">{{ tab.icon }}</md-icon>
   </div>

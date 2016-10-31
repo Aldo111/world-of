@@ -1,5 +1,5 @@
 //User
-app.factory("User", function(API, Storage) {
+app.factory("User", function(API, Storage, EventManager) {
 
   var user = null;
   var storageName = "worldOfUserData";
@@ -13,7 +13,13 @@ app.factory("User", function(API, Storage) {
   };
 
   var setUser = function(u) {
+    // Announce that the user's logged in
+    EventManager.userLoggedIn(u);
+
+    // Set user
     user = u;
+
+    // Save in local storage
     Storage.setObject(storageName, u);
   };
 
@@ -30,11 +36,18 @@ app.factory("User", function(API, Storage) {
   };
 
   var logout = function() {
+    // If no user is logged in, there's no one to logout :O
     if (!user) {
       return false;
     }
 
+    // Announce that the user's logged out
+    EventManager.userLoggedOut();
+
+    // Remove from storage
     Storage.remove(storageName);
+
+    // Update local
     user = null;
 
     return true;

@@ -3,17 +3,16 @@
  */
 app.component('mainHeader', {
   templateUrl: 'templates/components/mainHeader.html',
-  controller: function($scope, User, $mdDialog) {
+  controller: function($scope, User, $mdDialog, EventManager) {
     this.username = '';
-    $scope.$watch(function() {
-      return User.getUser();
-    }, function(newVal) {
-      if (newVal) {
-        this.username = newVal.username;
-      } else {
-        this.username = '';
-      }
-    }.bind(this));
+
+    EventManager.onUserLoggedIn(function(user) {
+      this.username = user.username;
+    });
+
+    EventManager.onUserLoggedOut(function() {
+      this.username = '';
+    });
 
     this.openAccountOptions = function() {
       $mdDialog.show({
