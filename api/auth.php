@@ -13,7 +13,7 @@ class Auth {
    *
    * @return string $hash The encrypted password.
    */
-  public function getHashedPass($p) {
+  public function encryptPassword($p) {
     $options = [
       'cost' => 11
     ];
@@ -32,14 +32,14 @@ class Auth {
    * @return array|false Returns an associative array with account data
    *    if user exists, else returns false.
    */
-  public function verifyUser($user_name, $user_pass) {
+  public function verifyUser($username, $password) {
     $db = new DB();
     $return = false;
-    $user = $db->getUserByName($user_name);
+    $user = $db->getUserByName($username);
     if (!$user) {
       return false;
     } else {
-      if (!$this->verifyPass($user_pass, $user['password'])) {
+      if (!$this->verifyPass($password, $user['password'])) {
         return false;
       } else {
         unset($user['password']);

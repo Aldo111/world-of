@@ -2,7 +2,7 @@
 app.factory("User", function(API, Storage) {
 
   var user = null;
-  var storageName = "worldOfData";
+  var storageName = "worldOfUserData";
 
   var init = function() {
     var u = Storage.getObject(storageName);

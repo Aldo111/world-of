@@ -1,5 +1,5 @@
 // Helps indicate OS platform
-app.factory("PlatformDetect", function() {
+app.factory('PlatformDetect', function() {
 
   var ua = navigator.userAgent;
   var isAndroid = /Android/i.test(ua);
@@ -19,19 +19,19 @@ app.factory("PlatformDetect", function() {
 });
 
 // Loader overlay
-app.factory("Loader", function($timeout) {
-  var l = $("#loaderOverlay");
+app.factory('Loader', function($timeout) {
+  var l = $('#loaderOverlay');
   var show = function() {
     l.show();
   };
 
   //hide the loader, after a delay if specified
   var hide = function(delay) {
-    if (typeof delay == "undefined") {
+    if (!delay) {
       delay = 0;
     }
     $timeout(function() {
-      l.fadeOut("fast")
+      l.fadeOut('fast')
     }, delay);
   };
 
@@ -42,7 +42,7 @@ app.factory("Loader", function($timeout) {
 });
 
 // Factory of helper functions.
-app.service("Helper", function() {
+app.service('Helper', function() {
   //generate a random id -
   this.guid = function() {
       var S4 = function() {
@@ -52,4 +52,20 @@ app.service("Helper", function() {
   }
 });
 
+app.factory('Config', function() {
+  // Globally available config from config.js
+  var config = configJson;
 
+  var setConfig = function(c) {
+    config = c;
+  };
+
+  var get = function(val) {
+    return config[val] || null;
+  };
+
+  return {
+    setConfig: setConfig,
+    get: get
+  };
+});

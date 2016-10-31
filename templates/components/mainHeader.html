@@ -4,10 +4,14 @@
       <img src="img/logo.png" class="logo"/>
     </div>
     <div>
-      World Of
+      World Of <span class='headerUsername'>{{ctrl.username}}</span>
     </div>
     <div class="accountBox">
-      <md-icon>account_box</md-icon>
+      <md-button class="accountButton" ng-click="ctrl.openAccountOptions()">
+        <md-icon class="material-icons">
+          account_box
+        </md-icon>
+      </button>
     </div>
   </div>
 </header>

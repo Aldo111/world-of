@@ -1,5 +1,6 @@
 <?php
 require_once("config.php");
+
 /**
  * Database access class.
  */
@@ -68,6 +69,31 @@ class DB {
   }
 
   /**
+   * Creates a new user account.
+   *
+   * @param string $username The username.
+   * @param string $password The password.
+   *
+   * @return array|false Returns an associative array with account data
+   *    if user is created successfully, else returns false.
+   */
+  public function createAccount($username, $password) {
+    $username = $this->sanitize($username);
+    $password = $this->sanitize($password);
+
+    $q=$this->db->query("INSERT into accounts (username, password)
+      VALUES ('$username', '$password')");
+
+    if ($q !== false) {
+      $userQ = $this->db->query("SELECT id, username FROM accounts
+        WHERE username='$username'");
+      return $this->fetchAll($userQ)[0];
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
    * Fetches account data for all users.
    *
    * @return array|false Returns an associative array with account data
@@ -75,7 +101,7 @@ class DB {
    */
   public function getUsers() {
     $q=$this->db->query("SELECT id, username FROM accounts");
-    return $this->fetch_all($q);
+    return $this->fetchAll($q);
   }
 
   /**
@@ -88,7 +114,7 @@ class DB {
    * @return array|false $result Returns an associative array with account data
    *    if user exists, else returns false.
    */
-  private function fetch_all($q, $type = MYSQLI_ASSOC) {
+  private function fetchAll($q, $type = MYSQLI_ASSOC) {
     for ($result = array(); $tmp = $q->fetch_array(MYSQLI_ASSOC);) {
       $result[] = $tmp;
     }
@@ -97,13 +123,13 @@ class DB {
 
   /**
    * Convenience function that converts an array of equality conditions into
-   *    a 'WHERE ..' string that can be appended at the end of an SQL query.
+   * a 'WHERE ..' string that can be appended at the end of an SQL query.
    *
    * @param array $fields Associative array containing key/value pairs for SQL.
    *
    * @return string The extra conditions in string form.
    */
-  private function gen_extra($fields) {
+  private function genExtra($fields) {
     $extra_conditions = "";
 
     // Handling extra conditions that can be appended to a db query.
@@ -117,6 +143,22 @@ class DB {
       }
     }
     return $extra_conditions;
+  }
+
+  /**
+   * Convenience function that returns an array of data based on a query. This
+   * can be modified for better coverage in the future.
+   *
+   * @param mixed $variable Variable that needs to be sanitized.
+   *
+   * @return mixed Sanitized version of variable.
+   */
+  private function sanitize($variable) {
+    if (gettype($variable) === "string") {
+      $variable = $this->db->escape_string($variable);
+    }
+
+    return $variable;
   }
 }
 ?>

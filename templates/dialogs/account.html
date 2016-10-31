@@ -1,0 +1,59 @@
+<!-- If not logged in -->
+<md-dialog aria-label="Account Form">
+  <form ng-cloak ng-if="!ctrl.user" ng-submit="ctrl.login()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>World Of Who?</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          x</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content layout-padding layout-margin>
+      <br>
+      <md-input-container class="md-icon-float md-block">
+        <label>Username</label>
+        <input ng-model="ctrl.formData.username" type="text" focus>
+      </md-input-container>
+
+      <md-input-container class="md-icon-float md-block">
+        <label>Password</label>
+        <input ng-model="ctrl.formData.password" type="password">
+      </md-input-container>
+    </md-dialog-content>
+
+    <md-dialog-actions class='accountDialogActions' layout="row">
+      <md-button ng-click="ctrl.register()">
+       Register
+      </md-button>
+      <span flex></span>
+      <md-button type='submit' class="md-primary" ng-click="ctrl.login()">
+        Login
+      </md-button>
+    </md-dialog-actions>
+  </form>
+
+    <form ng-cloak ng-if="ctrl.user">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Account Options</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          x</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content layout-padding layout-margin>
+      <p>There are currently no options available. Please check back later.</p>
+    </md-dialog-content>
+
+    <md-dialog-actions class='accountDialogActions' layout="row">
+      <md-button class="md-primary" ng-click="ctrl.logout()">
+        Logout
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

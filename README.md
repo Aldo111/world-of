@@ -20,5 +20,13 @@ After you've done so, you will need to do a couple of things to get the project 
   define("DB", "worldof_db");
 ?>
 ```
+
+4. Create config.js (at the root level within your world-of folder) with the following data:
+
+ ```javascript
+var configJson = {
+  "baseURL": "http://__your___local__host__url/world-of/api"
+};
+```
                 
-4. Create your local database based on the appropriate details you've specified.
+5. Create your local database using the schema found in the SQL folder.
