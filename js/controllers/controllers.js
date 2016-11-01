@@ -1,7 +1,7 @@
-app.controller("homeCtrl", function($scope, $state, API, User, Loader) {
+app.controller("HomeCtrl", function($scope, $state, API, User, Loader) {
 
 });
 
-app.controller("dashCtrl", function($scope, User) {
+app.controller("DashCtrl", function($scope, User) {
 
 });
