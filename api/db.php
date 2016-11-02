@@ -104,6 +104,23 @@ class DB {
     return $this->fetchAll($q);
   }
 
+
+
+  /**
+   * Fetches worlds data.
+   *
+   * @return array|false Returns an associative array with world data or false
+   * if failed.
+   */
+  public function getWorlds($fields) {
+    $extraConditions = $this->genExtra($fields);
+    $q=$this->db->query("SELECT id, user_id AS userId, name, description
+      FROM worlds". $extraConditions);
+    return $this->fetchAll($q);
+  }
+
+  
+
   /**
    * Convenience function that returns an array of data based on a query.
    *

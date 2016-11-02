@@ -6,8 +6,10 @@
  * The following routes exist:
  *    GET /users                 Get a list of users
  *    GET /users/{id}            Get user belonging to that id
+ *    GET /worlds
  *    POST /login                Validates credentials
  *    POST /register             Registers a new account
+ *    
  */
 
 header("Content-Type: application/json");
@@ -51,7 +53,7 @@ class API {
     // Get a list of all users
     $this->app->get("/users", function($request, $response, $args) use ($that) {
       $result = $that->db->getUsers();
-      $result = ["count" => count($result), "result" => $result];
+      $result = $that->createListResult($result);
       return $that->storeResult($result, $response);
     });
 
@@ -62,6 +64,19 @@ class API {
         $r = $that->$db->getUserById($user_id);
 
         $result =  $r === false ? $that->errorMsg("User not found.") : $r;
+
+        return $that->storeResult($result, $response);
+    });
+
+    // Get worlds
+    $this->app->get("/worlds",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $fields = $_GET;
+        $r = $that->db->getWorlds($fields);
+
+        $result =  $r === false ? $that->errorMsg("User not found.") :
+          $that->createListResult($r);
 
         return $that->storeResult($result, $response);
     });
@@ -169,6 +184,18 @@ class API {
    */
   private function doesUserExist($username) {
     return ($this->db->getUserByName($username)) !== false;
+  }
+
+  /**
+   * Creates an associative result object for list results containing count.
+   *
+   * @param array $result The result that needs to be counted and returned.
+   *
+   * @return array $result Result object.
+   */
+  private function createListResult($result) {
+    $result = ["count" => count($result), "result" => $result];
+    return $result;
   }
 
 }
