@@ -11,6 +11,6 @@ app.controller("DashCtrl", function($scope, User, API, Loader) {
   }.bind(this));
 });
 
-app.controller("editorCtrl", function($scope, $state, User) {
+app.controller("EditorCtrl", function($scope, $state, User) {
 
 });
