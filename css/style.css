@@ -1,8 +1,9 @@
 * {
   -webkit-user-select: auto;
+  outline: 0;
 }
 
-body {
+body, .content {
   margin: 0;
   font-family: "HelveticaNeue-Light", Calibri !important;
   background-color: #f7f6f6 !important;
@@ -238,4 +239,61 @@ md-button {
 
 .createWorldCard:active {
   background-color: #ccc;
+}
+
+.hubsList {
+  background-color: #fff;
+}
+
+.hubsList .createWorldCard {
+  max-height: 50px !important;
+  min-height: inherit;
+  height: 50px;
+}
+
+
+.hubSectionInput {
+  background-color: white !important;
+}
+
+
+hub-editor {
+  padding: 10px;
+}
+
+.hubEditorContainer {
+  padding: 10px;
+}
+.hubSection {
+  margin: 5px;
+  margin-bottom: 15px;
+}
+
+.hubSection md-input-container {
+  margin: 0px;
+}
+
+.hubSection md-input-container md-errors-spacer {
+  float: left;
+}
+
+.hubSectionToolbar {
+  border: 0;
+  margin: 0;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #ddd;
+  width: 80%;
+}
+
+.hubNotSelected {
+  border-color: #666;
+}
+
+.hubSelected {
+  border-color: orange !important;
+  opacity: 1;
 }

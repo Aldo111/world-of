@@ -1,0 +1,22 @@
+<div class="row">
+  <h1>World {{ctrl.worldId}}</h1>
+</div>
+
+<div layout = "row">
+  <div class = "hubsList" layout = "column" >
+    <h2 align="center">Hubs</h2>
+    <md-button class="md-flat" ng-click="ctrl.createHub()">Create</md-button>
+    <div class="worldDashboardCard createWorldCard"
+      ng-click="ctrl.editHub(hub.id)"
+      ng-repeat="hub in ctrl.hubs"
+      ng-class="{hubSelected: hub.id == ctrl.hubId, hubNotSelected: hub.id !== ctrl.hubId}">
+        <span class="centerBox">{{hub.name}}</span>
+    </div>
+  </div>
+
+  <div class="hubEditorContainer noSelect" layout="column" flex=100>
+    <h3 ng-if="ctrl.hubId === null">No hub selected..</h3>
+    <hub-editor hub-id="ctrl.hubId" ng-if="ctrl.hubId !== null"></hub-editor>
+  </div>
+</div>
+
