@@ -24,8 +24,6 @@ app.controller('EditorCtrl', function($scope, $state, User) {
   this.sections = [];
 
   this.createSection = function() {
-    console.log('hello');
-
     this.sections.push({
       text: '',
       conditions: null
