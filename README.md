@@ -30,3 +30,6 @@ var configJson = {
 ```
                 
 5. Create your local database using the schema found in the SQL folder.
+
+## Our Work
+Almost all files in this repo have been written by us from scratch. The files that haven't been written by us are just the PHP Slim API Framework files (i.e. any file in api/ that isn't index.php, db.php, or auth.php are files that belong to the Slim PHP Framework and haven't been written by us).
