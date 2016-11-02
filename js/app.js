@@ -35,14 +35,14 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         authorization: true
       }
     })
-    /*.state("main.world-editor", {
+    .state("main.world-editor", {
       url: "/editor",
       templateUrl: "editor/world-editor.html",
       controller: "EditorCtrl",
       data: {
         authorization: true
       }
-    })*/;
+    });
 
   // Define theme
   $mdThemingProvider.theme('default')
