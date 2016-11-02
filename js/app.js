@@ -35,10 +35,11 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         authorization: true
       }
     })
-    .state("main.world-editor", {
-      url: "/editor",
-      templateUrl: "editor/world-editor.html",
-      controller: "EditorCtrl",
+    .state('main.hub-editor', {
+      url: '/editor',
+      templateUrl: 'templates/hub-editor.html',
+      controller: 'EditorCtrl',
+      controllerAs: 'ctrl',
       data: {
         authorization: true
       }
