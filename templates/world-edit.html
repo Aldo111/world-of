@@ -6,17 +6,17 @@
   <div class = "hubsList" layout = "column" >
     <h2 align="center">Hubs</h2>
     <md-button class="md-flat" ng-click="ctrl.createHub()">Create</md-button>
-    <div class="worldDashboardCard createWorldCard"
-      ng-click="ctrl.editHub(hub.id)"
-      ng-repeat="hub in ctrl.hubs"
-      ng-class="{hubSelected: hub.id == ctrl.hubId, hubNotSelected: hub.id !== ctrl.hubId}">
+    <div class="hubsListCard"
+      ng-click="ctrl.editHub(hub)"
+      ng-repeat="hub in ctrl.hubs track by $index"
+      ng-class="{hubSelected: ctrl.hub && hub.id == ctrl.hub.id, hubNotSelected: !ctrl.hub ||hub.id !== ctrl.hub.id}">
         <span class="centerBox">{{hub.name}}</span>
     </div>
   </div>
 
   <div class="hubEditorContainer noSelect" layout="column" flex=100>
-    <h3 ng-if="ctrl.hubId === null">No hub selected..</h3>
-    <hub-editor hub-id="ctrl.hubId" ng-if="ctrl.hubId !== null"></hub-editor>
+    <h3 ng-if="ctrl.hub === null" class="hubContent">No hub selected..</h3>
+    <hub-editor hub="ctrl.hub" ng-if="ctrl.hub !== null"></hub-editor>
   </div>
 </div>
 

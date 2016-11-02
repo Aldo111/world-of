@@ -34,15 +34,15 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API, $mdDialog) {
   this.worldId = $stateParams.id || null;
 
   this.hubs = [];
-  this.hubId = null;
+  this.hub = null;
 
   // API get hubs request
   API.getWorldHubs(this.worldId).then(function(response) {
     this.hubs = response.result;
   }.bind(this));
 
-  this.editHub = function(id) {
-    this.hubId = id;
+  this.editHub = function(hub) {
+    this.hub = hub;
   }.bind(this);
 
   this.createHub = function() {
@@ -60,7 +60,6 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API, $mdDialog) {
         API.getWorldHubs(this.worldId).then(function(response) {
           this.hubs = [];
           this.hubs = response.result;
-          console.log(this.hubs);
         }.bind(this));
       }
     }.bind(this));
