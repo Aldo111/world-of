@@ -10,3 +10,7 @@ app.controller("DashCtrl", function($scope, User, API, Loader) {
     this.worlds = response.result;
   }.bind(this));
 });
+
+app.controller("editorCtrl", function($scope, $state, User) {
+
+});
