@@ -4,14 +4,13 @@
 app.component('mainHeader', {
   templateUrl: 'templates/components/mainHeader.html',
   controller: function($scope, User, $mdDialog, EventManager) {
-    this.username = '';
+    this.username = User.getName();
 
-    EventManager.onUserLoggedIn(function(user) {
-      console.log(user);
+    var loginListener = EventManager.onUserLoggedIn(function(user) {
       this.username = user.username;
     }.bind(this));
 
-    EventManager.onUserLoggedOut(function() {
+    var logoutListener = EventManager.onUserLoggedOut(function() {
       this.username = '';
     }.bind(this));
 
@@ -23,6 +22,12 @@ app.component('mainHeader', {
         controllerAs: 'ctrl'
       });
     };
+
+    // Clear listeners on destroy
+    $scope.$on('$destroy', function() {
+      loginListener();
+      logoutListener();
+    });
   },
   controllerAs: 'ctrl',
 });

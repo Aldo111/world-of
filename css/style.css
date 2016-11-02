@@ -28,6 +28,11 @@ h1, h2, h3, h4 {
 .column {
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.column > div {
+  flex-grow: 1;
 }
 
 header {
@@ -39,6 +44,7 @@ header {
   font-weight: bold;
   padding-left: 10px;
   letter-spacing: 2px;
+  overflow: hidden;
 }
 
 header > .row {
@@ -83,6 +89,7 @@ header > .row {
 .content {
   padding: 16px;
   padding-top: 0;
+  position: relative;
 }
 
 .centerBox {
@@ -134,7 +141,7 @@ header > .row {
   background-color: #f7f6f6;
 }
 
-.noSelect {
+.noSelect * {
   user-select: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -158,7 +165,7 @@ header > .row {
   line-height: 42px;
 }
 
-md-icon {
+header md-icon, .navBar md-icon {
   width: inherit;
   height: inherit;
 }
@@ -178,4 +185,57 @@ md-button {
 
 .warning {
   color: red;
+}
+
+.worldDashboardCards {
+
+  align-items: stretch;
+  flex-wrap: wrap !important;
+  padding: 15px;
+}
+.worldDashboardCard {
+  border-left: 4px solid orange;
+  padding: 5px;
+  margin: 15px;
+  background-color: #eee;
+  width: 250px;
+  position: relative;
+  min-height: 150px;
+}
+
+.worldDashboardToolbar {
+  position: relative;
+  margin: -5px;
+  padding: 5px;
+  background-color: #ddd;
+  font-weight: bold;
+  flex-grow: 0 !important;
+  color: #333;
+}
+
+.worldDashboardToolbar > div {
+  flex: 1;
+  text-align: center;
+}
+
+.worldDashboardToolbar md-icon {
+  color: #000;
+}
+
+.createWorldCard {
+  line-height: 50%;
+  border: 3px dashed orange;
+  font-size: 24pt;
+  font-weight: bold;
+  opacity: 0.7;
+  transition: background-color 0.2s, opacity 0.3s;
+  cursor: pointer;
+}
+
+.createWorldCard:hover {
+  opacity: 1;
+}
+
+.createWorldCard:active {
+  background-color: #ccc;
 }

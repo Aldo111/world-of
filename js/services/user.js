@@ -1,5 +1,5 @@
 //User
-app.factory("User", function(API, Storage, EventManager) {
+app.factory("User", function(Storage, EventManager) {
 
   var user = null;
   var storageName = "worldOfUserData";
@@ -27,7 +27,14 @@ app.factory("User", function(API, Storage, EventManager) {
     return user;
   };
 
-  var getID = function() {
+  var getName = function() {
+    if (!user) {
+      return '';
+    }
+    return user.username;
+  }
+
+  var getId = function() {
     return user.id || false;
   };
 
@@ -57,7 +64,8 @@ app.factory("User", function(API, Storage, EventManager) {
     init: init,
     setUser: setUser,
     getUser: getUser,
-    getID: getID,
+    getId: getId,
+    getName: getName,
     loggedIn: loggedIn,
     logout: logout
   };

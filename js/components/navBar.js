@@ -2,7 +2,7 @@ app.component('navBar', {
   templateUrl: 'templates/components/navBar.html',
   controller: function($state, User, $scope, EventManager) {
     this.currentState = '';
-    this.user = null;
+    this.user = User.getUser();
 
     // Convenience function for creating objects for the tabs.
     var Tab = function(name, icon, page, authOnly) {

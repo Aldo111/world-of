@@ -1,5 +1,40 @@
 <div class="row">
-  <h2>Your Worlds</h2>
-  <span>
-    <md-button class='md-flat'>Create</md-button>
+  <h1>Your Worlds</h1>
+  <md-button class='md-flat'>Create</md-button>
+</div>
+
+<div class="row worldDashboardCards noSelect">
+  <div class="worldDashboardCard createWorldCard">
+      <span class="centerBox">+</span>
+  </div>
+  <div class="worldDashboardCard" ng-repeat="world in ctrl.worlds">
+    <div class="column">
+      <div>
+        <h2 align="center">{{world.name}}</h2>
+      </div>
+      <div class="row worldDashboardToolbar">
+        <div>
+          <md-button class="md-icon-button">
+            <i class="material-icons md-48">
+              favorite
+            </i>
+          </md-button>
+        </div>
+        <div>
+          <md-button class="md-icon-button">
+            <i class="material-icons">
+              play_arrow
+            </i>
+          </md-button>
+        </div>
+        <div>
+          <md-button class="md-icon-button">
+            <i class="material-icons">
+              share
+            </i>
+          </md-button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
