@@ -34,6 +34,15 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       data: {
         authorization: true
       }
+    })
+    .state('main.hub-editor', {
+      url: '/editor',
+      templateUrl: 'templates/hub-editor.html',
+      controller: 'EditorCtrl',
+      controllerAs: 'ctrl',
+      data: {
+        authorization: true
+      }
     });
 
   // Define theme
