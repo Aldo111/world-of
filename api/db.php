@@ -115,7 +115,7 @@ class DB {
       $insertId = $this->db->insert_id;
       $userQ = $this->db->query("SELECT * FROM worlds
         WHERE id='$insertId'");
-      return $this->fetchAll($userQ);
+      return $this->fetchAll($userQ)[0];
     } else {
       return false; //error
     }
@@ -143,7 +143,7 @@ class DB {
       $insertId = $this->db->insert_id;
       $userQ = $this->db->query("SELECT * FROM hubs
         WHERE id='$insertId'");
-      return $this->fetchAll($userQ);
+      return $this->fetchAll($userQ)[0];
     } else {
       return [$this->db->error]; //error
     }
@@ -171,11 +171,11 @@ class DB {
   public function getWorlds($fields) {
     $extraConditions = $this->genExtra($fields);
     $q=$this->db->query("SELECT id, user_id AS userId, name, description
-      FROM worlds". $extraConditions);
+      FROM worlds". $extraConditions." ORDER BY id DESC");
     return $this->fetchAll($q);
   }
 
-  
+
   /**
    * Fetches hub data of a world.
    *
@@ -186,9 +186,9 @@ class DB {
     //Check if world exists
 
     $q=$this->db->query("SELECT *
-      FROM hubs WHERE world_id='$worldId'");
+      FROM hubs WHERE world_id='$worldId' ORDER BY id ASC");
     if ($q !== false) {
-      return $q->fetch_assoc();
+      return $this->fetchAll($q);
     } else {
       return false; //error
     }

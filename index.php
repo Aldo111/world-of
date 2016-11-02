@@ -63,7 +63,7 @@
 
   </head>
 
-  <body ng-app="worldof" style="height:100%" layout="column">
+  <body ng-app="worldof">
 
     <!-- loader -->
     <div id="loaderOverlay" class='loading'>
@@ -75,7 +75,7 @@
     <!-- page -->
 
 
-    <ui-view style='height:100%'>
+    <ui-view>
     </ui-view>
 
 

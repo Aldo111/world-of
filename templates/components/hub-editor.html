@@ -1,0 +1,33 @@
+<div ng-repeat="section in ctrl.sections track by $index" class="hubSection">
+  <md-input-container class="md-block">
+    <label>Section {{$index}} </label>
+    <textarea
+      class="hubSectionInput"
+      ng-model="section.text"
+      md-no-autogrow="true"
+      maxlength="500"
+      md-maxlength="500"
+      rows="4" md-select-on-focus></textarea>
+  </md-input-container>
+  <div class="row worldDashboardToolbar hubSectionToolbar">
+    <div>
+      <md-button class="md-warn md-icon-button"
+        ng-click="deleteSection($index)">
+        <i class="material-icons md-48">
+          delete
+        </i>
+      </md-button>
+    </div>
+    <div>
+      <md-button class="md-icon-button">
+        <i class="material-icons">
+          dns
+        </i>
+      </md-button>
+    </div>
+  </div>
+  <hr>
+</div>
+
+<md-button class="md-flat md-primary" ng-click="ctrl.createSection()">+ Section
+</md-button>
