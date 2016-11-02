@@ -94,6 +94,62 @@ class DB {
   }
 
   /**
+   * Creates a new world.
+   *
+   * @param string $userid The user creating the world.
+   * @param string $name The world name.
+   * @param string $description The description of the world.
+   *
+   * @return array|false Returns an associative array with world data
+   *    if world is created successfully, else returns false.
+   */
+  public function createWorld($userid, $name, $description) {
+    $userid = $this->sanitize($userid);
+    $name = $this->sanitize($name);
+    $description = $this->sanitize($description);
+
+    $q=$this->db->query("INSERT into worlds (user_id, name, description)
+      VALUES ('$userid', '$name', '$description')");
+
+    if ($q !== false) {
+      $insertId = $this->db->insert_id;
+      $userQ = $this->db->query("SELECT * FROM worlds
+        WHERE id='$insertId'");
+      return $this->fetchAll($userQ);
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Creates a new hub.
+   *
+   * @param string $userid The user creating the world.
+   * @param string $worldid The world name.
+   * @param string $description The description of the world.
+   *
+   * @return array|false Returns an associative array with world data
+   *    if world is created successfully, else returns false.
+   */
+  public function createHub($userid, $worldid, $name) {
+    $userid = $this->sanitize($userid);
+    $worldid = $this->sanitize($worldid);
+    $name = $this->sanitize($name);
+
+    $q=$this->db->query("INSERT into hubs (user_id, world_id, name)
+      VALUES ('$userid', '$worldid', '$name')");
+
+    if ($q !== false) {
+      $insertId = $this->db->insert_id;
+      $userQ = $this->db->query("SELECT * FROM hubs
+        WHERE id='$insertId'");
+      return $this->fetchAll($userQ);
+    } else {
+      return [$this->db->error]; //error
+    }
+  }
+
+  /**
    * Fetches account data for all users.
    *
    * @return array|false Returns an associative array with account data
@@ -120,6 +176,24 @@ class DB {
   }
 
   
+  /**
+   * Fetches hub data of a world.
+   *
+   * @return array|false Returns an associative array with hub data or false
+   * if failed.
+   */
+  public function getHubs($worldId) {
+    //Check if world exists
+
+    $q=$this->db->query("SELECT *
+      FROM hubs WHERE world_id='$worldId'");
+    if ($q !== false) {
+      return $q->fetch_assoc();
+    } else {
+      return false; //error
+    }
+  }
+
 
   /**
    * Convenience function that returns an array of data based on a query.
