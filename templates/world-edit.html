@@ -1,5 +1,5 @@
 <div class="row">
-  <h1>World {{ctrl.worldId}}</h1>
+  <h1>{{ ctrl.world.name }}</h1>
 </div>
 
 <div layout = "row">
@@ -10,13 +10,14 @@
       ng-click="ctrl.editHub(hub)"
       ng-repeat="hub in ctrl.hubs track by $index"
       ng-class="{hubSelected: ctrl.hub && hub.id == ctrl.hub.id, hubNotSelected: !ctrl.hub ||hub.id !== ctrl.hub.id}">
-        <span class="centerBox">{{hub.name}}</span>
+        {{hub.name}}
     </div>
   </div>
 
   <div class="hubEditorContainer noSelect" layout="column" flex=100>
-    <h3 ng-if="ctrl.hub === null" class="hubContent">No hub selected..</h3>
-    <hub-editor hub="ctrl.hub" ng-if="ctrl.hub !== null"></hub-editor>
+    <h3 class="defaultText hubNotSelectedMessage"
+      ng-if="ctrl.hub === null" class="hubContent">No hub selected.</h3>
+    <hub-editor world-id="ctrl.worldId" hub="ctrl.hub" ng-if="ctrl.hub !== null"></hub-editor>
   </div>
 </div>
 

@@ -30,15 +30,22 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API, Loader
   };
 });
 
-app.controller('WorldEditCtrl', function($scope, $stateParams, API, $mdDialog) {
-  this.worldId = $stateParams.id || null;
+app.controller('WorldEditCtrl', function($scope, $stateParams, API,
+  $mdDialog) {
+  this.worldId = parseInt($stateParams.id) || null;
 
   this.hubs = [];
   this.hub = null;
 
+  this.world = {};
   // API get hubs request
+  // maybe this endpoint should also return world data instead of separately
   API.getWorldHubs(this.worldId).then(function(response) {
     this.hubs = response.result;
+  }.bind(this));
+
+  API.getWorlds({id: this.worldId}).then(function(response) {
+    this.world = response.result[0];
   }.bind(this));
 
   this.editHub = function(hub) {
@@ -64,4 +71,5 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API, $mdDialog) {
       }
     }.bind(this));
   }.bind(this);
+
 });

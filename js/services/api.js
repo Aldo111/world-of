@@ -9,6 +9,7 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
       type: type || 'get'
     }
   };
+
   var invokeEndpoint = function(endpoint, options) {
     var url = baseURL + '/' + endpoint;
     var promise = RequestFactory.create(url, options);
@@ -51,6 +52,17 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
       setOptions(data, 'post'));
   };
 
+  var saveSections = function(data) {
+    data.user_id = User.getId();
+    return invokeEndpoint('worlds/' + data.worldId +
+      '/hubs/' + data.hubId + '/sections/save', setOptions(data, 'post'));
+  };
+
+  var getWorldHubSections = function(data) {
+    return invokeEndpoint('worlds/' + data.worldId +
+      '/hubs/' + data.hubId + '/sections');
+  };
+
   return {
     url: baseURL,
     login: login,
@@ -58,7 +70,9 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     getWorlds: getWorlds,
     getWorldHubs: getWorldHubs,
     createWorld: createWorld,
-    createHub: createHub
+    createHub: createHub,
+    saveSections: saveSections,
+    getWorldHubSections: getWorldHubSections
   };
 
 });

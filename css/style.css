@@ -57,7 +57,7 @@ header > .row {
 }
 
 .navBar {
-  background-color: #424242;
+  background-color: #555;
   height: 55px;
 }
 
@@ -202,6 +202,15 @@ md-button {
   width: 250px;
   position: relative;
   min-height: 150px;
+  cursor: pointer;
+}
+
+.worldDashboardCard > div {
+  transition: background-color 0.2s;
+}
+
+.worldDashboardCard:hover > div {
+  background-color: #f9f9f9;
 }
 
 .worldDashboardToolbar {
@@ -234,6 +243,7 @@ md-button {
 }
 
 .createWorldCard:hover {
+  background-color: initial;
   opacity: 1;
 }
 
@@ -243,6 +253,7 @@ md-button {
 
 .hubsList {
   background-color: #fff;
+  border-right: 2px solid #eee;
 }
 
 .hubsList .createWorldCard {
@@ -254,6 +265,7 @@ md-button {
 
 .hubSectionInput {
   background-color: white !important;
+  padding: 5px !important;
 }
 
 
@@ -294,18 +306,23 @@ hr {
 }
 
 .hubNotSelected {
-  border-color: #666;
-  opacity: 0.3go;
+  border-color: #666 !important;
+  color: #333;
+  opacity: 0.6;
 }
 
 .hubSelected {
   border-color: orange !important;
   opacity: 1;
+  background-color: #ccc !important;
+  color: #222;
+  font-weight: bold;
 }
 
 .hubTitlebar {
   background-color: white;
   padding-left: 10px;
+  margin-bottom: 5px;
 }
 
 .hubToolbar {
@@ -326,4 +343,29 @@ hr {
   border-left: 3px solid #0af;
   margin: 0px;
   margin-bottom: 2px;
+  transition: opacity 0.2s, background-color 0.2s;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  font-size: 1em;
+  line-height:50px;
+  padding-left: 5px;
+}
+
+
+.hubsListCard:hover {
+  background-color: #ccc;
+}
+
+.hubsListCard:active {
+  background-color: #999;
+}
+
+.defaultText {
+  color: #777;
+}
+
+.hubNotSelectedMessage {
+  padding: 5px;
 }
