@@ -17,10 +17,6 @@ app.controller("DashCtrl", function($scope, $state, User, API, Loader) {
 
 app.controller('EditorCtrl', function($scope, $state, User) {
 
-  this.user = {
-    hub: ''
-  };
-
   this.sections = [];
 
   this.createSection = function() {
@@ -33,4 +29,15 @@ app.controller('EditorCtrl', function($scope, $state, User) {
   this.deleteSection = function(id) {
     this.sections.splice(id, 1);
   }.bind(this);
+});
+
+app.controller('PlayCtrl', function($scope, $state, User) {
+
+  this.sections = [];
+
+  this.sections.push({
+      text: 'this is a story example\n your content will go here',
+      conditions: null
+    });
+
 });
