@@ -2,12 +2,14 @@ app.component('hubEditor', {
   templateUrl: 'templates/components/hub-editor.html',
   controllerAs: 'ctrl',
   bindings: {
-    hub: '<',
-    worldId: '<'
+    hub: '=',
+    world: '<'
   },
-  controller: function($scope, $state, User, API, $mdDialog, Loader) {
+  controller: function($scope, $state, User, API, $mdDialog, EventManager,
+    Loader) {
 
   this.sections = [];
+  this.worldId = this.world ? this.world.id || null : null;
 
   // Create a section textarea
   this.createSection = function() {
@@ -67,6 +69,20 @@ app.component('hubEditor', {
     }.bind(this));
   }.bind(this);
 
+  this.deleteHub = function() {
+    Loader.show();
+    API.deleteHub({
+      worldId: this.world.id,
+      hubId: this.hub.id
+    }).then(function(response) {
+      EventManager.hubDeleted();
+      this.hub = null;
+      Loader.hide();
+    }.bind(this), function(response) {
+      Loader.hide();
+    });
+  };
+
   /**
    * Function to fetch hub data
    */
@@ -74,7 +90,7 @@ app.component('hubEditor', {
     Loader.show();
 
     API.getWorldHubSections({
-      worldId: this.worldId,
+      worldId: this.world.id,
       hubId: this.hub.id
     }).then(function(response) {
       Loader.hide();
@@ -88,13 +104,15 @@ app.component('hubEditor', {
   $scope.$watch('ctrl.hub', function(newHub) {
     if (newHub) {
       this.fetchSectionData();
+      this.sections = [];
     }
   }.bind(this));
 
   // Watch for any updates to the world ID passed to this component
-  $scope.$watch('ctrl.worldId', function(newHub) {
-    if (newHub) {
+  $scope.$watch('ctrl.world', function(newWorld) {
+    if (newWorld) {
       this.fetchSectionData();
+      this.worldId = newWorld.id;
     }
   }.bind(this));
 

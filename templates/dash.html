@@ -1,5 +1,9 @@
-<div class="row">
-  <h1>Your Worlds</h1>
+<div layout="row" class="titleRow">
+  <h1 flex=1 >Your Worlds</h1>
+  <div flex class='search'>
+    <md-icon class="material-icons">search</md-icon>
+    <input ng-model="ctrl.worldFilter" type="text">
+  </div>
 </div>
 
 <div class="row worldDashboardCards noSelect">
@@ -7,7 +11,7 @@
       <span class="centerBox">+</span>
   </div>
   <div class="worldDashboardCard"
-    ng-repeat="world in ctrl.worlds"
+    ng-repeat="world in ctrl.worlds | filter: {'name': ctrl.worldFilter}"
     >
     <div class="column">
       <div ng-click="ctrl.editWorld(world.id)">
@@ -22,7 +26,7 @@
           </md-button>
         </div>
         <div>
-          <md-button class="md-icon-button">
+          <md-button class="md-icon-button" ng-click="ctrl.playWorld(world.id)">
             <i class="material-icons">
               play_arrow
             </i>

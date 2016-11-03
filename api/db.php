@@ -122,6 +122,37 @@ class DB {
   }
 
   /**
+   * Updates a world.
+   *
+   * @param string $worldId The world id.
+   * @param array $data Associative array holding data needing to be updated.
+   *
+   * @return array|false Returns an associative array with world data
+   *    if world is created successfully, else returns false.
+   */
+  public function updateWorld($worldId, $data) {
+    $updates = [];
+
+    foreach($data as $field => $val) {
+      if ($field === "id") {
+        continue;
+      }
+
+      $updates[] = "`".$field."`='".$this->sanitize($val)."'";
+    }
+
+    // TODO: ensure only permitted users can update
+    $q=$this->db->query("UPDATE worlds SET ".implode(",", $updates)."
+      WHERE id='$worldId'");
+
+    if ($q !== false) {
+      return true;
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
    * Creates a new hub.
    *
    * @param string $userId The user creating the hub.
@@ -181,7 +212,7 @@ class DB {
    * Saves multiple sections in a hub
    *
    * @param string $userId The user creating the world.
-   * @param string $hubId The world name.
+   * @param string $hubId The hub id.
    * @param array $sections Array containing sections data.
    *
    * @return boolean Returns true/false based on success/failure.
@@ -245,6 +276,8 @@ class DB {
   /**
    * Fetches hub data of a world.
    *
+   * @param string $worldId The world id.
+   *
    * @return array|false Returns an associative array with hub data or false
    * if failed.
    */
@@ -263,6 +296,8 @@ class DB {
   /**
    * Fetches section data of a hub.
    *
+   * @param string $hubId The hub id.
+   *
    * @return array|false Returns an associative array with section data or false
    * if failed.
    */
@@ -271,6 +306,48 @@ class DB {
       FROM hubs_content WHERE hub_id='$hubId' ORDER BY id ASC");
     if ($q !== false) {
       return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Deletes a world and all content associated with it.
+   *
+   * @param string $worldId The world id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function deleteWorld($worldId) {
+    $q3=$this->db->query("DELETE FROM hubs_content WHERE hub_id IN
+      (SELECT id FROM hubs WHERE world_id = '$worldId')");
+
+    $q2=$this->db->query("DELETE FROM hubs WHERE world_id='$worldId'");
+
+    $q1=$this->db->query("DELETE FROM worlds WHERE id='$worldId'");
+
+    if ($q1 !== false && $q2 !== false && $q3 !== false) {
+      return true;
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Deletes an individual hub and all content associated with it.
+   *
+   * @param string $hubId The hub id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function deleteHub($hubId) {
+    $q1=$this->db->query("DELETE FROM hubs_content WHERE hub_id='$hubId'");
+    $q2=$this->db->query("DELETE FROM hubs WHERE id='$hubId'");
+
+    if ($q1 !== false && $q2 !== false) {
+      return true;
     } else {
       return false; //error
     }

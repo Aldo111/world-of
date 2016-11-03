@@ -5,7 +5,7 @@
 
   <div class="hubToolbar" layout="row">
       <div>
-        <md-button class="md-warn md-icon-button">
+        <md-button class="md-icon-button" ng-click="ctrl.deleteHub()">
           <i class="material-icons md-48">
             delete
           </i>
@@ -39,7 +39,15 @@
   </div>
 </div>
 
+<div ng-if="ctrl.world.startHub === ctrl.hub.id"
+  layout="row" class="hubTitlebar startHubMessage generalMessage">
+This hub has been set as the starting hub for your world.
+</div>
+
 <div class="hubContent">
+  <div ng-if="ctrl.sections.length === 0" class="hubNotSelectedMessage">
+   No sections have been created yet. Get started by clicking the button below!
+   </div>
   <div ng-repeat="section in ctrl.sections track by $index" class="hubSection">
     <md-input-container class="md-block">
       <label>Section {{$index}} </label>

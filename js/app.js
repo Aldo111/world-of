@@ -1,4 +1,4 @@
-var app = angular.module('worldof', ['ui.router', 'ngMaterial']);
+var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize']);
 
 app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
@@ -45,13 +45,10 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       }
     })
     .state('main.play-world', {
-      url: '/play', //add world ID
+      url: '/play/:id',
       templateUrl: 'templates/play-world.html',
       controller: 'PlayCtrl',
-      controllerAs: 'ctrl',
-      data: {
-        authorization: true
-      }
+      controllerAs: 'ctrl'
     });
 
   // Define theme

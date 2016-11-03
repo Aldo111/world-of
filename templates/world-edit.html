@@ -1,5 +1,25 @@
-<div class="row">
-  <h1>{{ ctrl.world.name }}</h1>
+<div layout="row" class="titleRow">
+  <h1 flex=100>
+    {{ ctrl.world.name }}
+    <md-button class="md-icon-button" ng-click="ctrl.playWorld()">
+      <i class="material-icons">
+        play_arrow
+      </i>
+      <md-tooltip md-direction="top">
+        Play World
+      </md-tooltip>
+    </md-button>
+  </h1>
+  <div flex=100  style='text-align:right'>
+    <md-button class="md-icon-button" ng-click="ctrl.deleteWorld()">
+      <i class="material-icons">
+        delete
+      </i>
+      <md-tooltip md-direction="top">
+        Delete World
+      </md-tooltip>
+    </md-button>
+  </div>
 </div>
 
 <div layout = "row">
@@ -9,15 +29,38 @@
     <div class="hubsListCard"
       ng-click="ctrl.editHub(hub)"
       ng-repeat="hub in ctrl.hubs track by $index"
-      ng-class="{hubSelected: ctrl.hub && hub.id == ctrl.hub.id, hubNotSelected: !ctrl.hub ||hub.id !== ctrl.hub.id}">
-        {{hub.name}}
+      ng-class="{hubSelected: ctrl.hub && hub.id == ctrl.hub.id,
+      hubNotSelected: !ctrl.hub ||hub.id !== ctrl.hub.id}">
+      <div layout="row">
+        <div flex="90" class="hubListName">
+          {{hub.name}}
+        </div>
+        <div>
+          <md-button ng-click="ctrl.setHubAsStart(hub.id); $event.stopPropagation()"
+            class="md-icon-button"
+            ng-class="{'md-primary': hub.id === ctrl.world.startHub}"
+            >
+            <i class="material-icons" ng-class="{nonStartHub:
+              hub.id !== ctrl.world.startHub}">
+              looks_one
+            </i>
+            <md-tooltip md-direction="top">
+              <span ng-if="hub.id !== ctrl.world.startHub">Make start hub</span>
+              <span ng-if="hub.id === ctrl.world.startHub">
+              Start Hub
+              </span>
+            </md-tooltip>
+          </md-button>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="hubEditorContainer noSelect" layout="column" flex=100>
-    <h3 class="defaultText hubNotSelectedMessage"
+    <h3 ng-cloak class="defaultText hubNotSelectedMessage"
       ng-if="ctrl.hub === null" class="hubContent">No hub selected.</h3>
-    <hub-editor world-id="ctrl.worldId" hub="ctrl.hub" ng-if="ctrl.hub !== null"></hub-editor>
+    <hub-editor world="ctrl.world" hub="ctrl.hub" ng-if="ctrl.hub !== null">
+    </hub-editor>
   </div>
 </div>
 

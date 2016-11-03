@@ -27,6 +27,14 @@ app.factory('EventManager', function($rootScope) {
     },
     onUserLoggedOut: function(callback) {
       on('user-logged-out', callback);
+    },
+
+    hubDeleted: function() {
+      broadcast('hub-deleted');
+    },
+    onHubDeleted: function(callback) {
+      on('hub-deleted', callback);
     }
+
   }
 });

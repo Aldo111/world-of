@@ -26,6 +26,10 @@ app.component('navBar', {
       this.user = user;
     }.bind(this));
 
+    EventManager.onUserLoggedOut(function() {
+      this.user = null;
+    }.bind(this));
+
     // Watch state changes and accordingly switch tab class
     $scope.$watch(function(){
       return $state.$current.name

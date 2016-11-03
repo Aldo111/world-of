@@ -6,6 +6,7 @@ app.controller('WorldDetailsCtrl', function($scope, $state, API, User, Loader,
   this.success = null;
 
   this.createWorld = function() {
+    this.formData.userId = User.getId();
     API.createWorld(this.formData).then(function(response) {
       this.cancel(response);
     }.bind(this), function(response) {
