@@ -57,7 +57,7 @@ header > .row {
 }
 
 .navBar {
-  background-color: #555;
+  background-color: #666;
   height: 55px;
 }
 
@@ -254,6 +254,7 @@ md-button {
 .hubsList {
   background-color: #fff;
   border-right: 2px solid #eee;
+  width: 250px;
 }
 
 .hubsList .createWorldCard {
@@ -292,6 +293,11 @@ hub-editor {
   float: left;
 }
 
+.hubListName {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .hubSectionToolbar {
   border: 0;
   margin: 0;
@@ -317,6 +323,10 @@ hr {
   background-color: #ccc !important;
   color: #222;
   font-weight: bold;
+}
+
+.nonStartHub {
+  color: #999;
 }
 
 .hubTitlebar {
@@ -353,6 +363,25 @@ hr {
   padding-left: 5px;
 }
 
+.hubsListCard.ng-leave {
+  transition: none;
+}
+
+.warningMessage {
+  padding: 5px;
+  background-color: #fff5d8;
+  color: rgba(255, 0, 0, 0.5);
+}
+
+.generalMessage {
+  padding: 5px;
+  background-color: #e5f9e1;
+  color: rgb(59, 111, 97);
+}
+
+.startHubMessage {
+  margin-top: -5px;
+}
 
 .hubsListCard:hover {
   background-color: #ccc;
@@ -368,4 +397,37 @@ hr {
 
 .hubNotSelectedMessage {
   padding: 5px;
+}
+
+.storyContainer {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+.playSectionText {
+  padding: 5px;
+  white-space: pre-wrap;
+}
+
+.titleRow {
+  align-items: center;
+}
+
+.titleRow .search {
+  margin-left: 10px;
+  text-align: right;
+}
+
+.search input {
+  outline: 0;
+  width: 100%;
+  max-width: 150px;
+  border: 0px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  padding: 5px
 }

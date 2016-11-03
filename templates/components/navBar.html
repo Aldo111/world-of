@@ -1,4 +1,4 @@
-<div class="navBar row" ng-if="ctrl.currentState !== 'main.home'">
+<div class="navBar row" ng-if="ctrl.currentState !== 'main.home' && ctrl.user">
   <div
     ng-repeat="tab in ctrl.tabs"
     ng-click="ctrl.goto(tab.page)"

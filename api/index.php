@@ -248,6 +248,61 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    $this->app->put("/worlds/{id}",
+      function($request, $response, $args) use ($that) {
+        $details = $request->getParsedBody();
+        $id = $request->getAttribute("id");
+        $result = $that->errorMsg("Invalid details.");
+
+        if ($details === null) {
+          $result = $that->errorMsg("Nothing to be updated.");
+        } else {
+          $data = $that->db->updateWorld($id, $details);
+          if ($data === false) {
+            $result =
+              $that->errorMsg("Error: The query seemed to have failed!");
+          } else {
+            $result = $that->successMsg();
+          }
+        }
+
+        return $that->storeResult($result, $response);
+    });
+
+    $this->app->delete("/worlds/{id}",
+      function($request, $response, $args) use ($that) {
+        $id = $request->getAttribute("id");
+        $result = $that->errorMsg("Invalid details.");
+
+        $data = $that->db->deleteWorld($id);
+        if ($data === false) {
+          $result =
+            $that->errorMsg("Error: The query seemed to have failed!");
+        } else {
+          $result = $that->successMsg();
+        }
+
+
+        return $that->storeResult($result, $response);
+    });
+
+    $this->app->delete("/worlds/{id}/hubs/{hubId}",
+      function($request, $response, $args) use ($that) {
+        $hubId = $request->getAttribute("hubId");
+        $result = $that->errorMsg("Invalid details.");
+
+        $data = $that->db->deleteHub($hubId);
+        if ($data === false) {
+          $result =
+            $that->errorMsg("Error: The query seemed to have failed!");
+        } else {
+          $result = $that->successMsg();
+        }
+
+
+        return $that->storeResult($result, $response);
+    });
+
     // Start the router
     $this->app->run();
   }
