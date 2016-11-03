@@ -44,6 +44,15 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         authorization: true
       }
     })
+    .state('main.play-world', {
+      url: '/play', //add world ID
+      templateUrl: 'templates/play-world.html',
+      controller: 'PlayCtrl',
+      controllerAs: 'ctrl',
+      data: {
+        authorization: true
+      }
+    });
 
   // Define theme
   $mdThemingProvider.theme('default')

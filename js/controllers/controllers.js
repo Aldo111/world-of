@@ -73,3 +73,14 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
   }.bind(this);
 
 });
+
+app.controller('PlayCtrl', function($scope, $state, User) {
+
+  this.sections = [];
+
+  this.sections.push({
+      text: 'this is a story example\n your content will go here',
+      conditions: null
+    });
+
+});
