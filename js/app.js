@@ -35,10 +35,10 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         authorization: true
       }
     })
-    .state('main.hub-editor', {
-      url: '/editor',
-      templateUrl: 'templates/hub-editor.html',
-      controller: 'EditorCtrl',
+    .state('main.world-edit', {
+      url: '/world/:id/edit',
+      templateUrl: 'templates/world-edit.html',
+      controller: 'WorldEditCtrl',
       controllerAs: 'ctrl',
       data: {
         authorization: true
@@ -60,13 +60,14 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     .accentPalette('orange');
 });
 
-app.run(function($rootScope, $state, User, $http, Config) {
+app.run(function($rootScope, $state, User, $http, Config, $templateCache) {
+  // Initialize a logged in user, if any
+  User.init();
 
   // Setup state change event listener
   $rootScope.$on('$stateChangeSuccess',
     function(event, toState, toParams, fromState, fromParams) {
-      // Initialize a logged in user, if any
-      User.init();
+
 
       if (!User.loggedIn() && toState.data && toState.data.authorization) {
         $state.go('main.home');
@@ -75,4 +76,6 @@ app.run(function($rootScope, $state, User, $http, Config) {
         $state.go(toState.data.stateIfAuthorized);
       }
   });
+
+  $templateCache.removeAll();
 });

@@ -1,5 +1,5 @@
 //User
-app.factory("User", function(Storage, EventManager) {
+app.factory("User", function(Storage, EventManager, $window) {
 
   var user = null;
   var storageName = "worldOfUserData";
@@ -18,6 +18,9 @@ app.factory("User", function(Storage, EventManager) {
 
     // Set user
     user = u;
+
+    // Update document title
+    $window.document.title = 'World of ' + u.username;
 
     // Save in local storage
     Storage.setObject(storageName, u);
@@ -50,6 +53,9 @@ app.factory("User", function(Storage, EventManager) {
 
     // Announce that the user's logged out
     EventManager.userLoggedOut();
+
+    // Update document title
+    $window.document.title = 'World of ';
 
     // Remove from storage
     Storage.remove(storageName);

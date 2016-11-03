@@ -1,15 +1,16 @@
 <div class="row">
   <h1>Your Worlds</h1>
-  <md-button class="md-flat" ng-click="ctrl.goToEditor()">Create</md-button>
 </div>
 
 <div class="row worldDashboardCards noSelect">
-  <div class="worldDashboardCard createWorldCard">
+  <div class="worldDashboardCard createWorldCard" ng-click="ctrl.createWorld()">
       <span class="centerBox">+</span>
   </div>
-  <div class="worldDashboardCard" ng-repeat="world in ctrl.worlds">
+  <div class="worldDashboardCard"
+    ng-repeat="world in ctrl.worlds"
+    >
     <div class="column">
-      <div>
+      <div ng-click="ctrl.editWorld(world.id)">
         <h2 align="center">{{world.name}}</h2>
       </div>
       <div class="row worldDashboardToolbar">

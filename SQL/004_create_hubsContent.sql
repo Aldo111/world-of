@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2016 at 04:03 AM
+-- Generation Time: Nov 02, 2016 at 07:15 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -17,10 +17,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hubContent`
+-- Table structure for table `hubs_content`
 --
 
-CREATE TABLE `hubcontent` (
+CREATE TABLE `hubs_content` (
+  `id` int(255) NOT NULL,
   `hub_id` int(255) NOT NULL,
   `user_id` int(255) NOT NULL,
   `text` varchar(500) DEFAULT NULL,
@@ -28,28 +29,28 @@ CREATE TABLE `hubcontent` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `hubContent`
+-- Dumping data for table `hubs_content`
 --
 
-INSERT INTO `hubContent` (`hub_id`, `user_id`, `text`, `ordering`) VALUES
-(1, 1, 'akljsdlkasmdkasd', 1);
+INSERT INTO `hubs_content` (`id`, `hub_id`, `user_id`, `text`, `ordering`) VALUES
+(2, 0, 1, 'akljsdlkasmdkasd', 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `hubContent`
+-- Indexes for table `hubs_content`
 --
-ALTER TABLE `hubContent`
-  ADD PRIMARY KEY (`hub_id`);
+ALTER TABLE `hubs_content`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `hubContent`
+-- AUTO_INCREMENT for table `hubs_content`
 --
-ALTER TABLE `hubContent`
-  MODIFY `hub_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `hubs_content`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;

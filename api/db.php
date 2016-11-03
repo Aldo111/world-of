@@ -96,26 +96,26 @@ class DB {
   /**
    * Creates a new world.
    *
-   * @param string $userid The user creating the world.
+   * @param string $userId The user creating the world.
    * @param string $name The world name.
    * @param string $description The description of the world.
    *
    * @return array|false Returns an associative array with world data
    *    if world is created successfully, else returns false.
    */
-  public function createWorld($userid, $name, $description) {
-    $userid = $this->sanitize($userid);
+  public function createWorld($userId, $name, $description) {
+    $userId = $this->sanitize($userId);
     $name = $this->sanitize($name);
     $description = $this->sanitize($description);
 
     $q=$this->db->query("INSERT into worlds (user_id, name, description)
-      VALUES ('$userid', '$name', '$description')");
+      VALUES ('$userId', '$name', '$description')");
 
     if ($q !== false) {
       $insertId = $this->db->insert_id;
       $userQ = $this->db->query("SELECT * FROM worlds
         WHERE id='$insertId'");
-      return $this->fetchAll($userQ);
+      return $this->fetchAll($userQ)[0];
     } else {
       return false; //error
     }
@@ -124,26 +124,92 @@ class DB {
   /**
    * Creates a new hub.
    *
-   * @param string $userid The user creating the world.
-   * @param string $worldid The world name.
-   * @param string $description The description of the world.
+   * @param string $userId The user creating the hub.
+   * @param string $worldId The world id.
+   * @param string $name The name of the hub.
    *
-   * @return array|false Returns an associative array with world data
+   * @return array|false Returns an associative array with hub data
    *    if world is created successfully, else returns false.
    */
-  public function createHub($userid, $worldid, $name) {
-    $userid = $this->sanitize($userid);
-    $worldid = $this->sanitize($worldid);
+  public function createHub($userId, $worldId, $name) {
+    $userId = $this->sanitize($userId);
+    $worldId = $this->sanitize($worldId);
     $name = $this->sanitize($name);
 
     $q=$this->db->query("INSERT into hubs (user_id, world_id, name)
-      VALUES ('$userid', '$worldid', '$name')");
+      VALUES ('$userId', '$worldId', '$name')");
 
     if ($q !== false) {
       $insertId = $this->db->insert_id;
       $userQ = $this->db->query("SELECT * FROM hubs
         WHERE id='$insertId'");
-      return $this->fetchAll($userQ);
+      return $this->fetchAll($userQ)[0];
+    } else {
+      return [$this->db->error]; //error
+    }
+  }
+
+  /**
+   * Creates a new section in a hub
+   *
+   * @param string $userId The user creating the world.
+   * @param string $hubId The world name.
+   * @param string $text The text content for this section.
+   *
+   * @return array|false Returns an associative array with world data
+   *    if world is created successfully, else returns false.
+   */
+  public function createSection($userId, $hubId, $text) {
+    $userId = $this->sanitize($userId);
+    $hubId = $this->sanitize($hubId);
+    $text = $this->sanitize($text);
+
+    $q=$this->db->query("INSERT into hubs_content (user_id, hub_id, text)
+      VALUES ('$userId', '$hubId', '$text')");
+
+    if ($q !== false) {
+      $insertId = $this->db->insert_id;
+      $userQ = $this->db->query("SELECT * FROM hubs_content
+        WHERE id='$insertId'");
+      return $this->fetchAll($userQ)[0];
+    } else {
+      return [$this->db->error]; //error
+    }
+  }
+
+  /**
+   * Saves multiple sections in a hub
+   *
+   * @param string $userId The user creating the world.
+   * @param string $hubId The world name.
+   * @param array $sections Array containing sections data.
+   *
+   * @return boolean Returns true/false based on success/failure.
+   */
+  public function saveSections($userId, $hubId, $sections) {
+    $userId = $this->sanitize($userId);
+    $hubId = $this->sanitize($hubId);
+
+    $sql = [];
+
+    $index = 0;
+    foreach ($sections as $section) {
+      $index++;
+      $text = $this->sanitize($section["text"]);
+      $sql[] = "('".$userId."', '".$hubId."', '".$text."', '$index')";
+    }
+
+    // TODO - Don't do this lol after presentation, make a better
+    // way using the frontend to only send sections that have been changed
+    // instead of all, so as to avoid deleting/reinserting a LOT of stuff
+
+    $deleteQ = $this->db->query("DELETE FROM hubs_content
+      WHERE hub_id='$hubId'");
+    $q=$this->db->query("INSERT into hubs_content (user_id, hub_id, `text`,
+      ordering) VALUES ".implode(",", $sql));
+
+    if ($q !== false) {
+      return true;
     } else {
       return [$this->db->error]; //error
     }
@@ -170,12 +236,12 @@ class DB {
    */
   public function getWorlds($fields) {
     $extraConditions = $this->genExtra($fields);
-    $q=$this->db->query("SELECT id, user_id AS userId, name, description
-      FROM worlds". $extraConditions);
+    $q=$this->db->query("SELECT * FROM worlds". $extraConditions."
+      ORDER BY id DESC");
     return $this->fetchAll($q);
   }
 
-  
+
   /**
    * Fetches hub data of a world.
    *
@@ -186,9 +252,25 @@ class DB {
     //Check if world exists
 
     $q=$this->db->query("SELECT *
-      FROM hubs WHERE world_id='$worldId'");
+      FROM hubs WHERE world_id='$worldId' ORDER BY id ASC");
     if ($q !== false) {
-      return $q->fetch_assoc();
+      return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Fetches section data of a hub.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function getSections($hubId) {
+    $q=$this->db->query("SELECT *
+      FROM hubs_content WHERE hub_id='$hubId' ORDER BY id ASC");
+    if ($q !== false) {
+      return $this->fetchAll($q);
     } else {
       return false; //error
     }

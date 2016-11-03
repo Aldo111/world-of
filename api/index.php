@@ -7,13 +7,13 @@
  *    GET /users                       Get a list of users
  *    GET /users/{id}                  Get user belonging to that id
  *    GET /worlds                      Get existing worlds
- *    GET /worlds/{id}/hubs            Get hubs of a world    
+ *    GET /worlds/{id}/hubs            Get hubs of a world
 
  *    POST /login                      Validates credentials
  *    POST /register                   Registers a new account
  *    POST /worlds/create              Create a new world
  *    POST /worlds/{id}/hubs/create    Create a new hub
- *    
+ *
  */
 
 header("Content-Type: application/json");
@@ -100,6 +100,20 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Get sections of a hub
+    $this->app->get("/worlds/{id}/hubs/{hubId}/sections",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $fields = $_GET;
+        $hubId = $request->getAttribute("hubId");
+        $r = $that->db->getSections($hubId);
+
+        $result =  $r === false ? $that->errorMsg("Hub not found.") :
+          $that->createListResult($r);
+
+        return $that->storeResult($result, $response);
+    });
+
     // Login authorization endpoint
     $this->app->post("/login",
       function($request, $response, $args) use ($that) {
@@ -167,7 +181,7 @@ class API {
           $description = $details["description"];
           $userId = $details["user_id"];
 
-    
+
           $data = $that->db->createWorld($userId, $name, $description);
 
           if ($data === false) {
@@ -175,7 +189,7 @@ class API {
           } else {
             $result = $data;
           }
-        
+
         }
         return $that->storeResult($result, $response);
     });
@@ -185,7 +199,7 @@ class API {
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
         $result = $that->errorMsg("Invalid details.");
-        
+
         $worldId = $request->getAttribute("id");
 
         if (!isset($details["user_id"]) || !isset($details["name"])) {
@@ -193,7 +207,7 @@ class API {
         } else {
           $userId = $details["user_id"];
           $name = $details["name"];
-    
+
           $data = $that->db->createHub($userId, $worldId, $name);
 
           if ($data === false) {
@@ -201,7 +215,35 @@ class API {
           } else {
             $result = $data;
           }
-        
+
+        }
+        return $that->storeResult($result, $response);
+    });
+
+    $this->app->post("/worlds/{id}/hubs/{hub_id}/sections/save",
+      function($request, $response, $args) use ($that) {
+        $details = $request->getParsedBody();
+        $result = $that->errorMsg("Invalid details.");
+
+        $worldId = $request->getAttribute("id");
+        $hubId = $request->getAttribute("hub_id");
+
+        //TODO: should probably make an array where we can just add
+        // these fields (user_id, text) and loop through and check automatically
+        if (!isset($details["user_id"]) || !isset($details["sections"])) {
+          $result = $that->errorMsg("Missing input");
+        } else {
+          $userId = $details["user_id"];
+          $sections = $details["sections"];
+
+          $data = $that->db->saveSections($userId, $hubId, $sections);
+
+          if ($data === false) {
+            $result = $that->errorMsg("Error: Something bad happened!");
+          } else {
+            $result = $that->successMsg();
+          }
+
         }
         return $that->storeResult($result, $response);
     });

@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
     <meta name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=no">
     <meta name="description" content="">
@@ -63,7 +64,7 @@
 
   </head>
 
-  <body ng-app="worldof" style="height:100%" layout="column">
+  <body ng-app="worldof">
 
     <!-- loader -->
     <div id="loaderOverlay" class='loading'>
@@ -75,7 +76,7 @@
     <!-- page -->
 
 
-    <ui-view style='height:100%'>
+    <ui-view>
     </ui-view>
 
 
