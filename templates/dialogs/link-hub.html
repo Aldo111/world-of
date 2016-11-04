@@ -1,0 +1,43 @@
+<md-dialog aria-label="World Details Form">
+  <!-- If not logged in -->
+  <form name='worldForm' ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Link Section To..</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          x</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content layout-padding layout-margin>
+      <br>
+      <md-input-container class="md-icon-float md-block">
+        <label>Which hub should this section link to?</label>
+        <md-select class="conditionOpSelect"
+          ng-model="ctrl.section.linkedHub"
+          aria-label="What hub">
+        <md-option ng-value="null">
+          <i>None</i>
+        </md-option>
+        <md-option ng-repeat="tempHub in ctrl.hubs track by $index"
+          ng-value="tempHub.id">
+          Hub {{ $index }}: {{ tempHub.name }}
+        </md-option>
+      </md-select>
+      </md-input-container>
+
+      <div class='warning' ng-if='ctrl.error' ng-bind='ctrl.error'></div>
+    </md-dialog-content>
+
+    <md-dialog-actions class='accountDialogActions' layout="row">
+      <md-button type='submit'
+        class="md-primary"
+        ng-click="ctrl.save()"
+        ng-disabled="worldForm.$invalid">
+        Done
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

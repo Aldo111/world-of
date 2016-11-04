@@ -1,8 +1,13 @@
 <h2 align="center"> {{ ctrl.world.name }} </h2>
 
 <div class= "storyContainer">
-  <p
-    class= "playSectionText" ng-repeat="section in ctrl.sections"
-    ng-bind-html="section.text">
-  </p>
+  <div ng-repeat="section in ctrl.sections">
+    <p class= "playSectionText"
+    ng-bind-html="section.text" ng-if="!section.linkedHub">
+    </p>
+    <md-button class="md-raised md-primary" ng-if="section.linkedHub"
+      ng-click="ctrl.gotoHub(section.linkedHub)">
+      {{ section.text }}
+    </md-button>
+  </div>
 </div>

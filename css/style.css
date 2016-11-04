@@ -472,6 +472,10 @@ hr {
   max-width: 90px;
 }
 
+.activeSectionButton {
+  color: orange;
+}
+
 .conditionSetHeader {
   background-color: #fffad8;
   align-items: center;

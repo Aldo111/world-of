@@ -76,16 +76,43 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
   }
 
   var cleanup = function(conditionSet) {
-    // Remove any 0 length condition sets
-    for (var i = 0; i < conditionSet.conditions.length; i++) {
-      var obj = conditionSet.conditions[i];
-      if (obj.conditions) {
-        if (obj.conditions.length === 0) {
-          conditionSet.conditions.splice(i, 1);
-          i--;
+
+    if (!conditionSet.op) {
+      return null;
+    }
+    var cleanupChildren = function(conditionSet) {
+      if (!conditionSet || !conditionSet.op) {
+        return false;
+      }
+      // Remove any 0 length condition sets
+      for (var i = 0; i < conditionSet.conditions.length; i++) {
+        var obj = conditionSet.conditions[i];
+        if (obj.conditions) {
+          if (obj.conditions.length === 0) {
+            conditionSet.conditions.splice(i, 1);
+            i--;
+          } else {
+            var isNotNull = cleanupChildren(obj);
+            if (!isNotNull) {
+              conditionSet.conditions.splice(i, 1);
+              i--;
+            }
+          }
         }
       }
+      return true;
     }
+
+    if (conditionSet.conditions.length === 0) {
+      return null;
+    } else {
+      var isNotNull = cleanupChildren(conditionSet);
+      if (!isNotNull) {
+        return null;
+      }
+    }
+
+
 
     return conditionSet;
   }

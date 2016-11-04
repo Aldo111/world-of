@@ -67,7 +67,7 @@
   <div class="hubEditorContainer noSelect" layout="column" flex=100>
     <h3 ng-cloak class="defaultText hubNotSelectedMessage"
       ng-if="ctrl.hub === null" class="hubContent">No hub selected.</h3>
-    <hub-editor world="ctrl.world" hub="ctrl.hub" ng-if="ctrl.hub !== null">
+    <hub-editor world="ctrl.world" hub="ctrl.hub" hubs="ctrl.hubs" ng-if="ctrl.hub !== null">
     </hub-editor>
   </div>
 </div>

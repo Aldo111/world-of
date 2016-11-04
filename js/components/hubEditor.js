@@ -3,7 +3,8 @@ app.component('hubEditor', {
   controllerAs: 'ctrl',
   bindings: {
     hub: '=',
-    world: '<'
+    world: '<',
+    hubs: '<?'
   },
   controller: function($scope, $state, User, API, $mdDialog, EventManager,
     Loader, ConditionFactory) {
@@ -15,7 +16,8 @@ app.component('hubEditor', {
   this.createSection = function() {
     this.sections.push({
       text: '',
-      conditions: null
+      conditions: null,
+      linkedHub: null
     });
   }.bind(this);
 
@@ -113,11 +115,36 @@ app.component('hubEditor', {
       controller: 'ConditionsEditorCtrl',
       controllerAs: 'ctrl',
       locals: {
-        conditionSet: conditionSet
+        conditionSet: angular.copy(conditionSet)
       },
       bindToController: true
     }).then(function(data) {
-      section.conditions = JSON.stringify(conditionSet);
+      console.log(data);
+      if (!data) {
+        section.conditions = null;
+      } else {
+        section.conditions = JSON.stringify(data);
+      }
+
+    });
+  }.bind(this);
+
+  this.openHubLinker = function(section) {
+    console.log(section);
+    $mdDialog.show({
+      templateUrl: 'templates/dialogs/link-hub.html',
+      clickOutsideToClose: true,
+      controller: 'LinkHubCtrl',
+      controllerAs: 'ctrl',
+      locals: {
+        section: section,
+        hubs: this.hubs
+      },
+      bindToController: true
+    }).then(function(data) {
+      /*if (data.linkedHub) {
+        section.linkedHub = data.linkedHub;
+      }*/
     });
   }.bind(this);
 

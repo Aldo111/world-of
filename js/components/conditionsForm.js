@@ -4,7 +4,9 @@
 app.component('conditionsForm', {
   templateUrl: 'templates/components/conditionsForm.html',
   bindings: {
-    conditionSet: '='
+    conditionSet: '=',
+    parentSet: '=?',
+    parentPosition: '<?'
   },
   controller: function($scope, CONDITIONS_OPS, ConditionFactory, _) {
     this.ops = CONDITIONS_OPS;
@@ -23,9 +25,11 @@ app.component('conditionsForm', {
     }.bind(this);
 
     this.delete = function(obj) {
-      delete this.conditionSet;
-      console.log(this.conditionSet);
-    };
+      obj.conditions = [];
+      if (this.parentSet && this.hasOwnProperty('parentPosition')) {
+        this.parentSet.conditions.splice(this.parentPosition, 1);
+      }
+    }.bind(this);
 
     this.deleteCondition = function(id) {
       this.conditionSet.conditions.splice(id, 1);

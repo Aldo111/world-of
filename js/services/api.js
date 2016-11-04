@@ -43,6 +43,7 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
       conversionFn = snakeCase;
     } else {
       conversionFn = camelCase;
+      type = 'camel';
     }
 
     var returnObject = {};
@@ -53,10 +54,10 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
         if (angular.isArray(response[key])) {
           returnObject[convertedKey] = [];
           for (var i = 0; i < response[key].length; i++) {
-            returnObject[convertedKey][i] = formatKeys(response[key][i]);
+            returnObject[convertedKey][i] = formatKeys(response[key][i], type);
           }
         } else if (angular.isObject(response[key])) {
-          returnObject[convertedKey] = formatKeys(response[key]);
+          returnObject[convertedKey] = formatKeys(response[key], type);
         }  else {
           returnObject[convertedKey] = angular.copy(response[key]);
         }

@@ -24,11 +24,19 @@ app.factory('Player', function(Storage, EventManager) {
 		hubId = id;
 	};
 
+  var getState = function() {
+    return {
+      "name": "adarsh",
+      "armor": 100
+    };
+  };
+
 	return {
 		init: init,
 		getCurrentWorld: getCurrentWorld,
 		getCurrentHub: getCurrentHub,
 		setCurrentWorld: setCurrentWorld,
-		setCurrentHub: setCurrentHub
+		setCurrentHub: setCurrentHub,
+    getState: getState
 	};
 });

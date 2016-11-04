@@ -11,7 +11,8 @@
     </md-select>
     </div>
   </div>
-  <div ng-repeat="condition in ctrl.conditionSet.conditions track by $index">
+  <div ng-repeat="condition in ctrl.conditionSet.conditions track by $index"
+    ng-if="condition">
     <div ng-if="!condition.conditions">
       <input ng-model="condition.lhs" type="text">
 
@@ -25,8 +26,8 @@
 
       <md-button class="md-flat md-warn" ng-click="ctrl.deleteCondition($index)">- Delete</md-button>
     </div>
-    <div ng-if="condition.conditions">
-      <conditions-form condition-set="condition"></conditions-form>
+    <div ng-if="condition.conditions && condition.op">
+      <conditions-form condition-set="condition" parent-set="ctrl.conditionSet" parent-position="$index"></conditions-form>
     </div>
     <div ng-if="ctrl.conditionSet.conditions.length - 1 !== $index">
       <div class='logicText' align="center"><b>{{ ctrl.logical[ctrl.conditionSet.op] }}</b>
