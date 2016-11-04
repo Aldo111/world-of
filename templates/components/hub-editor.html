@@ -15,16 +15,6 @@
         </md-button>
       </div>
       <div>
-        <md-button class="md-icon-button">
-          <i class="material-icons">
-            accessibility
-          </i>
-          <md-tooltip md-direction="top">
-            Player State
-          </md-tooltip>
-        </md-button>
-      </div>
-      <div>
         <md-button ng-click="ctrl.saveSections()" class="md-primary md-icon-button"
           >
           <i class="material-icons">
@@ -69,7 +59,7 @@ This hub has been set as the starting hub for your world.
         </md-button>
       </div>
       <div>
-        <md-button class="md-icon-button">
+        <md-button class="md-icon-button" ng-click="ctrl.openConditionsEditor(section)">
           <i class="material-icons">
             dns
           </i>

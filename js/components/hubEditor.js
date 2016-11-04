@@ -6,7 +6,7 @@ app.component('hubEditor', {
     world: '<'
   },
   controller: function($scope, $state, User, API, $mdDialog, EventManager,
-    Loader) {
+    Loader, ConditionFactory) {
 
   this.sections = [];
   this.worldId = this.world ? this.world.id || null : null;
@@ -97,6 +97,27 @@ app.component('hubEditor', {
       this.sections = response.result;
     }.bind(this), function(response) {
       Loader.hide();
+    });
+  }.bind(this);
+
+  this.openConditionsEditor = function(section) {
+    var conditionSet = JSON.parse(section.conditions || null);
+
+    if (!conditionSet) {
+      conditionSet = ConditionFactory.createConditionSet();
+    }
+
+    $mdDialog.show({
+      templateUrl: 'templates/dialogs/conditions-editor.html',
+      clickOutsideToClose: true,
+      controller: 'ConditionsEditorCtrl',
+      controllerAs: 'ctrl',
+      locals: {
+        conditionSet: conditionSet
+      },
+      bindToController: true
+    }).then(function(data) {
+      section.conditions = JSON.stringify(conditionSet);
     });
   }.bind(this);
 

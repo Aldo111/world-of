@@ -227,7 +227,9 @@ class DB {
     foreach ($sections as $section) {
       $index++;
       $text = $this->sanitize($section["text"]);
-      $sql[] = "('".$userId."', '".$hubId."', '".$text."', '$index')";
+      $conditions = $section["conditions"];
+      $sql[] = "('".$userId."', '".$hubId."', '".$text."', '$index',
+      '$conditions')";
     }
 
     // TODO - Don't do this lol after presentation, make a better
@@ -237,7 +239,7 @@ class DB {
     $deleteQ = $this->db->query("DELETE FROM hubs_content
       WHERE hub_id='$hubId'");
     $q=$this->db->query("INSERT into hubs_content (user_id, hub_id, `text`,
-      ordering) VALUES ".implode(",", $sql));
+      ordering, conditions) VALUES ".implode(",", $sql));
 
     if ($q !== false) {
       return true;
