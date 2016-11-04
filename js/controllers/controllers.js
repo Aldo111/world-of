@@ -144,7 +144,7 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 });
 
 app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
-  API) {
+  API, ConditionFactory) {
 
   this.sections = [];
   this.worldId = parseInt($stateParams.id) || null;
@@ -165,16 +165,44 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 
   }.bind(this);
 
+  /**
+   * Function to fetch section data
+   */
   this.fetchSectionData = function(hubId) {
     API.getWorldHubSections({
       worldId: this.worldId,
       hubId: hubId
     }).then(function(response) {
+      this.filterSections(response.result);
       Loader.hide();
-      this.sections = response.result;
     }.bind(this), function(response) {
       Loader.hide();
     });
+  }.bind(this);
+
+  /**
+   * Function to filter sections based on conditions
+   */
+  this.filterSections = function(sections) {
+    var data = {
+      'armor': 99,
+      'test': 'adarsh'
+    };
+    var results = [];
+    // Evaluate sections to be displayed based on any conditions
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].conditions) {
+        var conditions = JSON.parse(sections[i].conditions);
+        var valid = ConditionFactory.evaluateConditionSet(conditions, data);
+        if (valid) {
+          results.push(sections[i]);
+        }
+      } else {
+        results.push(sections[i]);
+      }
+    }
+
+    this.sections = results;
   }.bind(this);
 
   this.fetchWorldData();

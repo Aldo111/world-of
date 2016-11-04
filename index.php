@@ -12,6 +12,7 @@
 
     <script src="config.js"></script>
     <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/underscore/underscore-min.js"></script>
     <script src="node_modules/angular-aria/angular-aria.min.js"></script>
     <script src="node_modules/angular-animate/angular-animate.min.js"></script>
     <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>

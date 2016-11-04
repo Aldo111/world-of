@@ -181,7 +181,8 @@ md-button {
 }
 
 .accountDialogActions {
-  border-top: 1px solid #eee  ;
+  border-top: 1px solid #eee;
+  background-color: #eee;
 }
 
 .warning {
@@ -338,7 +339,7 @@ hr {
 .hubToolbar {
   flex: 1;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .hubContent {
@@ -430,4 +431,55 @@ hr {
   border-radius: 30px;
   border: 1px solid #ccc;
   padding: 5px
+}
+
+.conditionOpSelect {
+  display: inline-block;
+}
+.conditionOpSelect > .md-select-value{
+  flex-grow: 0 !important;
+  -webkit-flex-grow: 0 !important;
+}
+
+.conditionsFormContainer {
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #fff;
+  display: table;
+  padding: 5px;
+  flex: 0;
+  margin-top: 10px;
+}
+
+.logicText {
+  margin: 5px;
+  color: orange;
+}
+
+.conditionsFormContainer .conditionsFormContainer {
+  display: block;
+}
+
+.conditionsFormContainer .delete {
+  visibility: hidden;
+}
+.conditionsFormContainer .conditionsFormContainer .delete {
+  visibility: visible;
+}
+
+.conditionsFormContainer input {
+  padding: 5px;
+  max-width: 90px;
+}
+
+.conditionSetHeader {
+  background-color: #fffad8;
+  align-items: center;
+  padding: 5px;
+  text-align: center;
+}
+
+.conditionSetHeader h3 {
+  margin: 0 !important;
+  padding: 0 !important;
 }

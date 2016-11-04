@@ -1,22 +1,30 @@
 <div layout="row" class="titleRow">
   <h1 flex=100>
     {{ ctrl.world.name }}
-    <md-button class="md-icon-button" ng-click="ctrl.playWorld()">
-      <i class="material-icons">
-        play_arrow
-      </i>
-      <md-tooltip md-direction="top">
-        Play World
-      </md-tooltip>
-    </md-button>
-  </h1>
-  <div flex=100  style='text-align:right'>
     <md-button class="md-icon-button" ng-click="ctrl.deleteWorld()">
       <i class="material-icons">
         delete
       </i>
       <md-tooltip md-direction="top">
         Delete World
+      </md-tooltip>
+    </md-button>
+  </h1>
+  <div flex=100  style='text-align:right'>
+    <md-button class="md-icon-button">
+      <i class="material-icons">
+        accessibility
+      </i>
+      <md-tooltip md-direction="top">
+        Player State
+      </md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="ctrl.playWorld()">
+      <i class="material-icons">
+        play_arrow
+      </i>
+      <md-tooltip md-direction="top">
+        Play World
       </md-tooltip>
     </md-button>
   </div>

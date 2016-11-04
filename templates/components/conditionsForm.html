@@ -1,0 +1,42 @@
+<div class='conditionsFormContainer'>
+  <div layout="row" class="conditionSetHeader" style="align-items:center">
+    <h3> <font color="orange">Type</font> </h3>
+    <div>
+    <span layout-padding></span>
+    <md-select class="conditionOpSelect" ng-model="ctrl.conditionSet.op">
+      <md-option ng-repeat="(op, opVal) in ctrl.ops.logical"
+        ng-value="opVal">
+        {{ op }}
+      </md-option>
+    </md-select>
+    </div>
+  </div>
+  <div ng-repeat="condition in ctrl.conditionSet.conditions track by $index">
+    <div ng-if="!condition.conditions">
+      <input ng-model="condition.lhs" type="text">
+
+      <md-select class="conditionOpSelect" ng-model="condition.op" aria-label="What type of operation">
+        <md-option ng-repeat="(op, opVal) in ctrl.ops.number" ng-value="opVal">
+          {{ op }}
+        </md-option>
+      </md-select>
+
+      <input ng-model="condition.rhs" type="text">
+
+      <md-button class="md-flat md-warn" ng-click="ctrl.deleteCondition($index)">- Delete</md-button>
+    </div>
+    <div ng-if="condition.conditions">
+      <conditions-form condition-set="condition"></conditions-form>
+    </div>
+    <div ng-if="ctrl.conditionSet.conditions.length - 1 !== $index">
+      <div class='logicText' align="center"><b>{{ ctrl.logical[ctrl.conditionSet.op] }}</b>
+      </div>
+    </div>
+  </div>
+  <md-button class="md-flat md-primary" ng-click="ctrl.createCondition()">+ Condition
+  </md-button>
+   <md-button class="md-flat md-primary" ng-click="ctrl.createConditionSet()">+ Condition Set
+  </md-button>
+  <md-button class="md-flat md-warn delete" ng-click="ctrl.delete(ctrl.conditionSet)">- Delete Set
+  </md-button>
+</div>
