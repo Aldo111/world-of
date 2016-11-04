@@ -2,11 +2,16 @@
  * Condition constants.
  */
 app.constant('CONDITIONS_OPS', {
+  'general': {
+    'NEQ': '!=='
+  },
   'string': {
-    'EQ': '==='
+    'EQ': '===',
+    'NEQ': '!=='
   },
   'number': {
     'EQ': '===',
+    'NEQ': '!==',
     'GT': '>',
     'LT': '<',
     'GTE': '>=',

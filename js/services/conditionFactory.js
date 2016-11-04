@@ -22,7 +22,9 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
 
     switch (op) {
       case CONDITIONS_OPS.string.EQ:
-        return lhs === rhs;
+        return lhs == rhs;
+        case CONDITIONS_OPS.string.NEQ:
+        return lhs != rhs;
       case CONDITIONS_OPS.number.GT:
         return lhs > parseFloat(rhs);
       case CONDITIONS_OPS.number.LT:
