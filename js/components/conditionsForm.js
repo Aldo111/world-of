@@ -6,12 +6,16 @@ app.component('conditionsForm', {
   bindings: {
     conditionSet: '=',
     parentSet: '=?',
-    parentPosition: '<?'
+    parentPosition: '<?',
+    worldId: '<?'
   },
-  controller: function($scope, CONDITIONS_OPS, ConditionFactory, _) {
+  controller: function($scope, CONDITIONS_OPS, ConditionFactory, _, API) {
     this.ops = CONDITIONS_OPS;
 
     this.logical = _.invert(CONDITIONS_OPS.logical);
+    this.worldLinks = [];
+
+    this.stateValues = ['*links', 'name', 'armor'];
 
     this.createCondition = function() {
       var condition = ConditionFactory.createCondition('',
@@ -34,6 +38,14 @@ app.component('conditionsForm', {
     this.deleteCondition = function(id) {
       this.conditionSet.conditions.splice(id, 1);
     }.bind(this);
+
+
+    // init stuff
+    if (this.worldId) {
+      API.getWorldLinks(this.worldId).then(function(response) {
+        this.worldLinks = response.result;
+      }.bind(this));
+    }
 
   },
   controllerAs: 'ctrl',

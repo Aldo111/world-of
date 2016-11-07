@@ -6,7 +6,7 @@
     ng-bind-html="section.text" ng-if="!section.linkedHub">
     </p>
     <md-button class="md-raised md-primary" ng-if="section.linkedHub"
-      ng-click="ctrl.gotoHub(section.linkedHub)">
+      ng-click="ctrl.gotoHub(section)">
       {{ section.text }}
     </md-button>
   </div>

@@ -5,6 +5,9 @@ app.constant('CONDITIONS_OPS', {
   'general': {
     'NEQ': '!=='
   },
+  'links': {
+    'CHOSEN': 'CHSN'
+  },
   'string': {
     'EQ': '===',
     'NEQ': '!=='
