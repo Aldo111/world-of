@@ -105,6 +105,10 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     return invokeEndpoint('worlds/' + id + '/hubs');
   };
 
+  var getWorldLinks = function(id) {
+    return invokeEndpoint('worlds/' + id +'/links');
+  };
+
   var createWorld = function(data) {
     data.user_id = User.getId();
     return invokeEndpoint('worlds/create', setOptions(data, 'post'));
@@ -152,7 +156,8 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     getWorldHubSections: getWorldHubSections,
     updateWorld: updateWorld,
     deleteWorld: deleteWorld,
-    deleteHub: deleteHub
+    deleteHub: deleteHub,
+    getWorldLinks: getWorldLinks
   };
 
 });

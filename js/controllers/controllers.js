@@ -155,6 +155,8 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   this.fetchWorldData = function() {
     Loader.show();
 
+    Player.reset();
+
     API.getWorlds({id: this.worldId}).then(function(response) {
       this.world = response.result[0];
       this.fetchSectionData(this.world.startHub);
@@ -207,8 +209,9 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   /**
    * Function to switch hubs.
    */
-  this.gotoHub = function(hubId) {
-    this.fetchSectionData(hubId);
+  this.gotoHub = function(section) {
+    Player.visitLink(section.id);
+    this.fetchSectionData(section.linkedHub);
   }.bind(this);
 
   this.fetchWorldData();

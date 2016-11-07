@@ -221,32 +221,78 @@ class DB {
     $userId = $this->sanitize($userId);
     $hubId = $this->sanitize($hubId);
 
-    $sql = [];
+    $ids = [];
+    $insertSql = [];
+    $updateSql = [];
+
+    $updateSql["id"] = [];
+    $updateFields = ["text", "conditions", "linked_hub", "ordering"];
+
+    $updateSqlQuery = [];
+    foreach ($updateFields as $field) {
+      $updateSqlQuery[$field] = [];
+    }
+
+    function getVal($v) {
+      if ($v == "NULL") {
+        return $v;
+      } else {
+        return "'".$v."'";
+      }
+    }
 
     $index = 0;
     foreach ($sections as $section) {
       $index++;
       $text = $this->sanitize($section["text"]);
-      $conditions = strlen($section["conditions"]) <= 0 ? "NULL" : "'".$section["conditions"]."'";
-      $linked_hub = !$section["linked_hub"] ? "NULL": "'".$section["linked_hub"]."'";
-      $sql[] = "('".$userId."', '".$hubId."', '".$text."', '$index',
-      ".$conditions.", ".$linked_hub.")";
+      $conditions = strlen($section["conditions"]) <= 0 ? "NULL" : "".$section["conditions"]."";
+      $linked_hub = !$section["linked_hub"] ? "NULL": "".$section["linked_hub"]."";
+
+      if ($section["id"] < 1) {
+        $insertSql[] = "('".$userId."', '".$hubId."', '".$text."', '$index',
+          ".getVal($conditions).", ".getVal($linked_hub).")";
+      } else {
+        $ids[] = $section["id"];
+        $updateSql["id"][$section["id"]] = [
+          "text" => $text, "conditions" => $conditions, "linked_hub" => $linked_hub,
+          "ordering" => $index
+        ];
+      }
     }
+
+    // build query
+    $updateQuery = "UPDATE hubs_content SET ";
+    foreach ($updateSql["id"] as $id => $values) {
+      foreach ($values as $field => $val) {
+        $value = "'$val'";
+        if ($val == "NULL") {
+          $value = "$val";
+        }
+        $updateSqlQuery[$field][] = "WHEN '$id' THEN $value";
+      }
+    }
+    $finalUpdateCases = [];
+    foreach($updateSqlQuery as $field => $cases) {
+      $finalUpdateCases[]="`".$field."` = CASE id ".implode(" ", $cases)." ELSE NULL END";
+    }
+
+    $updateQuery.= implode(", ", $finalUpdateCases);
+    $updateQuery .= " WHERE id IN (".implode(",", $ids).")";
 
     // TODO - Don't do this lol after presentation, make a better
     // way using the frontend to only send sections that have been changed
     // instead of all, so as to avoid deleting/reinserting a LOT of stuff
 
     $deleteQ = $this->db->query("DELETE FROM hubs_content
-      WHERE hub_id='$hubId'");
-    $q=$this->db->query("INSERT into hubs_content (user_id, hub_id, `text`,
-      ordering, conditions, linked_hub) VALUES ".implode(",", $sql));
+      WHERE id NOT IN (".implode(",", $ids).") AND hub_id='$hubId'");
 
-    if ($q !== false) {
-      return true;
-    } else {
-      return [$this->db->error]; //error
-    }
+
+    $insertQ=$this->db->query("INSERT into hubs_content (user_id, hub_id, `text`,
+      ordering, conditions, linked_hub) VALUES ".implode(",", $insertSql));
+
+    $updateQ=$this->db->query($updateQuery);
+
+    return true;
   }
 
   /**
@@ -306,7 +352,28 @@ class DB {
    */
   public function getSections($hubId) {
     $q=$this->db->query("SELECT *
-      FROM hubs_content WHERE hub_id='$hubId' ORDER BY id ASC");
+      FROM hubs_content WHERE hub_id='$hubId' ORDER BY ordering ASC");
+    if ($q !== false) {
+      return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Fetches all link sections in a world.
+   *
+   * @param string $worldId The world id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function getLinkSections($worldId) {
+    $q=$this->db->query("SELECT hubs_content.id, `text`, hubs.name as linked_hub_name
+      FROM hubs_content, hubs
+      WHERE hub_id IN (SELECT id FROM hubs WHERE world_id='$worldId')
+      AND `linked_hub` IS NOT NULL AND hubs.id = hubs_content.hub_id
+      ORDER BY hubs_content.id ASC");
     if ($q !== false) {
       return $this->fetchAll($q);
     } else {

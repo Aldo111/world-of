@@ -4,6 +4,7 @@ app.factory('Player', function(Storage, EventManager) {
 
 	var worldId;
 	var hubId;
+  var links = [];
 
 	var init = function() {
 	};
@@ -24,10 +25,23 @@ app.factory('Player', function(Storage, EventManager) {
 		hubId = id;
 	};
 
+  var visitLink = function(id) {
+    if (links.indexOf(id) < 0) {
+      links.push(id);
+    }
+  };
+
+  var reset = function() {
+    links = [];
+  };
+
+
+
   var getState = function() {
     return {
       "name": "adarsh",
-      "armor": 100
+      "armor": 100,
+      "*links": links
     };
   };
 
@@ -37,6 +51,8 @@ app.factory('Player', function(Storage, EventManager) {
 		getCurrentHub: getCurrentHub,
 		setCurrentWorld: setCurrentWorld,
 		setCurrentHub: setCurrentHub,
-    getState: getState
+    getState: getState,
+    visitLink: visitLink,
+    reset: reset
 	};
 });

@@ -2,11 +2,11 @@ app.controller('ConditionsEditorCtrl', function($scope, $state, API, User,
   Loader, $mdDialog, ConditionFactory) {
 
   this.save = function() {
-    var returnData = ConditionFactory.cleanup(this.conditionSet)
+    var returnData = ConditionFactory.cleanup(this.conditionSet);
     $mdDialog.hide(returnData);
   }.bind(this);
 
   this.cancel = function(data) {
-    $mdDialog.hide(data);
+    $mdDialog.cancel(data);
   };
 });

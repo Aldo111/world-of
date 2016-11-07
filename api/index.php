@@ -100,6 +100,21 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Get links of a world
+    $this->app->get("/worlds/{id}/links",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $fields = $_GET;
+        $worldId = $request->getAttribute("id");
+        $r = $that->db->getLinkSections($worldId);
+
+
+        $result =  $r === false ? $that->errorMsg("World not found.") :
+          $that->createListResult($r);
+
+        return $that->storeResult($result, $response);
+    });
+
     // Get sections of a hub
     $this->app->get("/worlds/{id}/hubs/{hubId}/sections",
       function ($request, $response, $args) use ($that) {
@@ -241,7 +256,7 @@ class API {
           if ($data === false) {
             $result = $that->errorMsg("Error: Something bad happened!");
           } else {
-            $result = $that->successMsg();
+            $result = $that->successMsg($data);
           }
 
         }

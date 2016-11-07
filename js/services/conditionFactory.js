@@ -13,14 +13,18 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
     if (!data) {
       return false;
     }
+    console.log(condition.lhs);
     var [lhs, op, rhs] = [data[condition.lhs] || null, condition.op,
       condition.rhs || null];
-
+    console.log(lhs);
+    console.log(rhs);
     if (!lhs) {
       return false;
     }
 
     switch (op) {
+      case CONDITIONS_OPS.links.CHOSEN:
+        return lhs.indexOf(rhs) >= 0;
       case CONDITIONS_OPS.string.EQ:
         return lhs == rhs;
         case CONDITIONS_OPS.string.NEQ:

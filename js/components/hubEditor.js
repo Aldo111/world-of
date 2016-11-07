@@ -15,6 +15,7 @@ app.component('hubEditor', {
   // Create a section textarea
   this.createSection = function() {
     this.sections.push({
+      id: 0,
       text: '',
       conditions: null,
       linkedHub: null
@@ -115,7 +116,8 @@ app.component('hubEditor', {
       controller: 'ConditionsEditorCtrl',
       controllerAs: 'ctrl',
       locals: {
-        conditionSet: angular.copy(conditionSet)
+        conditionSet: angular.copy(conditionSet),
+        worldId: this.worldId
       },
       bindToController: true
     }).then(function(data) {
@@ -125,7 +127,6 @@ app.component('hubEditor', {
       } else {
         section.conditions = JSON.stringify(data);
       }
-
     });
   }.bind(this);
 

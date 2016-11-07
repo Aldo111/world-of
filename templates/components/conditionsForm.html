@@ -14,20 +14,36 @@
   <div ng-repeat="condition in ctrl.conditionSet.conditions track by $index"
     ng-if="condition">
     <div ng-if="!condition.conditions">
-      <input ng-model="condition.lhs" type="text">
 
-      <md-select class="conditionOpSelect" ng-model="condition.op" aria-label="What type of operation">
-        <md-option ng-repeat="(op, opVal) in ctrl.ops.number" ng-value="opVal">
+      <md-select class="conditionOpSelect"
+      ng-model="condition.lhs" aria-label="Which variable" placeholder="Which variable?">
+        <md-option ng-repeat="stateValue in ctrl.stateValues" ng-value="stateValue">
+          {{ stateValue }}
+        </md-option>
+      </md-select>
+
+      <md-select class="conditionOpSelect" ng-model="condition.op"  aria-label="What type of operation">
+        <md-option ng-repeat="(op, opVal) in ctrl.ops.number" ng-if="condition.lhs !== '*links'" ng-value="opVal">
+          {{ op }}
+        </md-option>
+        <md-option ng-repeat="(op, opVal) in ctrl.ops.links"  ng-value="opVal">
           {{ op }}
         </md-option>
       </md-select>
 
-      <input ng-model="condition.rhs" type="text">
+      <input ng-model="condition.rhs" ng-if="condition.lhs !== '*links'" type="text">
+      <md-select class="conditionOpSelect" ng-if="condition.lhs === '*links'"
+      ng-model="condition.rhs" aria-label="Which link" placeholder="Choose a link">
+
+        <md-option ng-repeat="link in ctrl.worldLinks" ng-value="link.id">
+         {{link.id}} {{ link.text }} from Hub: {{ link.linkedHubName }}
+        </md-option>
+      </md-select>
 
       <md-button class="md-flat md-warn" ng-click="ctrl.deleteCondition($index)">- Delete</md-button>
     </div>
     <div ng-if="condition.conditions && condition.op">
-      <conditions-form condition-set="condition" parent-set="ctrl.conditionSet" parent-position="$index"></conditions-form>
+      <conditions-form condition-set="condition" parent-set="ctrl.conditionSet" parent-position="$index" world-id="ctrl.worldId"></conditions-form>
     </div>
     <div ng-if="ctrl.conditionSet.conditions.length - 1 !== $index">
       <div class='logicText' align="center"><b>{{ ctrl.logical[ctrl.conditionSet.op] }}</b>
