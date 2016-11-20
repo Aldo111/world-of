@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `worlds`
 --
-
+DROP TABLE IF EXISTS `worlds`;
 CREATE TABLE `worlds` (
   `id` int(255) NOT NULL,
   `user_id` int(255) NOT NULL,
@@ -35,10 +35,6 @@ CREATE TABLE `worlds` (
 -- Dumping data for table `worlds`
 --
 
-INSERT INTO `worlds` (`id`, `user_id`, `name`, `description`, `state`, `times_played`, `avg_time`, `published`) VALUES
-(1, 1, 'asdasd', 'hello', NULL, 0, 0, 0);
-
---
 -- Indexes for dumped tables
 --
 
