@@ -25,7 +25,7 @@ CREATE TABLE `worlds` (
   `user_id` int(255) NOT NULL,
   `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `description` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `state` text,
+  `state_variables` text,
   `times_played` int(255) NOT NULL DEFAULT '0',
   `avg_time` int(255) NOT NULL DEFAULT '0' COMMENT 'minutes',
   `published` tinyint(1) NOT NULL DEFAULT '0'
