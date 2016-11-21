@@ -26,4 +26,9 @@ app.constant('CONDITIONS_OPS', {
   }
 })
 
+app.constant('STATE_OPS', {
+  'string': '',
+  'number': 0
+})
+
 .constant('_', window._);
