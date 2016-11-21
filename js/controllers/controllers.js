@@ -43,8 +43,34 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
   this.hubs = [];
   this.hub = null;
+  this.stateVariables = [];
 
   this.world = {};
+
+  this.openPlayerStateEditor = function() {
+     $mdDialog.show({
+      templateUrl: 'templates/dialogs/player-state-editor.html',
+      clickOutsideToClose: true,
+      controller: 'PlayerStateEditorCtrl',
+      controllerAs: 'ctrl',
+      locals: {
+        stateVariables: JSON.parse(this.world.stateVariables || null),
+      },
+      bindToController: true
+    }).then(function(data) {
+      Loader.show();
+      console.log(this.world);
+      API.updateWorld(this.worldId, {
+        stateVariables: JSON.stringify(data)
+      }).then(function() {
+        this.world.stateVariables = JSON.stringify(data);
+        Loader.hide();
+      }.bind(this), function() {
+        Loader.hide();
+      });
+    }.bind(this));
+}.bind(this);
+
 
   // API get hubs request
   // maybe this endpoint should also return world data instead of separately

@@ -1,0 +1,18 @@
+<div class='conditionsFormContainer'>
+  <div ng-if="ctrl.stateVariables.length == 0">
+    You haven't created any state variables yet. Create one now by clicking the button below.
+  </div>
+  <div ng-repeat="variable in ctrl.stateVariables track by $index">
+   <input ng-model="variable.name" type="text">
+    <md-select aria-label="select type" ng-change="ctrl.updateInitialValue($index)" class="conditionOpSelect" ng-model="variable.type">
+      <md-option ng-repeat="(type, initial) in ctrl.stateTypes"
+        ng-value="type">
+        {{ type }}
+      </md-option>
+    </md-select>
+     <input ng-model="variable.initial" type="text">
+      <md-button class="md-flat md-warn" ng-click="ctrl.deleteVariable($index)">- Delete</md-button>
+  </div>
+  <md-button class="md-flat md-primary" ng-click="ctrl.createVariable()">+ Variable
+  </md-button>
+</div>
