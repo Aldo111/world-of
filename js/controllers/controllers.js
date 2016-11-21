@@ -35,6 +35,18 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API,
     Player.setCurrentWorld(worldId);
     $state.go('main.play-world', {id: worldId});
   };
+  this.openShare = function(worldId){
+	    $mdDialog.show({
+      templateUrl: 'templates/dialogs/share-button.html',
+      clickOutsideToClose: true,
+      controller: 'ShareCtrl',
+      controllerAs: 'ctrl',
+      locals: {
+        worldId: worldId
+      },
+      bindToController: true
+    });
+  };
 });
 
 app.controller('WorldEditCtrl', function($scope, $stateParams, API,
