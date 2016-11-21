@@ -9,6 +9,16 @@ app.factory('playerStateFactory', function(CONDITIONS_OPS) {
     this.initial = initial || null;
   };
 
+  var Modification = function(lhs, op, rhs) {
+    this.lhs = lhs || null;
+    this.op = op || null;
+    this.rhs = rhs || null;
+  };
+
+  var createModification = function(lhs, op, rhs) {
+    return new Modification(lhs, op, rhs);
+  };
+
   var createVariable = function(name, type, initial) {
     
     var show = {
@@ -34,7 +44,8 @@ app.factory('playerStateFactory', function(CONDITIONS_OPS) {
 
   return {
     createVariable: createVariable,
-    cleanup: cleanup
+    cleanup: cleanup,
+    createModification: createModification
 
   };
 });
