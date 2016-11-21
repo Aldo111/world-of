@@ -53,3 +53,5 @@ ALTER TABLE `worlds`
 --
 ALTER TABLE `worlds`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+ALTER TABLE `worlds` ADD `start_world` INT(255) NOT NULL DEFAULT '0' AFTER `published`;
