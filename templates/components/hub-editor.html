@@ -86,6 +86,17 @@ This hub has been set as the starting hub for your world.
           </md-tooltip>
         </md-button>
       </div>
+      <div>
+        <md-button class="md-icon-button" ng-click="ctrl.openHubLinker(section)"
+          ng-class="{activeSectionButton: section.stateModifiers}">
+          <i class="material-icons">
+            face
+          </i>
+          <md-tooltip md-direction="top">
+            <span>Modify Variables</span>
+          </md-tooltip>
+        </md-button>
+      </div>
     </div>
     <hr>
   </div>

@@ -31,4 +31,15 @@ app.constant('STATE_OPS', {
   'number': 0
 })
 
+app.constant('MOD_OPS', {
+  'string': {
+    'SET': '=',
+  },
+  'number': {
+    'ADD': '+',
+    'SUB': '-',
+    'SET': '=',
+  }
+})
+
 .constant('_', window._);
