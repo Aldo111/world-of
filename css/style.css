@@ -488,3 +488,48 @@ hr {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Home page styling */
+
+#globe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20%;
+  height: auto;
+  margin:-10%;
+}
+
+.words {
+	/* positioning stuff */
+	position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  width: 30vw;
+  height: 30vw;
+  margin:-15vw;
+	/* font stuff */
+	font-size: 3vw;
+	font-family: 'Dosis', sans-serif;
+}
+
+#explore {
+  animation:spin1 10s linear infinite;
+}
+
+#relate {
+  transform: rotate(120deg);
+  animation:spin2 10s linear infinite;
+}
+
+#create {
+  transform: rotate(240deg);
+  animation:spin3 10s linear infinite;
+}
+
+@keyframes spin1 { 100% { transform:rotate(360deg); } }
+
+@keyframes spin2 { 100% { transform:rotate(480deg); } }
+
+@keyframes spin3 { 100% { transform:rotate(600deg); } }
