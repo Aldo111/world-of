@@ -1,13 +1,19 @@
 <h2 align="center"> {{ ctrl.world.name }} </h2>
-
-<div class= "storyContainer">
-  <div ng-repeat="section in ctrl.sections">
-    <p class= "playSectionText"
-    ng-bind-html="section.text" ng-if="!section.linkedHub">
-    </p>
-    <md-button class="md-raised md-primary" ng-if="section.linkedHub"
-      ng-click="ctrl.gotoHub(section)">
-      {{ section.text }}
-    </md-button>
+<div layout="row">
+  <div class="storyContainer statsBox" ng-if="ctrl.publicStats.length > 0">
+    <div ng-repeat="name in ctrl.publicStats">
+    <b>{{ name }}</b>: {{ ctrl.playerState[name] }}
+    </div>
+  </div>
+  <div class="storyContainer" flex="100">
+    <div ng-repeat="section in ctrl.sections">
+      <p class="playSectionText"
+      ng-bind-html="section.text" ng-if="!section.linkedHub">
+      </p>
+      <md-button class="md-raised md-primary" ng-if="section.linkedHub"
+        ng-click="ctrl.gotoHub(section)">
+        {{ section.text }}
+      </md-button>
+    </div>
   </div>
 </div>
