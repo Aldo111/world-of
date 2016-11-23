@@ -422,8 +422,7 @@ class DB {
    */
   public function getReviews($worldId) {
     $q=$this->db->query("SELECT reviews.*, accounts.username
-      FROM reviews, accounts WHERE reviews.world_id='$worldId' AND accounts.id = reviews.user_id 
-      ORDER BY ordering ASC");
+      FROM reviews, accounts WHERE reviews.world_id='$worldId' AND accounts.id = reviews.user_id");
     if ($q !== false) {
       return $this->fetchAll($q);
     } else {
