@@ -169,11 +169,13 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 });
 
 app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
-  API, ConditionFactory, Player) {
+  API, ConditionFactory, Player, _, playerStateFactory) {
 
   this.sections = [];
   this.worldId = parseInt($stateParams.id) || null;
   this.world = null;
+  this.playerState = {};
+  this.publicStats = [];
   /**
    * Function to fetch hub data
    */
@@ -184,11 +186,39 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 
     API.getWorlds({id: this.worldId}).then(function(response) {
       this.world = response.result[0];
+      this.initializePlayerState();
       this.fetchSectionData(this.world.startHub);
     }.bind(this), function(response) {
       Loader.hide();
       // Show error
     });
+
+  }.bind(this);
+
+  /**
+   * Function to initialize player state
+   */
+  this.initializePlayerState = function() {
+    var stateVariables = JSON.parse(this.world.stateVariables) || [];
+    var state = {};
+
+    _.each(stateVariables, function(variable) {
+
+      if (variable.type == 'number') {
+        variable.initial = parseFloat(variable.initial);
+      }
+
+      state[variable.name] = variable.initial;
+
+      if (variable.show) {
+        this.publicStats.push(variable.name);
+      }
+
+    }.bind(this));
+
+    Player.init(state);
+
+    console.log(Player.getState());
 
   }.bind(this);
 
@@ -210,7 +240,17 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   }.bind(this);
 
   /**
+   * Function to evaulate modifiers
+   *
+   */
+  this.evaluateSectionModifier = function(section) {
+    var modifications = JSON.parse(section.stateModifiers) || [];
+    playerStateFactory.evaluateModifications(modifications, Player.getState());
+  };
+
+  /**
    * Function to filter sections based on conditions
+   * and execute modifiers
    */
   this.filterSections = function(sections) {
     var data = Player.getState();
@@ -219,12 +259,19 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     for (var i = 0; i < sections.length; i++) {
       if (sections[i].conditions) {
         var conditions = JSON.parse(sections[i].conditions);
-        var valid = ConditionFactory.evaluateConditionSet(conditions, data);
+        var valid = ConditionFactory.evaluateConditionSet(conditions,
+        Player.getState());
         if (valid) {
           results.push(sections[i]);
+          if (!sections[i].linkedHub) {
+            this.evaluateSectionModifier(sections[i]);
+          }
         }
       } else {
         results.push(sections[i]);
+        if (!sections[i].linkedHub) {
+          this.evaluateSectionModifier(sections[i]);
+        }
       }
     }
 
@@ -235,9 +282,17 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
    * Function to switch hubs.
    */
   this.gotoHub = function(section) {
+    console.log(section);
+    this.evaluateSectionModifier(section);
     Player.visitLink(section.id);
     this.fetchSectionData(section.linkedHub);
   }.bind(this);
+
+  $scope.$watch(function() {
+    return Player.getState();
+  }, function(newState) {
+    this.playerState = newState;
+  }.bind(this));
 
   this.fetchWorldData();
 });

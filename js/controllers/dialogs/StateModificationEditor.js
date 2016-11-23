@@ -10,8 +10,8 @@ app.controller('StateModificationCtrl', function($scope, $state, API, User,
   console.log(this.modifications);
 
   this.save = function() {
-    var modifications = playerStateFactory.cleanup(this.modifications);
-    $mdDialog.hide(modifications);
+    //var modifications = playerStateFactory.cleanup(this.modifications);
+    $mdDialog.hide(this.modifications);
   }.bind(this);
 
   this.cancel = function() {

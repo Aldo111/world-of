@@ -3,14 +3,14 @@
   <div layout="column" class="conditionSetHeader" style="align-items:center">
     <div ng-repeat="modification in ctrl.stateModifications"> 
       <span layout-padding></span>
-      <md-select class="conditionOpSelect" ng-model="modification.lhs">
+      <md-select placeholder="Which variable?" class="conditionOpSelect" ng-model="modification.lhs">
         <md-option ng-repeat="variable in ctrl.stateVariables track by $index"
         ng-value="variable.name">
         {{ variable.name }}
         </md-option>
       </md-select>
 
-      <md-select class="conditionOpSelect" ng-model="modification.op">
+      <md-select placeholder="Which operation?" class="conditionOpSelect" ng-model="modification.op">
         <md-option ng-repeat="(op, opVal) in ctrl.modTypes[ctrl.variableTypes[modification.lhs]]"
         ng-value="opVal">
         {{ op }}

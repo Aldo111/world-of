@@ -39,6 +39,8 @@ app.constant('MOD_OPS', {
     'ADD': '+',
     'SUB': '-',
     'SET': '=',
+    'MULT': '*',
+    'DIV': '/',
   }
 })
 
