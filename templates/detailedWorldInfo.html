@@ -1,25 +1,14 @@
 <div layout="column">
 <div layout="row"> 
-<div><h2>World Name</h2> by: {{ctrl.world.name}} </div> 
+<div><h2>{{ctrl.world.name}}</h2> by: {{ctrl.world.userId}} </div> 
 </div>
-
+<div layout="row"> 
 <div>Rating info here</div>
 <div>Views info here</div>
-
+</div>
 
 Description here:
 {{ ctrl.world.description }} 
 </div>
-<div>
-    <md-dialog-content layout-padding layout-margin>
-      <br>
-      <md-input-container class="md-icon-float md-block">
-        <label>Description</label>
-        <input ng-model="ctrl.formData.username" required type="text" focus>
-      </md-input-container>
 
-      
-      <div class='warning' ng-if='ctrl.error' ng-bind='ctrl.error'></div>
-    </md-dialog-content>
-</div>
 </div>

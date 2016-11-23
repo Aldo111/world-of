@@ -311,7 +311,7 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User, 
     API.getWorlds({id: this.worldId}).then(function(response) {
 	
       this.world = response.result[0];
-	  console.log($stateParams);
+	  
       //this.fetchSectionData(this.world.startHub);
     }.bind(this), function(response) {
       
