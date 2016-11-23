@@ -18,7 +18,8 @@ app.component('hubEditor', {
       id: 0,
       text: '',
       conditions: null,
-      linkedHub: null
+      linkedHub: null,
+      modifications: null,
     });
   }.bind(this);
 
@@ -129,6 +130,26 @@ app.component('hubEditor', {
       }
     });
   }.bind(this);
+
+  this.openModificationEditor = function(section) {
+    console.log(section.modifications);
+
+     $mdDialog.show({
+      templateUrl: 'templates/dialogs/state-modification-editor.html',
+      clickOutsideToClose: true,
+      controller: 'StateModificationCtrl',
+      controllerAs: 'ctrl',
+      locals: {
+        stateVariables: JSON.parse(this.world.stateVariables) || [],
+        stateModifications: JSON.parse(section.modifications) || []
+      },
+      bindToController: true
+    }).then(function(data) {
+      if (data) {
+        section.modifications = JSON.stringify(data);
+      }
+    }.bind(this));
+}.bind(this);
 
   this.openHubLinker = function(section) {
     console.log(section);
