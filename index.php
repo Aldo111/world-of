@@ -35,6 +35,9 @@
       rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Abel"
     rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+		
+		<!-- css -->
     <link rel="stylesheet" href="css/style.css">
 
     <?php
