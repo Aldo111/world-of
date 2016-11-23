@@ -361,6 +361,36 @@ class DB {
   }
 
   /**
+   * Creates a new review.
+   *
+   * @param string $worldId World Id under which review is being created.
+   * @param string $userId The user id.
+   * @param string $rating Rating.
+   * @param string $text Review content.
+   *
+   * @return array|false Returns an associative array with review data
+   *    if review is created successfully, else returns false.
+   */
+  public function createReview($worldId, $userId, $rating, $text) {
+    $worldId = $this->sanitize($worldId);
+    $userId = $this->sanitize($userId);
+    $rating = $this->sanitize($rating);
+    $text = $this->sanitize($text);
+
+    $q=$this->db->query("INSERT into reviews (world_id, user_id, rating, text)
+      VALUES ('$userId', '$name', '$description')");
+
+    if ($q !== false) {
+      $insertId = $this->db->insert_id;
+      $userQ = $this->db->query("SELECT * FROM worlds
+        WHERE id='$insertId'");
+      return $this->fetchAll($userQ)[0];
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
    * Fetches all link sections in a world.
    *
    * @param string $worldId The world id.
@@ -399,7 +429,7 @@ class DB {
     }
   }
 
-  
+
   /**
    * Deletes a world and all content associated with it.
    *
@@ -418,6 +448,24 @@ class DB {
 
     if ($q1 !== false && $q2 !== false && $q3 !== false) {
       return true;
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Fetches reviews of a world.
+   *
+   * @param string $worldId The world id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function getWorldMetrics($worldId) {
+    $q=$this->db->query("SELECT times_played, avg_time
+      FROM worlds WHERE id='$worldId'");
+    if ($q !== false) {
+      return $this->fetchAll($q);
     } else {
       return false; //error
     }
