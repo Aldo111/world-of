@@ -51,7 +51,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       controllerAs: 'ctrl'
     })
     .state('main.detailedWorldInfo', {
-      url: '/worldProfile/:id',
+      url: '/worlds/:id',
       templateUrl: 'templates/detailedWorldInfo.html',
       controller: 'WorldProfileCtrl',
       controllerAs: 'ctrl'
