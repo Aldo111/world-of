@@ -378,11 +378,11 @@ class DB {
     $text = $this->sanitize($text);
 
     $q=$this->db->query("INSERT into reviews (world_id, user_id, rating, text)
-      VALUES ('$userId', '$name', '$description')");
+      VALUES ('$worldId', '$userId', '$rating', '$text')");
 
     if ($q !== false) {
       $insertId = $this->db->insert_id;
-      $userQ = $this->db->query("SELECT * FROM worlds
+      $userQ = $this->db->query("SELECT * FROM reviews
         WHERE id='$insertId'");
       return $this->fetchAll($userQ)[0];
     } else {
@@ -453,23 +453,6 @@ class DB {
     }
   }
 
-  /**
-   * Fetches reviews of a world.
-   *
-   * @param string $worldId The world id.
-   *
-   * @return array|false Returns an associative array with section data or false
-   * if failed.
-   */
-  public function getWorldMetrics($worldId) {
-    $q=$this->db->query("SELECT times_played, avg_time
-      FROM worlds WHERE id='$worldId'");
-    if ($q !== false) {
-      return $this->fetchAll($q);
-    } else {
-      return false; //error
-    }
-  }
 
   /**
    * Deletes an individual hub and all content associated with it.
@@ -490,6 +473,23 @@ class DB {
     }
   }
 
+  /**
+   * Fetches reviews of a world.
+   *
+   * @param string $worldId The world id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function getWorldMetrics($worldId) {
+    $q=$this->db->query("SELECT times_played, avg_time
+      FROM worlds WHERE id='$worldId'");
+    if ($q !== false) {
+      return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
 
   /**
    * Convenience function that returns an array of data based on a query.
