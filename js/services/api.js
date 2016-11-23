@@ -143,7 +143,9 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     return invokeEndpoint('worlds/' + data.worldId + '/hubs/' + data.hubId,
       setOptions(null, 'delete'));
   };
-
+  var userName = function(id) {
+    return invokeEndpoint('users/' + id );
+  };
   return {
     url: baseURL,
     login: login,
@@ -157,7 +159,8 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     updateWorld: updateWorld,
     deleteWorld: deleteWorld,
     deleteHub: deleteHub,
-    getWorldLinks: getWorldLinks
+    getWorldLinks: getWorldLinks,
+	userName: userName
   };
 
 });

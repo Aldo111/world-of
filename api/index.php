@@ -65,7 +65,7 @@ class API {
     $this->app->get("/users/{id}",
       function ($request, $response, $args) use ($that) {
         $user_id = $request->getAttribute("id");
-        $r = $that->$db->getUserById($user_id);
+        $r = $that->db->getUserById($user_id);
 
         $result =  $r === false ? $that->errorMsg("User not found.") : $r;
 

@@ -246,21 +246,30 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User, 
   API, ConditionFactory, Player) {
   this.worldId = parseInt($stateParams.id) || null;
   this.world = null;
+  this.creator = {};
   /**
    * Function to fetch hub data
    */
+  this.getCreatorData = function(userId) {
+		
+		API.userName(userId).then(function(response) {
+			this.creator = response;
+			console.log(response);
+			}.bind(this));
+		}.bind(this);
   this.fetchWorldData = function() {
-    Loader.show();
-	Loader.hide();
-    Player.reset();
+			Loader.show();
+			Loader.hide();
+			Player.reset();
 
     API.getWorlds({id: this.worldId}).then(function(response) {
-	
-      this.world = response.result[0];
+			this.getCreatorData(response.result[0].userId);
+		
+			this.world = response.result[0];
 	  
       //this.fetchSectionData(this.world.startHub);
     }.bind(this), function(response) {
-      
+
       // Show error
     });
 
