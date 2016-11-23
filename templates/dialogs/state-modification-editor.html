@@ -3,7 +3,7 @@
   <form name='worldForm' ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Player State Editor</h2>
+        <h2>State Modification Editor</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="ctrl.cancel()">
           x</md-icon>
@@ -12,7 +12,7 @@
     </md-toolbar>
 
     <md-dialog-content layout-padding layout-margin>
-     <player-state-form state-variables="ctrl.variables" world-id="ctrl.worldId"></player-state-form>
+     <state-modification-form state-modifications="ctrl.modifications" state-variables="ctrl.stateVariables"></state-modification-form>
     </md-dialog-content>
 
     <md-dialog-actions class='accountDialogActions' layout="row">

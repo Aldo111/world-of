@@ -1,7 +1,7 @@
 /**
  * Factory to manage the creation of player-states.
  */
-app.factory('playerStateFactory', function(CONDITIONS_OPS) {
+app.factory('playerStateFactory', function(MOD_OPS) {
 
   var Variable = function(name, type, initial) {
     this.name = name || null;
@@ -9,14 +9,59 @@ app.factory('playerStateFactory', function(CONDITIONS_OPS) {
     this.initial = initial || null;
   };
 
-  var createVariable = function(name, type, initial) {
-    
-    var show = {
-      name: name,
-      type: type,
-      initial: initial
-    };
+  var Modification = function(lhs, op, rhs) {
+    this.lhs = lhs || null;
+    this.op = op || null;
+    this.rhs = rhs || null;
+  };
 
+  var evaluateModification = function(modification, data) {
+    if (!data) {
+      return false;
+    }
+
+    var [lhs, op, rhs] = [data[modification.lhs] || null, modification.op,
+      modification.rhs || null];
+
+    if (!lhs) {
+      return false;
+    }
+
+    switch (op) {
+      case MOD_OPS.string.SET:
+        lhs = rhs;
+        break;
+      case MOD_OPS.number.SET:
+        lhs = parseFloat(rhs);
+        break;
+      case MOD_OPS.number.ADD:
+        lhs = parseFloat(lhs) + parseFloat(rhs);
+        break;
+      case MOD_OPS.number.SUB:
+        lhs = parseFloat(lhs) - parseFloat(rhs);
+        break;
+      case MOD_OPS.number.MULT:
+        lhs = parseFloat(lhs) * parseFloat(rhs);
+        break;
+      case MOD_OPS.number.DIV:
+        lhs = parseFloat(lhs) / parseFloat(rhs);
+        break;
+    }
+
+    data[modification.lhs] = lhs;
+  };
+
+  var evaluateModifications = function(modifications, data) {
+    for (var i = 0; i < modifications.length; i++) {
+      evaluateModification(modifications[i], data);
+    }
+  };
+
+  var createModification = function(lhs, op, rhs) {
+    return new Modification(lhs, op, rhs);
+  };
+
+  var createVariable = function(name, type, initial) {
     return new Variable(name, type, initial);
   };
 
@@ -34,7 +79,8 @@ app.factory('playerStateFactory', function(CONDITIONS_OPS) {
 
   return {
     createVariable: createVariable,
-    cleanup: cleanup
-
+    cleanup: cleanup,
+    createModification: createModification,
+    evaluateModifications: evaluateModifications
   };
 });
