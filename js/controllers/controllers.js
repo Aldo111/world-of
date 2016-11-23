@@ -242,3 +242,34 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 
   this.fetchWorldData();
 });
+app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User, Loader,
+  API, ConditionFactory, Player) {
+  this.worldId = parseInt($stateParams.id) || null;
+  this.world = null;
+  /**
+   * Function to fetch hub data
+   */
+  this.fetchWorldData = function() {
+    Loader.show();
+	Loader.hide();
+    Player.reset();
+
+    API.getWorlds({id: this.worldId}).then(function(response) {
+	
+      this.world = response.result[0];
+	  console.log($stateParams);
+      //this.fetchSectionData(this.world.startHub);
+    }.bind(this), function(response) {
+      
+      // Show error
+    });
+
+  }.bind(this);
+
+  /**
+   * Function to fetch section data
+   */
+  
+
+  this.fetchWorldData();
+});
