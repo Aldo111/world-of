@@ -49,6 +49,12 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       templateUrl: 'templates/play-world.html',
       controller: 'PlayCtrl',
       controllerAs: 'ctrl'
+    })
+    .state('main.detailedWorldInfo', {
+      url: '/worldProfile/:id',
+      templateUrl: 'templates/detailedWorldInfo.html',
+      controller: 'WorldProfileCtrl',
+      controllerAs: 'ctrl'
     });
 
   // Define theme
