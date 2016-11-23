@@ -351,12 +351,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
-    // Start the router
-    $this->app->run();
-  }
-
-
-  // Create a review
+    // Create a review
     $this->app->post("/worlds/{id}/review/create",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -364,7 +359,7 @@ class API {
 
         $worldId = $request->getAttribute("id");
 
-        if (!isset($details["user_id"]) || !isset($details["rating"] || !isset($details["text"])) {
+        if (!isset($details["user_id"]) || !isset($details["rating"]) || !isset($details["text"])) {
           $result = $that->errorMsg("Missing input");
         } else {
           $userId = $details["user_id"];
@@ -382,6 +377,13 @@ class API {
         }
         return $that->storeResult($result, $response);
     });
+
+    // Start the router
+    $this->app->run();
+  }
+
+
+  
 
 
   /**
