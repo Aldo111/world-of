@@ -214,7 +214,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
-
+    // Create world
     $this->app->post("/worlds/create",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -240,7 +240,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
-
+    // Create a hub
     $this->app->post("/worlds/{id}/hubs/create",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -266,6 +266,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Save a section
     $this->app->post("/worlds/{id}/hubs/{hub_id}/sections/save",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -294,6 +295,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    //
     $this->app->put("/worlds/{id}",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -352,6 +354,35 @@ class API {
     // Start the router
     $this->app->run();
   }
+
+
+  // Create a review
+    $this->app->post("/worlds/{id}/review/create",
+      function($request, $response, $args) use ($that) {
+        $details = $request->getParsedBody();
+        $result = $that->errorMsg("Invalid details.");
+
+        $worldId = $request->getAttribute("id");
+
+        if (!isset($details["user_id"]) || !isset($details["rating"] || !isset($details["text"])) {
+          $result = $that->errorMsg("Missing input");
+        } else {
+          $userId = $details["user_id"];
+          $rating = $details["rating"];
+          $text = $details["text"];
+
+          $data = $that->db->createReview($worldId, $userId, $rating, $text);
+
+          if ($data === false) {
+            $result = $that->errorMsg("Error: Something bad happened!");
+          } else {
+            $result = $data;
+          }
+
+        }
+        return $that->storeResult($result, $response);
+    });
+
 
   /**
    * Returns a Slim response object modified with the passed result.
