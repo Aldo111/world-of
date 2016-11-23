@@ -381,6 +381,25 @@ class DB {
     }
   }
 
+   /**
+   * Fetches reviews of a world.
+   *
+   * @param string $worldId The world id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function getReviews($worldId) {
+    $q=$this->db->query("SELECT *
+      FROM reviews WHERE world_id='$worldId' ORDER BY ordering ASC");
+    if ($q !== false) {
+      return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
+
+  
   /**
    * Deletes a world and all content associated with it.
    *

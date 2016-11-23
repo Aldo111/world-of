@@ -115,6 +115,21 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Get reviews of a world
+    $this->app->get("/worlds/{id}/reviews",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $fields = $_GET;
+        $worldId = $request->getAttribute("id");
+        $r = $that->db->getReviews($worldId);
+
+
+        $result =  $r === false ? $that->errorMsg("World not found.") :
+          $that->createListResult($r);
+
+        return $that->storeResult($result, $response);
+    });
+
     // Get sections of a hub
     $this->app->get("/worlds/{id}/hubs/{hubId}/sections",
       function ($request, $response, $args) use ($that) {
