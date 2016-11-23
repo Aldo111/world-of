@@ -226,7 +226,7 @@ class DB {
     $updateSql = [];
 
     $updateSql["id"] = [];
-    $updateFields = ["text", "conditions", "linked_hub", "ordering"];
+    $updateFields = ["text", "conditions", "linked_hub", "ordering", "state_modifiers"];
 
     $updateSqlQuery = [];
     foreach ($updateFields as $field) {
@@ -247,6 +247,7 @@ class DB {
       $text = $this->sanitize($section["text"]);
       $conditions = strlen($section["conditions"]) <= 0 ? "NULL" : "".$section["conditions"]."";
       $linked_hub = !$section["linked_hub"] ? "NULL": "".$section["linked_hub"]."";
+      $state_modifiers = strlen($section["state_modifiers"]) <= 0 ? "NULL" : "".$section["state_modifiers"]."";
 
       if ($section["id"] < 1) {
         $insertSql[] = "('".$userId."', '".$hubId."', '".$text."', '$index',
@@ -254,7 +255,7 @@ class DB {
       } else {
         $ids[] = $section["id"];
         $updateSql["id"][$section["id"]] = [
-          "text" => $text, "conditions" => $conditions, "linked_hub" => $linked_hub,
+          "text" => $text, "conditions" => $conditions, "linked_hub" => $linked_hub, "state_modifiers" => $state_modifiers,
           "ordering" => $index
         ];
       }
