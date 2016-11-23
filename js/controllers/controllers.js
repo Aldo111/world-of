@@ -71,7 +71,6 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
     }.bind(this));
 }.bind(this);
 
-
   // API get hubs request
   // maybe this endpoint should also return world data instead of separately
   this.fetchHubs = function() {

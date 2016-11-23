@@ -1,52 +1,45 @@
 /**
- * Form that enables the creation and editing of player-state driven conditions.
+ * Form that enables the creation and editing of player-states.
  */
-app.component('conditionsForm', {
-  templateUrl: 'templates/components/conditionsForm.html',
+app.component('stateModificationForm', {
+  templateUrl: 'templates/components/stateModificationForm.html',
   bindings: {
-    conditionSet: '=',
-    parentSet: '=?',
-    parentPosition: '<?',
-    worldId: '<?'
+    stateVariables: '=',
+    stateModifications: '=',
   },
-  controller: function($scope, CONDITIONS_OPS, ConditionFactory, _, API) {
-    this.ops = CONDITIONS_OPS;
+  controller: function($scope, MOD_OPS, playerStateFactory, _, API) {
 
-    this.logical = _.invert(CONDITIONS_OPS.logical);
-    this.worldLinks = [];
+    console.log(this.stateVariables);
 
-    this.stateValues = ['*links', 'name', 'armor'];
+    this.modTypes = MOD_OPS;
 
-    this.createCondition = function() {
-      var condition = ConditionFactory.createCondition('',
-        this.ops.string.EQ, '');
-      this.conditionSet.conditions.push(condition);
+    this.variableTypes = {};
+
+    _.each(this.stateVariables, function(obj) {
+      this.variableTypes[obj.name] = obj.type;
+    }.bind(this));
+
+    console.log(this.variableTypes);
+
+    this.getModTypes = function(variable) {
+
+    };
+
+    this.createModification = function() {
+      console.log(this.stateModifications);
+
+      /*if(!this.stateModifications)
+      {
+        this.stateModifications = [];
+      }*/
+
+      var modification = playerStateFactory.createModification('', MOD_OPS.SET,'');
+      this.stateModifications.push(modification);
     }.bind(this);
 
-    this.createConditionSet = function() {
-      var condition = ConditionFactory.createConditionSet();
-      this.conditionSet.conditions.push(condition);
+    this.deleteModification = function(id) {
+      this.stateModifications.splice(id,1);
     }.bind(this);
-
-    this.delete = function(obj) {
-      obj.conditions = [];
-      if (this.parentSet && this.hasOwnProperty('parentPosition')) {
-        this.parentSet.conditions.splice(this.parentPosition, 1);
-      }
-    }.bind(this);
-
-    this.deleteCondition = function(id) {
-      this.conditionSet.conditions.splice(id, 1);
-    }.bind(this);
-
-
-    // init stuff
-    if (this.worldId) {
-      API.getWorldLinks(this.worldId).then(function(response) {
-        this.worldLinks = response.result;
-      }.bind(this));
-    }
-
   },
   controllerAs: 'ctrl',
 });

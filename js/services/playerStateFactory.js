@@ -20,13 +20,6 @@ app.factory('playerStateFactory', function(CONDITIONS_OPS) {
   };
 
   var createVariable = function(name, type, initial) {
-    
-    var show = {
-      name: name,
-      type: type,
-      initial: initial
-    };
-
     return new Variable(name, type, initial);
   };
 

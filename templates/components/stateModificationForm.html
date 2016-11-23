@@ -1,59 +1,28 @@
 <div class='conditionsFormContainer'>
-  <div layout="row" class="conditionSetHeader" style="align-items:center">
-    <h3> <font color="orange">Type</font> </h3>
-    <div>
-    <span layout-padding></span>
-    <md-select class="conditionOpSelect" ng-model="ctrl.conditionSet.op">
-      <md-option ng-repeat="(op, opVal) in ctrl.ops.logical"
+      <h3> <font color="orange">State Variable</font> </h3>
+  <div layout="column" class="conditionSetHeader" style="align-items:center">
+    <div ng-repeat="modification in ctrl.stateModifications"> 
+      <span layout-padding></span>
+      <md-select class="conditionOpSelect" ng-model="modification.lhs">
+        <md-option ng-repeat="variable in ctrl.stateVariables track by $index"
+        ng-value="variable.name">
+        {{ variable.name }}
+        </md-option>
+      </md-select>
+
+      <md-select class="conditionOpSelect" ng-model="modification.op">
+        <md-option ng-repeat="(op, opVal) in ctrl.modTypes[ctrl.variableTypes[modification.lhs]]"
         ng-value="opVal">
         {{ op }}
-      </md-option>
-    </md-select>
+        </md-option>
+      </md-select>
+
+      <input ng-model="modification.rhs" type="text">
     </div>
+    <div>
+        <md-button class="md-flat md-primary" ng-click="ctrl.createModification()">+ Modificaton
+        </md-button>
+    </div>
+    
   </div>
-  <div ng-repeat="condition in ctrl.conditionSet.conditions track by $index"
-    ng-if="condition">
-    <div ng-if="!condition.conditions">
-
-      <md-select class="conditionOpSelect"
-      ng-model="condition.lhs" aria-label="Which variable" placeholder="Which variable?">
-        <md-option ng-repeat="stateValue in ctrl.stateValues" ng-value="stateValue">
-          {{ stateValue }}
-        </md-option>
-      </md-select>
-
-      <md-select class="conditionOpSelect" ng-model="condition.op"  aria-label="What type of operation">
-        <md-option ng-repeat="(op, opVal) in ctrl.ops.number" ng-if="condition.lhs !== '*links'" ng-value="opVal">
-          {{ op }}
-        </md-option>
-        <md-option ng-repeat="(op, opVal) in ctrl.ops.links"  ng-value="opVal">
-          {{ op }}
-        </md-option>
-      </md-select>
-
-      <input ng-model="condition.rhs" ng-if="condition.lhs !== '*links'" type="text">
-      <md-select class="conditionOpSelect" ng-if="condition.lhs === '*links'"
-      ng-model="condition.rhs" aria-label="Which link" placeholder="Choose a link">
-
-        <md-option ng-repeat="link in ctrl.worldLinks" ng-value="link.id">
-         {{link.id}} {{ link.text }} from Hub: {{ link.linkedHubName }}
-        </md-option>
-      </md-select>
-
-      <md-button class="md-flat md-warn" ng-click="ctrl.deleteCondition($index)">- Delete</md-button>
-    </div>
-    <div ng-if="condition.conditions && condition.op">
-      <conditions-form condition-set="condition" parent-set="ctrl.conditionSet" parent-position="$index" world-id="ctrl.worldId"></conditions-form>
-    </div>
-    <div ng-if="ctrl.conditionSet.conditions.length - 1 !== $index">
-      <div class='logicText' align="center"><b>{{ ctrl.logical[ctrl.conditionSet.op] }}</b>
-      </div>
-    </div>
-  </div>
-  <md-button class="md-flat md-primary" ng-click="ctrl.createCondition()">+ Condition
-  </md-button>
-   <md-button class="md-flat md-primary" ng-click="ctrl.createConditionSet()">+ Condition Set
-  </md-button>
-  <md-button class="md-flat md-warn delete" ng-click="ctrl.delete(ctrl.conditionSet)">- Delete Set
-  </md-button>
 </div>
