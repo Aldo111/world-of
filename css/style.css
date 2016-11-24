@@ -533,3 +533,49 @@ hr {
 @keyframes spin2 { 100% { transform:rotate(480deg); } }
 
 @keyframes spin3 { 100% { transform:rotate(600deg); } }
+
+.profileIcons {
+  color: #666;
+  margin: 10px;
+  margin-left: 0;
+}
+
+.profileIcons .material-icons {
+  margin-right: 5px;
+  margin-top: -2px;
+}
+
+.profileIcons:first-child .material-icons {
+  color: #92d36e;
+}
+
+.profileIcons:last-child .material-icons {
+  color: #006ce5;
+}
+
+.byCreator {
+  display: inline-block;
+  font-size: 12pt;
+  color: #444;
+}
+
+.titleRow h1 {
+  margin: 0;
+}
+
+.titleRow {
+  margin-top: 20px;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.worldProfilePlayRow {
+  align-content: center;
+}
+
+.playArrow .material-icons {
+  cursor: pointer;
+  font-size: 30pt !important;
+}
