@@ -19,16 +19,16 @@
  <font face="aria" color="grey" class="sharelink"><center><div>World link: http://localhost/world-of/#/{{ctrl.worldId}}</div></center></font>
       </md-input-container>
 <div layout="row">
-<div ng-repeat="n in ctrl.sites track by $index">
+<div ng-repeat="shareSite in ctrl.sites track by $index">
  <md-button type='submit'
         class="md-primary"
       
 <a href="#"
 socialshare
-socialshare-provider={{n.name}}
+socialshare-provider={{shareSite.name}}
 socialshare-text="Check out my new world!!!!"
 socialshare-url="http://localhost/world-of/#/{{ctrl.worldId}}">
-<img src={{n.img}} style="width:50px;height:50px;">
+<img src={{shareSite.img}} style="width:50px;height:50px;">
 </a>
 </md-button>
 </div>
