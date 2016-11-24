@@ -55,8 +55,33 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
   this.hubs = [];
   this.hub = null;
+  this.stateVariables = [];
 
   this.world = {};
+
+  this.openPlayerStateEditor = function() {
+     $mdDialog.show({
+      templateUrl: 'templates/dialogs/player-state-editor.html',
+      clickOutsideToClose: true,
+      controller: 'PlayerStateEditorCtrl',
+      controllerAs: 'ctrl',
+      locals: {
+        stateVariables: JSON.parse(this.world.stateVariables || null),
+      },
+      bindToController: true
+    }).then(function(data) {
+      Loader.show();
+      console.log(this.world);
+      API.updateWorld(this.worldId, {
+        stateVariables: JSON.stringify(data)
+      }).then(function() {
+        this.world.stateVariables = JSON.stringify(data);
+        Loader.hide();
+      }.bind(this), function() {
+        Loader.hide();
+      });
+    }.bind(this));
+}.bind(this);
 
   // API get hubs request
   // maybe this endpoint should also return world data instead of separately
@@ -156,11 +181,13 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 });
 
 app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
-  API, ConditionFactory, Player) {
+  API, ConditionFactory, Player, _, playerStateFactory) {
 
   this.sections = [];
   this.worldId = parseInt($stateParams.id) || null;
   this.world = null;
+  this.playerState = {};
+  this.publicStats = [];
   /**
    * Function to fetch hub data
    */
@@ -171,11 +198,39 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 
     API.getWorlds({id: this.worldId}).then(function(response) {
       this.world = response.result[0];
+      this.initializePlayerState();
       this.fetchSectionData(this.world.startHub);
     }.bind(this), function(response) {
       Loader.hide();
       // Show error
     });
+
+  }.bind(this);
+
+  /**
+   * Function to initialize player state
+   */
+  this.initializePlayerState = function() {
+    var stateVariables = JSON.parse(this.world.stateVariables) || [];
+    var state = {};
+
+    _.each(stateVariables, function(variable) {
+
+      if (variable.type == 'number') {
+        variable.initial = parseFloat(variable.initial);
+      }
+
+      state[variable.name] = variable.initial;
+
+      if (variable.show) {
+        this.publicStats.push(variable.name);
+      }
+
+    }.bind(this));
+
+    Player.init(state);
+
+    console.log(Player.getState());
 
   }.bind(this);
 
@@ -197,7 +252,17 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   }.bind(this);
 
   /**
+   * Function to evaulate modifiers
+   *
+   */
+  this.evaluateSectionModifier = function(section) {
+    var modifications = JSON.parse(section.stateModifiers) || [];
+    playerStateFactory.evaluateModifications(modifications, Player.getState());
+  };
+
+  /**
    * Function to filter sections based on conditions
+   * and execute modifiers
    */
   this.filterSections = function(sections) {
     var data = Player.getState();
@@ -206,12 +271,19 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     for (var i = 0; i < sections.length; i++) {
       if (sections[i].conditions) {
         var conditions = JSON.parse(sections[i].conditions);
-        var valid = ConditionFactory.evaluateConditionSet(conditions, data);
+        var valid = ConditionFactory.evaluateConditionSet(conditions,
+        Player.getState());
         if (valid) {
           results.push(sections[i]);
+          if (!sections[i].linkedHub) {
+            this.evaluateSectionModifier(sections[i]);
+          }
         }
       } else {
         results.push(sections[i]);
+        if (!sections[i].linkedHub) {
+          this.evaluateSectionModifier(sections[i]);
+        }
       }
     }
 
@@ -222,9 +294,135 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
    * Function to switch hubs.
    */
   this.gotoHub = function(section) {
+    console.log(section);
+    this.evaluateSectionModifier(section);
     Player.visitLink(section.id);
     this.fetchSectionData(section.linkedHub);
   }.bind(this);
 
+  $scope.$watch(function() {
+    return Player.getState();
+  }, function(newState) {
+    this.playerState = newState;
+  }.bind(this));
+
   this.fetchWorldData();
+});
+
+app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
+ Loader, API, ConditionFactory, Player, _) {
+  this.worldId = parseInt($stateParams.id) || null;
+  this.world = null;
+  this.loadAttempted = false;
+  this.creator = {};
+
+  /**
+   * Function to fetch creator data
+   */
+  this.getCreatorData = function(userId) {
+    API.getUser(userId).then(function(response) {
+      this.creator = response;
+    }.bind(this));
+  }.bind(this);
+
+   /**
+    * Function to fetch creator data
+    */
+  this.fetchWorldData = function() {
+      Loader.show();
+      Loader.hide();
+      Player.reset();
+
+    API.getWorlds({id: this.worldId}).then(function(response) {
+      this.getCreatorData(response.result[0].userId);
+      this.world = response.result[0];
+      this.loadAttempted = true;
+      //this.fetchSectionData(this.world.startHub);
+    }.bind(this), function(response) {
+      this.loadAttempted = true;
+    });
+
+  }.bind(this);
+
+  this.playWorld = function() {
+    Player.setCurrentWorld(this.world.id);
+    $state.go('main.play-world', {id: this.world.id});
+  }.bind(this);
+
+  this.fetchWorldData();
+
+  /* Community Box - TODO: convert to component */
+  this.userId = User.getId();
+  this.reviews = null;
+  this.isReviewing = false;
+  this.userHasReview = false;
+  this.userReview = {
+    rating: 1,
+    text: ''
+  };
+  this.origUserRating = 1;
+  this.reviewAverage = 0;
+  this.ratingLabels = [
+    '',
+    '1 - I did not have a good experience at all.',
+    '2 - It could\'ve been better.',
+    '3 - It was alright.',
+    '4 - It was good.',
+    '5 - It was pretty awesome.'
+  ];
+  this.tabs = ['Reviews', 'Statistics'];
+  this.selectedTab = this.tabs[0];
+
+  this.setTab = function(tab) {
+    this.selectedTab = tab;
+  }.bind(this);
+
+  this.getReviews = function() {
+    API.getWorldReviews(this.worldId).then(function(response) {
+      this.reviews = response.result;
+      // Get average
+      if (response.count > 0) {
+        _.each(this.reviews, function(review) {
+          this.reviewAverage += review.rating;
+
+          // Get this user's review
+          if (review.userId === this.userId) {
+            this.userReview = angular.copy(review);
+            this.origUserRating = review.rating;
+            this.userHasReview = true;
+          }
+        }.bind(this));
+        this.reviewAverage /= response.count;
+        this.reviewAverage = this.reviewAverage.toPrecision(3);
+      }
+    }.bind(this));
+  }.bind(this);
+
+  this.updateUserRating = function(value) {
+    this.userReview.rating = value;
+    this.origUserRating = value;
+  }.bind(this);
+
+  this.toggleReview = function() {
+    this.isReviewing = !this.isReviewing;
+  }.bind(this);
+
+  this.submitReview = function() {
+    Loader.show();
+    var reviewFunc = this.userHasReview ? API.updateWorldReview :
+      API.createWorldReview;
+
+    reviewFunc(this.world.id, this.userReview).then(
+      function(response) {
+        Loader.hide();
+        this.getReviews();
+    }.bind(this), function() {
+      Loader.hide();
+    });
+
+  }.bind(this);
+
+
+  this.getReviews();
+
 });

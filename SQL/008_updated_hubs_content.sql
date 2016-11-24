@@ -1,0 +1,1 @@
+ALTER TABLE `hubs_content` ADD `state_modifiers` TEXT NULL DEFAULT NULL AFTER `linked_hub`;

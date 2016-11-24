@@ -5,8 +5,10 @@ app.factory('Player', function(Storage, EventManager) {
 	var worldId;
 	var hubId;
   var links = [];
+  var state = {};
 
-	var init = function() {
+	var init = function(initialState) {
+    state = angular.copy(initialState);
 	};
 
 	var getCurrentWorld = function() {
@@ -35,14 +37,8 @@ app.factory('Player', function(Storage, EventManager) {
     links = [];
   };
 
-
-
   var getState = function() {
-    return {
-      "name": "adarsh",
-      "armor": 100,
-      "*links": links
-    };
+    return state;
   };
 
 	return {

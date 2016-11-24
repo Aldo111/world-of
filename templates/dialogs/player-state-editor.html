@@ -1,0 +1,27 @@
+<md-dialog aria-label="World Details Form">
+  <!-- If not logged in -->
+  <form name='worldForm' ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Player State Editor</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          x</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content layout-padding layout-margin>
+     <player-state-form state-variables="ctrl.variables" world-id="ctrl.worldId"></player-state-form>
+    </md-dialog-content>
+
+    <md-dialog-actions class='accountDialogActions' layout="row">
+      <md-button type='submit'
+        class="md-primary"
+        ng-click="ctrl.save()"
+        ng-disabled="worldForm.$invalid">
+        Done
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
