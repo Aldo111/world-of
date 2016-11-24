@@ -391,6 +391,31 @@ class DB {
   }
 
   /**
+   * Update review
+   *
+   * @param string $reviewId Id of review being updated.
+   * @param string $rating Rating.
+   * @param string $text Review content.
+   *
+   * @return boolean Returns true/false depending on successful or not update.
+   */
+  public function updateReview($reviewId, $rating, $text) {
+    $worldId = $this->sanitize($worldId);
+    $userId = $this->sanitize($userId);
+    $rating = $this->sanitize($rating);
+    $text = $this->sanitize($text);
+
+    $q=$this->db->query("UPDATE reviews SET rating='$rating', text='$text'
+      WHERE id='$reviewId'");
+
+    if ($q !== false) {
+      return true;
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
    * Fetches all link sections in a world.
    *
    * @param string $worldId The world id.

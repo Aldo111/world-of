@@ -635,6 +635,11 @@ hr {
   font-size: 12pt;
 }
 
+.userReview {
+  background-color: #f7f6f2 !important;
+  border: 1px solid #eee;
+}
+
 .review .byCreator {
   align-items: flex-end;
 }
@@ -653,4 +658,8 @@ hr {
 
 .fadedRating {
   opacity: 0.3;
+}
+
+.pointer {
+  cursor: pointer;
 }

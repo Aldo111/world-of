@@ -151,6 +151,19 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
   var getWorldReviews = function(id) {
     return invokeEndpoint('worlds/' + id + '/reviews' );
   };
+
+  var createWorldReview = function(worldId, data) {
+    data.user_id = User.getId();
+    return invokeEndpoint('worlds/' + worldId + '/reviews/create',
+      setOptions(data, 'post'));
+  };
+
+  var updateWorldReview = function(worldId, data) {
+    data.user_id = User.getId();
+    return invokeEndpoint('worlds/' + worldId + '/reviews/' + data.id,
+      setOptions(data, 'put'));
+  };
+
   return {
     url: baseURL,
     login: login,
@@ -166,7 +179,9 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     deleteHub: deleteHub,
     getWorldLinks: getWorldLinks,
     getUser: getUser,
-    getWorldReviews: getWorldReviews
+    getWorldReviews: getWorldReviews,
+    createWorldReview: createWorldReview,
+    updateWorldReview: updateWorldReview
   };
 
 });
