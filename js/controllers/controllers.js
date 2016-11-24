@@ -296,43 +296,46 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 
   this.fetchWorldData();
 });
-app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User, Loader,
-  API, ConditionFactory, Player) {
+
+app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
+ Loader, API, ConditionFactory, Player) {
   this.worldId = parseInt($stateParams.id) || null;
   this.world = null;
+  this.loadAttempted = false;
   this.creator = {};
+
   /**
-   * Function to fetch hub data
+   * Function to fetch creator data
    */
   this.getCreatorData = function(userId) {
-		
-		API.userName(userId).then(function(response) {
-			this.creator = response;
-			console.log(response);
-			}.bind(this));
-		}.bind(this);
+    API.userName(userId).then(function(response) {
+      this.creator = response;
+    }.bind(this));
+  }.bind(this);
+
+   /**
+    * Function to fetch creator data
+    */
   this.fetchWorldData = function() {
-			Loader.show();
-			Loader.hide();
-			Player.reset();
+      Loader.show();
+      Loader.hide();
+      Player.reset();
 
     API.getWorlds({id: this.worldId}).then(function(response) {
-			this.getCreatorData(response.result[0].userId);
-		
-			this.world = response.result[0];
-	  
+      this.getCreatorData(response.result[0].userId);
+      this.world = response.result[0];
+      this.loadAttempted = true;
       //this.fetchSectionData(this.world.startHub);
     }.bind(this), function(response) {
-
-      // Show error
+      this.loadAttempted = true;
     });
 
   }.bind(this);
 
-  /**
-   * Function to fetch section data
-   */
-  
+  this.playWorld = function() {
+    Player.setCurrentWorld(this.world.id);
+    $state.go('main.play-world', {id: this.world.id});
+  }.bind(this);
 
   this.fetchWorldData();
 });

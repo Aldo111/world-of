@@ -1,18 +1,28 @@
-<div layout="column">
+<div layout="row" class="worldProfilePlayRow" ng-if="ctrl.world">
+  <div layout="column" flex="100">
+    <div layout="row" class="titleRow">
+      <h1 flex=1>{{ctrl.world.name}} <div class="byCreator">by <u>&nbsp;{{ctrl.creator.username}}</u></div></h1>
+    </div>
+     <div layout="row">
+      <div layout="row" class="profileIcons">
+        <i class="material-icons">grade</i>
+        <b>10</b>
+      </div>
+      <div layout="row" class="profileIcons">
+        <i class="material-icons">visibility</i>
+        <b>{{ ctrl.world.timesPlayed }}</b>
+      </div>
+    </div>
+    <p class="noMargin">{{ ctrl.world.description }}</p>
+  </div>
 
-<div><font size="+2">{{ctrl.world.name}} </font><u>by: {{ctrl.creator.username}} </u></div> 
-
-<div layout="row"> 
-
-
-<i class="material-icons">grade</i>
-<i class="material-icons">visibility</i>
-
-
+  <div class="titleRow playArrow">
+   <i class="material-icons" ng-click="ctrl.playWorld()">play_arrow</i>
+  </div>
 </div>
 
-
-{{ ctrl.world.description }} 
-</div>
-
+<div ng-if="!ctrl.world && ctrl.loadAttempted">
+  <h1>World not found.</h1>
+  <p>Sorry, we could not find the world. If it's a valid world, please contact
+  the site staff.</p>
 </div>
