@@ -143,8 +143,13 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     return invokeEndpoint('worlds/' + data.worldId + '/hubs/' + data.hubId,
       setOptions(null, 'delete'));
   };
-  var userName = function(id) {
+
+  var getUser = function(id) {
     return invokeEndpoint('users/' + id );
+  };
+
+  var getWorldReviews = function(id) {
+    return invokeEndpoint('worlds/' + id + '/reviews' );
   };
   return {
     url: baseURL,
@@ -160,7 +165,8 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     deleteWorld: deleteWorld,
     deleteHub: deleteHub,
     getWorldLinks: getWorldLinks,
-	userName: userName
+    getUser: getUser,
+    getWorldReviews: getWorldReviews
   };
 
 });
