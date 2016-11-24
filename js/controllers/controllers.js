@@ -244,7 +244,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 });
 
 app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
- Loader, API, ConditionFactory, Player) {
+ Loader, API, ConditionFactory, Player, _) {
   this.worldId = parseInt($stateParams.id) || null;
   this.world = null;
   this.loadAttempted = false;
@@ -254,7 +254,7 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
    * Function to fetch creator data
    */
   this.getCreatorData = function(userId) {
-    API.userName(userId).then(function(response) {
+    API.getUser(userId).then(function(response) {
       this.creator = response;
     }.bind(this));
   }.bind(this);
@@ -284,4 +284,28 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
   }.bind(this);
 
   this.fetchWorldData();
+
+  /* Community Box - TODO: convert to component */
+
+  this.reviews = null;
+  this.reviewAverage = 0;
+  this.tabs = ['Reviews', 'Statistics'];
+  this.selectedTab = this.tabs[0];
+
+  this.setTab = function(tab) {
+    this.selectedTab = tab;
+  }.bind(this);
+
+  API.getWorldReviews(this.worldId).then(function(response) {
+    this.reviews = response.result;
+    // Get average
+    if (response.count > 0) {
+      _.each(this.reviews, function(review) {
+        this.reviewAverage += review.rating;
+      }.bind(this));
+      this.reviewAverage /= response.count;
+    }
+  }.bind(this));
+
+
 });
