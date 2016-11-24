@@ -38,7 +38,7 @@ app.factory("User", function(Storage, EventManager, $window) {
   }
 
   var getId = function() {
-    return user.id || false;
+    return user ? user.id || null : null;
   };
 
   var loggedIn = function() {
