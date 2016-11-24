@@ -36,7 +36,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       }
     })
     .state('main.world-edit', {
-      url: '/world/:id/edit',
+      url: '/worlds/:id/edit',
       templateUrl: 'templates/world-edit.html',
       controller: 'WorldEditCtrl',
       controllerAs: 'ctrl',
@@ -45,14 +45,14 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       }
     })
     .state('main.play-world', {
-      url: '/play/:id',
+      url: '/worlds/:id/play',
       templateUrl: 'templates/play-world.html',
       controller: 'PlayCtrl',
       controllerAs: 'ctrl'
     })
-    .state('main.detailedWorldInfo', {
+    .state('main.world-profile', {
       url: '/worlds/:id',
-      templateUrl: 'templates/detailedWorldInfo.html',
+      templateUrl: 'templates/world-profile.html',
       controller: 'WorldProfileCtrl',
       controllerAs: 'ctrl'
     });
