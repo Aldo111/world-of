@@ -39,7 +39,7 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API,
 	    $mdDialog.show({
       templateUrl: 'templates/dialogs/share-button.html',
       clickOutsideToClose: true,
-      controller: 'ShareCtrl',
+      controller: 'ShareButton',
       controllerAs: 'ctrl',
       locals: {
         worldId: worldId
