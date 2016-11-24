@@ -46,7 +46,7 @@
       <!-- User review box TODO: make component?-->
       <div class="review userReview" ng-if="ctrl.isReviewing">
         <div layout="row" style="justify-content: space-between">
-          <b>Leave A Review</b>
+          <b>Your Review</b>
           <div ng-click="ctrl.toggleReview()" class="pointer">x</div>
         </div>
         <br>
@@ -75,7 +75,7 @@
             </md-tooltip>
           </i>
         <md-input-container class="md-block">
-          <label>Comment (optional)</label>
+          <label>Leave a review note (optional)</label>
           <textarea
             class="hubSectionInput"
             ng-model="ctrl.userReview.text"
