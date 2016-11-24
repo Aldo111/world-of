@@ -37,7 +37,7 @@
       <div class="summary">
         <b>{{ ctrl.reviewAverage }}</b> based on <b>{{ ctrl.reviews.length }}</b> reviews.
       </div>
-      <div>
+      <div ng-if="ctrl.userId">
         <i class="material-icons pointer" ng-click="ctrl.toggleReview()">edit</i>
       </div>
     </div>
