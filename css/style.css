@@ -535,3 +535,133 @@ hr {
 @keyframes spin2 { 100% { transform:rotate(480deg); } }
 
 @keyframes spin3 { 100% { transform:rotate(600deg); } }
+
+.profileIcons {
+  color: #666;
+  margin: 10px;
+  margin-left: 0;
+}
+
+.profileIcons .material-icons {
+  margin-right: 5px;
+  margin-top: -2px;
+}
+
+.profileIcons:first-child .material-icons {
+  color: #92d36e;
+}
+
+.profileIcons:last-child .material-icons {
+  color: #006ce5;
+}
+
+.byCreator {
+  font-size: 12pt;
+  color: #606060;
+}
+
+.titleRow h1 {
+  margin: 0;
+}
+
+.titleRow {
+  margin-top: 20px;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.worldProfilePlayRow {
+  align-content: center;
+}
+
+.playArrow .material-icons {
+  cursor: pointer;
+  font-size: 30pt !important;
+}
+
+
+.communityBox {
+  margin-top: 30px;
+}
+.communityBox .reviewsBox {
+  min-height: 20px;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.communityBox .tab {
+  background-color: #ddd;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.communityBox .selectedTab {
+  background-color: white;
+  font-weight: bold;
+}
+
+.reviewsBox .summary {
+  font-family: Abel;
+  font-size: 14pt;
+  color: #444;
+}
+
+.reviewsBox .review {
+  background-color: #f3f3f3;
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 10px;
+}
+
+.reviewsBox .headerRow {
+  justify-content: space-between;
+}
+
+.review p {
+  margin: 0;
+  padding: 8px;
+  padding-left: 0;
+  font-size: 11pt;
+}
+
+.review .rating {
+  font-size: 12pt;
+}
+
+.userReview {
+  background-color: #f7f6f2 !important;
+  border: 1px solid #eee;
+}
+
+.review .byCreator {
+  align-items: flex-end;
+}
+
+.rating3 {
+  color: orange;
+}
+
+.rating5 {
+  color: #92d36e;
+}
+
+.rating1 {
+  color: #c00;
+}
+
+.fadedRating {
+  opacity: 0.3;
+}
+
+.pointer {
+  cursor: pointer;
+}

@@ -362,6 +362,61 @@ class DB {
   }
 
   /**
+   * Creates a new review.
+   *
+   * @param string $worldId World Id under which review is being created.
+   * @param string $userId The user id.
+   * @param string $rating Rating.
+   * @param string $text Review content.
+   *
+   * @return array|false Returns an associative array with review data
+   *    if review is created successfully, else returns false.
+   */
+  public function createReview($worldId, $userId, $rating, $text) {
+    $worldId = $this->sanitize($worldId);
+    $userId = $this->sanitize($userId);
+    $rating = $this->sanitize($rating);
+    $text = $this->sanitize($text);
+
+    $q=$this->db->query("INSERT into reviews (world_id, user_id, rating, text)
+      VALUES ('$worldId', '$userId', '$rating', '$text')");
+
+    if ($q !== false) {
+      $insertId = $this->db->insert_id;
+      $userQ = $this->db->query("SELECT * FROM reviews
+        WHERE id='$insertId'");
+      return $this->fetchAll($userQ)[0];
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Update review
+   *
+   * @param string $reviewId Id of review being updated.
+   * @param string $rating Rating.
+   * @param string $text Review content.
+   *
+   * @return boolean Returns true/false depending on successful or not update.
+   */
+  public function updateReview($reviewId, $rating, $text) {
+    $worldId = $this->sanitize($worldId);
+    $userId = $this->sanitize($userId);
+    $rating = $this->sanitize($rating);
+    $text = $this->sanitize($text);
+
+    $q=$this->db->query("UPDATE reviews SET rating='$rating', text='$text'
+      WHERE id='$reviewId'");
+
+    if ($q !== false) {
+      return true;
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
    * Fetches all link sections in a world.
    *
    * @param string $worldId The world id.
@@ -381,6 +436,26 @@ class DB {
       return false; //error
     }
   }
+
+   /**
+   * Fetches reviews of a world.
+   *
+   * @param string $worldId The world id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function getReviews($worldId) {
+    $q=$this->db->query("SELECT reviews.*, accounts.username
+      FROM reviews, accounts
+      WHERE reviews.world_id='$worldId' AND accounts.id = reviews.user_id");
+    if ($q !== false) {
+      return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
+
 
   /**
    * Deletes a world and all content associated with it.
@@ -405,6 +480,7 @@ class DB {
     }
   }
 
+
   /**
    * Deletes an individual hub and all content associated with it.
    *
@@ -424,6 +500,23 @@ class DB {
     }
   }
 
+  /**
+   * Fetches reviews of a world.
+   *
+   * @param string $worldId The world id.
+   *
+   * @return array|false Returns an associative array with section data or false
+   * if failed.
+   */
+  public function getWorldMetrics($worldId) {
+    $q=$this->db->query("SELECT times_played, avg_time
+      FROM worlds WHERE id='$worldId'");
+    if ($q !== false) {
+      return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
 
   /**
    * Convenience function that returns an array of data based on a query.

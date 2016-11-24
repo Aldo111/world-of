@@ -65,7 +65,7 @@ class API {
     $this->app->get("/users/{id}",
       function ($request, $response, $args) use ($that) {
         $user_id = $request->getAttribute("id");
-        $r = $that->$db->getUserById($user_id);
+        $r = $that->db->getUserById($user_id);
 
         $result =  $r === false ? $that->errorMsg("User not found.") : $r;
 
@@ -115,6 +115,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+
     // Get sections of a hub
     $this->app->get("/worlds/{id}/hubs/{hubId}/sections",
       function ($request, $response, $args) use ($that) {
@@ -124,6 +125,36 @@ class API {
         $r = $that->db->getSections($hubId);
 
         $result =  $r === false ? $that->errorMsg("Hub not found.") :
+          $that->createListResult($r);
+
+        return $that->storeResult($result, $response);
+    });
+
+    // Get reviews of a world
+    $this->app->get("/worlds/{id}/reviews",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $fields = $_GET;
+        $worldId = $request->getAttribute("id");
+        $r = $that->db->getReviews($worldId);
+
+
+        $result =  $r === false ? $that->errorMsg("World not found.") :
+          $that->createListResult($r);
+
+        return $that->storeResult($result, $response);
+    });
+
+    // Get metrics of a world
+    $this->app->get("/worlds/{id}/metrics",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $fields = $_GET;
+        $worldId = $request->getAttribute("id");
+        $r = $that->db->getMetrics($worldId);
+
+
+        $result =  $r === false ? $that->errorMsg("World not found.") :
           $that->createListResult($r);
 
         return $that->storeResult($result, $response);
@@ -183,7 +214,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
-
+    // Create world
     $this->app->post("/worlds/create",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -209,7 +240,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
-
+    // Create a hub
     $this->app->post("/worlds/{id}/hubs/create",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -235,6 +266,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Save a section
     $this->app->post("/worlds/{id}/hubs/{hub_id}/sections/save",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -263,6 +295,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    //
     $this->app->put("/worlds/{id}",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -318,9 +351,68 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Create a review
+    $this->app->post("/worlds/{id}/reviews/create",
+      function($request, $response, $args) use ($that) {
+        $details = $request->getParsedBody();
+        $result = $that->errorMsg("Invalid details.");
+
+        $worldId = $request->getAttribute("id");
+
+        if (!isset($details["user_id"]) || !isset($details["rating"]) || !isset($details["text"])) {
+          $result = $that->errorMsg("Missing input");
+        } else {
+          $userId = $details["user_id"];
+          $rating = $details["rating"];
+          $text = $details["text"];
+
+          $data = $that->db->createReview($worldId, $userId, $rating, $text);
+
+          if ($data === false) {
+            $result = $that->errorMsg("Error: Something bad happened!");
+          } else {
+            $result = $data;
+          }
+
+        }
+        return $that->storeResult($result, $response);
+    });
+
+    // Update a review
+    $this->app->put("/worlds/{id}/reviews/{reviewId}",
+      function($request, $response, $args) use ($that) {
+        $details = $request->getParsedBody();
+        $result = $that->errorMsg("Invalid details.");
+
+        $worldId = $request->getAttribute("id");
+        $reviewId = $request->getAttribute("reviewId");
+
+        if (!isset($details["user_id"]) || !isset($details["rating"]) || !isset($details["text"])) {
+          $result = $that->errorMsg("Missing input");
+        } else {
+          $userId = $details["user_id"];
+          $rating = $details["rating"];
+          $text = $details["text"];
+
+          $data = $that->db->updateReview($reviewId, $rating, $text);
+
+          if ($data === false) {
+            $result = $that->errorMsg("Error: Something bad happened!");
+          } else {
+            $result = $that->successMsg();
+          }
+
+        }
+        return $that->storeResult($result, $response);
+    });
+
     // Start the router
     $this->app->run();
   }
+
+
+
+
 
   /**
    * Returns a Slim response object modified with the passed result.

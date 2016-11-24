@@ -35,6 +35,18 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API,
     Player.setCurrentWorld(worldId);
     $state.go('main.play-world', {id: worldId});
   };
+  this.openShare = function(worldId){
+	    $mdDialog.show({
+      templateUrl: 'templates/dialogs/share-button.html',
+      clickOutsideToClose: true,
+      controller: 'ShareButton',
+      controllerAs: 'ctrl',
+      locals: {
+        worldId: worldId
+      },
+      bindToController: true
+    });
+  };
 });
 
 app.controller('WorldEditCtrl', function($scope, $stateParams, API,
@@ -295,4 +307,122 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   }.bind(this));
 
   this.fetchWorldData();
+});
+
+app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
+ Loader, API, ConditionFactory, Player, _) {
+  this.worldId = parseInt($stateParams.id) || null;
+  this.world = null;
+  this.loadAttempted = false;
+  this.creator = {};
+
+  /**
+   * Function to fetch creator data
+   */
+  this.getCreatorData = function(userId) {
+    API.getUser(userId).then(function(response) {
+      this.creator = response;
+    }.bind(this));
+  }.bind(this);
+
+   /**
+    * Function to fetch creator data
+    */
+  this.fetchWorldData = function() {
+      Loader.show();
+      Loader.hide();
+      Player.reset();
+
+    API.getWorlds({id: this.worldId}).then(function(response) {
+      this.getCreatorData(response.result[0].userId);
+      this.world = response.result[0];
+      this.loadAttempted = true;
+      //this.fetchSectionData(this.world.startHub);
+    }.bind(this), function(response) {
+      this.loadAttempted = true;
+    });
+
+  }.bind(this);
+
+  this.playWorld = function() {
+    Player.setCurrentWorld(this.world.id);
+    $state.go('main.play-world', {id: this.world.id});
+  }.bind(this);
+
+  this.fetchWorldData();
+
+  /* Community Box - TODO: convert to component */
+  this.userId = User.getId();
+  this.reviews = null;
+  this.isReviewing = false;
+  this.userHasReview = false;
+  this.userReview = {
+    rating: 1,
+    text: ''
+  };
+  this.origUserRating = 1;
+  this.reviewAverage = 0;
+  this.ratingLabels = [
+    '',
+    '1 - I did not have a good experience at all.',
+    '2 - It could\'ve been better.',
+    '3 - It was alright.',
+    '4 - It was good.',
+    '5 - It was pretty awesome.'
+  ];
+  this.tabs = ['Reviews', 'Statistics'];
+  this.selectedTab = this.tabs[0];
+
+  this.setTab = function(tab) {
+    this.selectedTab = tab;
+  }.bind(this);
+
+  this.getReviews = function() {
+    API.getWorldReviews(this.worldId).then(function(response) {
+      this.reviews = response.result;
+      // Get average
+      if (response.count > 0) {
+        _.each(this.reviews, function(review) {
+          this.reviewAverage += review.rating;
+
+          // Get this user's review
+          if (review.userId === this.userId) {
+            this.userReview = angular.copy(review);
+            this.origUserRating = review.rating;
+            this.userHasReview = true;
+          }
+        }.bind(this));
+        this.reviewAverage /= response.count;
+        this.reviewAverage = this.reviewAverage.toPrecision(3);
+      }
+    }.bind(this));
+  }.bind(this);
+
+  this.updateUserRating = function(value) {
+    this.userReview.rating = value;
+    this.origUserRating = value;
+  }.bind(this);
+
+  this.toggleReview = function() {
+    this.isReviewing = !this.isReviewing;
+  }.bind(this);
+
+  this.submitReview = function() {
+    Loader.show();
+    var reviewFunc = this.userHasReview ? API.updateWorldReview :
+      API.createWorldReview;
+
+    reviewFunc(this.world.id, this.userReview).then(
+      function(response) {
+        Loader.hide();
+        this.getReviews();
+    }.bind(this), function() {
+      Loader.hide();
+    });
+
+  }.bind(this);
+
+
+  this.getReviews();
+
 });

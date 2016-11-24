@@ -1,4 +1,4 @@
-var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize']);
+var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize','720kb.socialshare']);
 
 app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
@@ -36,7 +36,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       }
     })
     .state('main.world-edit', {
-      url: '/world/:id/edit',
+      url: '/worlds/:id/edit',
       templateUrl: 'templates/world-edit.html',
       controller: 'WorldEditCtrl',
       controllerAs: 'ctrl',
@@ -45,9 +45,15 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       }
     })
     .state('main.play-world', {
-      url: '/play/:id',
+      url: '/worlds/:id/play',
       templateUrl: 'templates/play-world.html',
       controller: 'PlayCtrl',
+      controllerAs: 'ctrl'
+    })
+    .state('main.world-profile', {
+      url: '/worlds/:id',
+      templateUrl: 'templates/world-profile.html',
+      controller: 'WorldProfileCtrl',
       controllerAs: 'ctrl'
     });
 
