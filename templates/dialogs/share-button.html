@@ -1,0 +1,38 @@
+<md-dialog aria-label="Share Links" >
+  <!-- If not logged in -->
+ 
+  <form name='worldForm' ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Social Media Links</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          x</md-icon>
+        </md-button>
+      </div>
+
+    </md-toolbar>
+
+
+	<md-input-container class="md-icon-float md-block" layout-padding layout-margin>
+<center>The link to your world profile is below!</center>
+ <font face="aria" color="grey" class="sharelink"><center><div>World link: http://localhost/world-of/#/{{ctrl.worldId}}</div></center></font>
+      </md-input-container>
+<div layout="row">
+<div ng-repeat="shareSite in ctrl.sites track by $index">
+ <md-button type='submit'
+        class="md-primary"
+      
+<a href="#"
+socialshare
+socialshare-provider={{shareSite.name}}
+socialshare-text="Check out my new world!!!!"
+socialshare-url="http://localhost/world-of/#/{{ctrl.worldId}}">
+<img src={{shareSite.img}} style="width:50px;height:50px;">
+</a>
+</md-button>
+</div>
+
+
+  </form>
+</md-dialog>

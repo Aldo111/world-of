@@ -1,4 +1,4 @@
-var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize']);
+var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize','720kb.socialshare']);
 
 app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
