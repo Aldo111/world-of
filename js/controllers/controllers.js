@@ -340,9 +340,24 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
   this.fetchWorldData();
 
   /* Community Box - TODO: convert to component */
-
+  this.userId = User.getId();
   this.reviews = null;
+  this.isReviewing = false;
+  this.userHasReview = false;
+  this.userReview = {
+    rating: 1,
+    text: ''
+  };
+  this.origUserRating = 1;
   this.reviewAverage = 0;
+  this.ratingLabels = [
+    '',
+    '1 - I did not have a good experience at all.',
+    '2 - It could\'ve been better.',
+    '3 - It was alright.',
+    '4 - It was good.',
+    '5 - It was pretty awesome.'
+  ];
   this.tabs = ['Reviews', 'Statistics'];
   this.selectedTab = this.tabs[0];
 
@@ -350,16 +365,52 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
     this.selectedTab = tab;
   }.bind(this);
 
-  API.getWorldReviews(this.worldId).then(function(response) {
-    this.reviews = response.result;
-    // Get average
-    if (response.count > 0) {
-      _.each(this.reviews, function(review) {
-        this.reviewAverage += review.rating;
-      }.bind(this));
-      this.reviewAverage /= response.count;
-    }
-  }.bind(this));
+  this.getReviews = function() {
+    API.getWorldReviews(this.worldId).then(function(response) {
+      this.reviews = response.result;
+      // Get average
+      if (response.count > 0) {
+        _.each(this.reviews, function(review) {
+          this.reviewAverage += review.rating;
 
+          // Get this user's review
+          if (review.userId === this.userId) {
+            this.userReview = angular.copy(review);
+            this.origUserRating = review.rating;
+            this.userHasReview = true;
+          }
+        }.bind(this));
+        this.reviewAverage /= response.count;
+        this.reviewAverage = this.reviewAverage.toPrecision(3);
+      }
+    }.bind(this));
+  }.bind(this);
+
+  this.updateUserRating = function(value) {
+    this.userReview.rating = value;
+    this.origUserRating = value;
+  }.bind(this);
+
+  this.toggleReview = function() {
+    this.isReviewing = !this.isReviewing;
+  }.bind(this);
+
+  this.submitReview = function() {
+    Loader.show();
+    var reviewFunc = this.userHasReview ? API.updateWorldReview :
+      API.createWorldReview;
+
+    reviewFunc(this.world.id, this.userReview).then(
+      function(response) {
+        Loader.hide();
+        this.getReviews();
+    }.bind(this), function() {
+      Loader.hide();
+    });
+
+  }.bind(this);
+
+
+  this.getReviews();
 
 });

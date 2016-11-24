@@ -352,7 +352,7 @@ class API {
     });
 
     // Create a review
-    $this->app->post("/worlds/{id}/review/create",
+    $this->app->post("/worlds/{id}/reviews/create",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
         $result = $that->errorMsg("Invalid details.");
@@ -378,12 +378,40 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Update a review
+    $this->app->put("/worlds/{id}/reviews/{reviewId}",
+      function($request, $response, $args) use ($that) {
+        $details = $request->getParsedBody();
+        $result = $that->errorMsg("Invalid details.");
+
+        $worldId = $request->getAttribute("id");
+        $reviewId = $request->getAttribute("reviewId");
+
+        if (!isset($details["user_id"]) || !isset($details["rating"]) || !isset($details["text"])) {
+          $result = $that->errorMsg("Missing input");
+        } else {
+          $userId = $details["user_id"];
+          $rating = $details["rating"];
+          $text = $details["text"];
+
+          $data = $that->db->updateReview($reviewId, $rating, $text);
+
+          if ($data === false) {
+            $result = $that->errorMsg("Error: Something bad happened!");
+          } else {
+            $result = $that->successMsg();
+          }
+
+        }
+        return $that->storeResult($result, $response);
+    });
+
     // Start the router
     $this->app->run();
   }
 
 
-  
+
 
 
   /**

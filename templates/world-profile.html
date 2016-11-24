@@ -38,21 +38,74 @@
         <b>{{ ctrl.reviewAverage }}</b> based on <b>{{ ctrl.reviews.length }}</b> reviews.
       </div>
       <div>
-        <i class="material-icons">edit</i>
+        <i class="material-icons pointer" ng-click="ctrl.toggleReview()">edit</i>
       </div>
     </div>
     <div layout="column" class="reviews">
+
+      <!-- User review box TODO: make component?-->
+      <div class="review userReview" ng-if="ctrl.isReviewing">
+        <div layout="row" style="justify-content: space-between">
+          <b>Leave A Review</b>
+          <div ng-click="ctrl.toggleReview()" class="pointer">x</div>
+        </div>
+        <br>
+        Rating:
+          <i class="pointer rating material-icons"
+            ng-repeat="i in [1, 2, 3, 4, 5]"
+            ng-if="i <= ctrl.userReview.rating"
+            ng-click="ctrl.updateUserRating(i)"
+            ng-mouseover="ctrl.userReview.rating = i"
+            ng-mouseout="ctrl.userReview.rating = ctrl.origUserRating"
+            ng-class="{rating1: ctrl.userReview.rating >= 1 && ctrl.userReview.rating < 3, rating3: ctrl.userReview.rating >= 3 && ctrl.userReview.rating < 4, rating5: ctrl.userReview.rating >= 4}">
+            grade
+            <md-tooltip md-direction="top">
+              {{ ctrl.ratingLabels[i]}}
+            </md-tooltip>
+          </i><i class="pointer rating fadedRating material-icons"
+            ng-repeat="i in [1, 2, 3, 4, 5]"
+            ng-click="ctrl.updateUserRating(i)"
+            ng-mouseover="ctrl.userReview.rating = i"
+            ng-mouseout="ctrl.userReview.rating = ctrl.origUserRating"
+            ng-if="i > ctrl.userReview.rating"
+            >
+            grade
+            <md-tooltip md-direction="top">
+              {{ ctrl.ratingLabels[i]}}
+            </md-tooltip>
+          </i>
+        <md-input-container class="md-block">
+          <label>Comment (optional)</label>
+          <textarea
+            class="hubSectionInput"
+            ng-model="ctrl.userReview.text"
+            md-no-autogrow="true"
+            maxlength="500"
+            md-maxlength="500"
+            rows="3" md-select-on-focus></textarea>
+        </md-input-container>
+        <md-button ng-click="ctrl.submitReview()" class="md-primary md-raised">
+        <span ng-if="!ctrl.userHasReview">Submit</span>
+        <span ng-if="ctrl.userHasReview">Update</span>
+         Review</md-button>
+      </div>
+
+
       <div ng-repeat="review in ctrl.reviews" class="review" layout="column">
         <div class="byCreator" layout="row">
           <div><u>{{review.username}}</u>&nbsp;</div>
           <i class="rating material-icons"
             ng-repeat="i in [1, 2, 3, 4, 5]"
             ng-if="i <= review.rating"
-            ng-class="{rating1: review.rating >= 1 && review.rating < 3, rating3: review.rating >= 3 && review.rating < 4, rating5: review.rating >= 4}">grade</i>
-            <i class="rating fadedRating material-icons"
+            ng-class="{rating1: review.rating >= 1 && review.rating < 3, rating3: review.rating >= 3 && review.rating < 4, rating5: review.rating >= 4}">
+            grade
+          </i>
+          <i class="rating fadedRating material-icons"
             ng-repeat="i in [1, 2, 3, 4, 5]"
             ng-if="i > review.rating"
-            >grade</i>
+            >
+            grade
+          </i>
         </div>
         <p>{{review.text}}</p>
       </div>
@@ -60,7 +113,7 @@
   </div>
 
   <div class="reviewsBox" ng-if="ctrl.selectedTab == 'Statistics'">
-    s
+
   </div>
 
 </div>
