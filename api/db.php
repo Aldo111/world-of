@@ -99,6 +99,7 @@ class DB {
    * @param string $userId The user creating the world.
    * @param string $name The world name.
    * @param string $description The description of the world.
+   * @param mixed $optionals Optional extra variables
    *
    * @return array|false Returns an associative array with world data
    *    if world is created successfully, else returns false.
