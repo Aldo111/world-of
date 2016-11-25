@@ -19,7 +19,7 @@ app.component('conditionsForm', {
 
     this.createCondition = function() {
       var condition = ConditionFactory.createCondition('',
-        this.ops.string.EQ, '');
+        this.ops.text.EQ, '');
       this.conditionSet.conditions.push(condition);
     }.bind(this);
 

@@ -284,7 +284,20 @@ hub-editor {
 
 .hubSection {
   margin: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.hubSectionHeader {
+  align-items: center;
+  background-color: #e5e5e5;
+}
+
+.hubSectionHeader > div:first-child {
+  text-align: left;
+}
+
+.hubSecton {
+  border-top: 3px solid black;
 }
 
 .hubSection md-input-container {
@@ -293,6 +306,14 @@ hub-editor {
 
 .hubSection md-input-container md-errors-spacer {
   float: left;
+}
+
+.hubSectionContent {
+  padding: 7px;
+  border: 1px solid #e5e5e5;
+  border-top: 0;
+  border-bottom: 0;
+  padding-top: 20px;
 }
 
 .hubListName {
@@ -664,4 +685,25 @@ hr {
 
 .pointer {
   cursor: pointer;
+}
+
+.stateVariableRow {
+  background-color: #eee;
+}
+
+.stateVariableOptions > div {
+  margin: 3px;
+}
+
+.stateVariableOptions {
+  align-items: center;
+}
+
+.stateVariableOptions md-select {
+  margin-top: 2px !important;
+}
+
+.stateVariableOptions md-input-container {
+  margin: 0;
+  padding: 0;
 }

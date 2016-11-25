@@ -10,8 +10,6 @@ app.component('playerStateForm', {
 
     this.stateTypes = STATE_OPS;
 
-    console.log(this.stateVariables);
-
     this.updateInitialValue = function(id) {
       var type = this.stateVariables[id].type;
       this.stateVariables[id].initial = this.stateTypes[type];
@@ -19,7 +17,7 @@ app.component('playerStateForm', {
 
     this.createVariable = function() {
       this.stateVariables.push(playerStateFactory.createVariable('',
-       'string', STATE_OPS.string));
+       'text', STATE_OPS.text));
     }.bind(this);
 
     this.deleteVariable = function(id) {
