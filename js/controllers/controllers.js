@@ -17,7 +17,11 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API,
       templateUrl: 'templates/dialogs/world-details.html',
       clickOutsideToClose: true,
       controller: 'WorldDetailsCtrl',
-      controllerAs: 'ctrl'
+      controllerAs: 'ctrl',
+      locals: {
+        worlds: this.worlds
+      },
+      bindToController: true
     }).then(function(data) {
       if (data) {
         API.getWorlds({'user_id': User.getId()}).then(function(response) {

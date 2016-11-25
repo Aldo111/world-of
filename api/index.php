@@ -228,7 +228,7 @@ class API {
           $userId = $details["user_id"];
 
 
-          $data = $that->db->createWorld($userId, $name, $description);
+          $data = $that->db->createWorld($userId, $name, $description, $details);
 
           if ($data === false) {
             $result = $that->errorMsg("Error: Something bad happened!");
