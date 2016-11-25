@@ -1,15 +1,15 @@
 <div class='conditionsFormContainer'>
   <div layout="row" class="conditionSetHeader" style="align-items:center">
-    <h3> <font color="orange">Type</font> </h3>
     <div>
-    <span layout-padding></span>
-    <md-select class="conditionOpSelect" ng-model="ctrl.conditionSet.op">
-      <md-option ng-repeat="(op, opVal) in ctrl.ops.logical"
-        ng-value="opVal">
-        {{ opVal }}
-      </md-option>
-    </md-select>
+      <span layout-padding></span>
+      <md-select class="conditionOpSelect" ng-model="ctrl.conditionSet.op">
+        <md-option ng-repeat="(op, opVal) in ctrl.ops.logical"
+          ng-value="opVal">
+          {{ opVal }}
+        </md-option>
+      </md-select>
     </div>
+    <h3> <font color="orange">of these conditions should be satisfied.</font> </h3>
   </div>
   <div ng-repeat="condition in ctrl.conditionSet.conditions track by $index"
     ng-if="condition">
