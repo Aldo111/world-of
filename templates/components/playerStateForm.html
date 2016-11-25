@@ -8,7 +8,11 @@ the choices that a player has chosen, the hubs that they have visited ..etc. Bey
   <div ng-repeat="variable in ctrl.stateVariables track by $index">
     <fieldset class="standard">
       <legend>Attribute</legend>
-      <br>
+      <div ng-if="variable.inherited">
+        <small ng-if="variable.inherited"><i>This variable has been inherited from a linked world. You can only modify the initial value and whether or not it should be displayed. It cannot be edited or deleted in any other way.</i></small>
+        <br>
+        <br>
+      </div>
       <div class="stateVariableOptions" layout-wrap layout="row">
         <div>
           <md-checkbox ng-model="variable.show" aria-label="Show stat in story"></md-checkbox>
@@ -16,13 +20,13 @@ the choices that a player has chosen, the hubs that they have visited ..etc. Bey
         <div>
           <md-input-container>
             <label>Name</label>
-            <input ng-model="variable.name">
+            <input ng-disabled="variable.inherited" ng-model="variable.name">
           </md-input-container>
         </div>
         <div>
           <md-input-container style="margin-top: -28.5px">
             <label>Type</label>
-            <md-select aria-label="select type" ng-change="ctrl.updateInitialValue($index)" class="conditionOpSelect" ng-model="variable.type">
+            <md-select ng-disabled="variable.inherited" aria-label="select type" ng-change="ctrl.updateInitialValue($index)" class="conditionOpSelect" ng-model="variable.type">
               <md-option ng-repeat="(type, initial) in ctrl.stateTypes"
                 ng-value="type">
                 {{ type }}
