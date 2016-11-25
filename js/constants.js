@@ -8,7 +8,7 @@ app.constant('CONDITIONS_OPS', {
   'links': {
     'CHOSEN': 'CHSN'
   },
-  'string': {
+  'text': {
     'EQ': '===',
     'NEQ': '!=='
   },
@@ -21,18 +21,18 @@ app.constant('CONDITIONS_OPS', {
     'LTE': '<='
   },
   'logical': {
-    'AND': '&&',
-    'OR': '||'
+    'AND': 'ALL',
+    'OR': 'ANY'
   }
 })
 
 app.constant('STATE_OPS', {
-  'string': '',
+  'text': '',
   'number': 0
 })
 
 app.constant('MOD_OPS', {
-  'string': {
+  'text': {
     'SET': '=',
   },
   'number': {

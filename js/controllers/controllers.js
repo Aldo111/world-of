@@ -93,6 +93,9 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
     API.getWorldHubs(this.worldId).then(function(response) {
       this.hubs = response.result;
+      if (this.hubs.length > 0) {
+        this.editHub(this.hubs[0]);
+      }
       Loader.hide();
     }.bind(this), function(response) {
       Loader.hide();

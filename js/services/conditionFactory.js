@@ -24,9 +24,9 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
     switch (op) {
       case CONDITIONS_OPS.links.CHOSEN:
         return lhs.indexOf(rhs) >= 0;
-      case CONDITIONS_OPS.string.EQ:
+      case CONDITIONS_OPS.text.EQ:
         return lhs == rhs;
-      case CONDITIONS_OPS.string.NEQ:
+      case CONDITIONS_OPS.text.NEQ:
         return lhs != rhs;
       case CONDITIONS_OPS.number.GT:
         return lhs > parseFloat(rhs);

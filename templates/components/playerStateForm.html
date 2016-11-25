@@ -1,21 +1,45 @@
-<div class='conditionsFormContainer'>
-  <div ng-if="ctrl.stateVariables.length == 0">
+<div>The <b>Player State</b> is what we use to keep track of a player's experience in your specific world. This state holds information like
+the choices that a player has chosen, the hubs that they have visited ..etc. Beyond this, you can create your own attributes that you can use to create immersive, nonlinear experiences using the Conditions Editor or the Modifications Editor on each of the hub's sections.</div>
+<div>
+  <br>
+  <div class="generalMessage" ng-if="ctrl.stateVariables.length == 0">
     You haven't created any state variables yet. Create one now by clicking the button below.
   </div>
-
   <div ng-repeat="variable in ctrl.stateVariables track by $index">
-   <input ng-model="variable.show" type="checkbox">
-   <input ng-model="variable.name" type="text">
-
-    <md-select aria-label="select type" ng-change="ctrl.updateInitialValue($index)" class="conditionOpSelect" ng-model="variable.type">
-      <md-option ng-repeat="(type, initial) in ctrl.stateTypes"
-        ng-value="type">
-        {{ type }}
-      </md-option>
-    </md-select>
-    
-     <input ng-model="variable.initial" type="text">
-      <md-button class="md-flat md-warn" ng-click="ctrl.deleteVariable($index)">- Delete</md-button>
+    <fieldset class="standard">
+      <legend>Attribute</legend>
+      <br>
+      <div class="stateVariableOptions" layout-wrap layout="row">
+        <div>
+          <md-checkbox ng-model="variable.show" aria-label="Show stat in story"></md-checkbox>
+        </div>
+        <div>
+          <md-input-container>
+            <label>Name</label>
+            <input ng-model="variable.name">
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container style="margin-top: -28.5px">
+            <label>Type</label>
+            <md-select aria-label="select type" ng-change="ctrl.updateInitialValue($index)" class="conditionOpSelect" ng-model="variable.type">
+              <md-option ng-repeat="(type, initial) in ctrl.stateTypes"
+                ng-value="type">
+                {{ type }}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div>
+         <md-input-container>
+            <label>Initial Value</label>
+            <input ng-model="variable.initial">
+          </md-input-container>
+        </div>
+        <md-button class="md-flat md-warn" ng-click="ctrl.deleteVariable($index)">- Delete</md-button>
+      </div>
+      <span class="generalMessage" ng-if="variable.show"><small>This attribute will be displayed to users (toggle checkbox to not display).</small></span>
+    </fieldset>
   </div>
 
   <md-button class="md-flat md-primary" ng-click="ctrl.createVariable()">+ Variable

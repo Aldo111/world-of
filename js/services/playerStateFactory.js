@@ -7,6 +7,7 @@ app.factory('playerStateFactory', function(MOD_OPS) {
     this.name = name || null;
     this.type = type || null;
     this.initial = initial || null;
+    this.show = true;
   };
 
   var Modification = function(lhs, op, rhs) {
@@ -28,7 +29,7 @@ app.factory('playerStateFactory', function(MOD_OPS) {
     }
 
     switch (op) {
-      case MOD_OPS.string.SET:
+      case MOD_OPS.text.SET:
         lhs = rhs;
         break;
       case MOD_OPS.number.SET:

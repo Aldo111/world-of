@@ -39,17 +39,8 @@ This hub has been set as the starting hub for your world.
    No sections have been created yet. Get started by clicking the button below!
    </div>
   <div ng-repeat="section in ctrl.sections track by $index" class="hubSection">
-    <md-input-container class="md-block">
-      <label>Section {{$index}} </label>
-      <textarea
-        class="hubSectionInput"
-        ng-model="section.text"
-        md-no-autogrow="true"
-        maxlength="500"
-        md-maxlength="500"
-        rows="{{ section.linkedHub ? 1: 4 }}" md-select-on-focus></textarea>
-    </md-input-container>
-    <div class="row worldDashboardToolbar hubSectionToolbar">
+    <div class="pointer worldDashboardToolbar hubSectionToolbar hubSectionHeader" layout="row">
+      <div flex="100" align="left">Section {{$index}}</div>
       <div>
         <md-button class="md-icon-button"
           ng-click="ctrl.confirmDeleteSection($index)">
@@ -61,11 +52,24 @@ This hub has been set as the starting hub for your world.
           </md-tooltip>
         </md-button>
       </div>
+    </div>
+    <div class="hubSectionContent">
+      <md-input-container class="md-block">
+        <label>Section text</label>
+        <textarea
+          class="hubSectionInput"
+          ng-model="section.text"
+          md-no-autogrow="true"
+          maxlength="500"
+          md-maxlength="500"
+          rows="{{ section.linkedHub ? 1: 4 }}" md-select-on-focus></textarea>
+      </md-input-container>
+    </div>
+    <div layout="row" class="worldDashboardToolbar hubSectionToolbar">
       <div>
         <md-button class="md-icon-button"
           ng-click="ctrl.openConditionsEditor(section)"
           ng-class="{activeSectionButton: section.conditions}">
-
           <i class="material-icons">
             dns
           </i>
@@ -90,7 +94,7 @@ This hub has been set as the starting hub for your world.
         <md-button class="md-icon-button" ng-click="ctrl.openModificationEditor(section)"
           ng-class="{activeSectionButton: section.stateModifiers}">
           <i class="material-icons">
-            face
+            accessibility
           </i>
           <md-tooltip md-direction="top">
             <span>Modify Variables</span>
@@ -98,7 +102,6 @@ This hub has been set as the starting hub for your world.
         </md-button>
       </div>
     </div>
-    <hr>
   </div>
   <md-button class="md-flat md-primary" ng-click="ctrl.createSection()">+ Section
   </md-button>
