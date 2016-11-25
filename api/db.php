@@ -103,13 +103,20 @@ class DB {
    * @return array|false Returns an associative array with world data
    *    if world is created successfully, else returns false.
    */
-  public function createWorld($userId, $name, $description) {
+  public function createWorld($userId, $name, $description, $optionals) {
     $userId = $this->sanitize($userId);
     $name = $this->sanitize($name);
     $description = $this->sanitize($description);
+    $inheritedWorld = NULL;
+    $stateVariables = NULL;
 
-    $q=$this->db->query("INSERT into worlds (user_id, name, description)
-      VALUES ('$userId', '$name', '$description')");
+    if (isset($optionals) && isset($optionals['linked_world']) && isset($optionals['state_variables'])) {
+      $inheritedWorld = $optionals['linked_world'];
+      $stateVariables = $optionals['state_variables'];
+    }
+
+    $q=$this->db->query("INSERT into worlds (user_id, name, description, linked_world, state_variables)
+      VALUES ('$userId', '$name', '$description', '$inheritedWorld', '$stateVariables')");
 
     if ($q !== false) {
       $insertId = $this->db->insert_id;
@@ -513,6 +520,36 @@ class DB {
       FROM worlds WHERE id='$worldId'");
     if ($q !== false) {
       return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Creates a new review.
+   *
+   * @param string $worldId World Id under which review is being created.
+   * @param string $userId The user id.
+   * @param string $rating Rating.
+   * @param string $text Review content.
+   *
+   * @return array|false Returns an associative array with review data
+   *    if review is created successfully, else returns false.
+   */
+  public function addCollaborator($worldId, $userId, $rating, $text) {
+    $worldId = $this->sanitize($worldId);
+    $userId = $this->sanitize($userId);
+    $rating = $this->sanitize($rating);
+    $text = $this->sanitize($text);
+
+    $q=$this->db->query("INSERT into reviews (world_id, user_id, rating, text)
+      VALUES ('$worldId', '$userId', '$rating', '$text')");
+
+    if ($q !== false) {
+      $insertId = $this->db->insert_id;
+      $userQ = $this->db->query("SELECT * FROM reviews
+        WHERE id='$insertId'");
+      return $this->fetchAll($userQ)[0];
     } else {
       return false; //error
     }

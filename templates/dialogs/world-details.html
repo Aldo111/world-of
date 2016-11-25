@@ -23,6 +23,19 @@
         <input ng-model="ctrl.formData.description" required type="text">
       </md-input-container>
 
+      <div ng-if="ctrl.worlds.length > 0">
+        <h3>Link to another world?</h3>
+        <p>Linking to another world means that players who have a save file (saved player state) for that world can continue using that same data in your world!</p>
+        <md-select class="conditionOpSelect" ng-if="ctrl.worlds.length > 0"
+        ng-model="ctrl.formData.linkedWorld" aria-label="Which variable" placeholder="Which World?">
+          <md-option ng-value="null">
+            None
+          </md-option>
+          <md-option ng-repeat="world in ctrl.worlds track by $index" ng-value="$index + 1">
+            {{ world.name }}
+          </md-option>
+        </md-select>
+      </div>
       <div class='warning' ng-if='ctrl.error' ng-bind='ctrl.error'></div>
     </md-dialog-content>
 

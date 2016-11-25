@@ -36,7 +36,7 @@ the choices that a player has chosen, the hubs that they have visited ..etc. Bey
             <input ng-model="variable.initial">
           </md-input-container>
         </div>
-        <md-button class="md-flat md-warn" ng-click="ctrl.deleteVariable($index)">- Delete</md-button>
+        <md-button ng-if="!variable.inherited" class="md-flat md-warn" ng-click="ctrl.deleteVariable($index)">- Delete</md-button>
       </div>
       <span class="generalMessage" ng-if="variable.show"><small>This attribute will be displayed to users (toggle checkbox to not display).</small></span>
     </fieldset>
