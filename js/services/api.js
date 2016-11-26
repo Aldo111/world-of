@@ -148,6 +148,10 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     return invokeEndpoint('users/' + id );
   };
 
+  var getUsers = function(data) {
+    return invokeEndpoint('users', setOptions(data));
+  };
+
   var getWorldReviews = function(id) {
     return invokeEndpoint('worlds/' + id + '/reviews' );
   };
@@ -162,6 +166,17 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     data.user_id = User.getId();
     return invokeEndpoint('worlds/' + worldId + '/reviews/' + data.id,
       setOptions(data, 'put'));
+  };
+
+  var addCollaborator = function(worldId, collabId) {
+    return invokeEndpoint('worlds/' + worldId + '/collaborators', setOptions({
+      collaboratorId: collabId
+    }, 'post'));
+  };
+
+  var removeCollaborator = function(worldId, collabId) {
+    return invokeEndpoint('worlds/' + worldId + '/collaborators/' + collabId,
+      setOptions(null, 'delete'));
   };
 
   return {
@@ -179,9 +194,12 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     deleteHub: deleteHub,
     getWorldLinks: getWorldLinks,
     getUser: getUser,
+    getUsers: getUsers,
     getWorldReviews: getWorldReviews,
     createWorldReview: createWorldReview,
-    updateWorldReview: updateWorldReview
+    updateWorldReview: updateWorldReview,
+    addCollaborator: addCollaborator,
+    removeCollaborator: removeCollaborator
   };
 
 });

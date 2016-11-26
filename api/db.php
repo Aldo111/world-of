@@ -310,8 +310,9 @@ class DB {
    * @return array|false Returns an associative array with account data
    *    if user exists, else returns false.
    */
-  public function getUsers() {
-    $q=$this->db->query("SELECT id, username FROM accounts");
+  public function getUsers($fields) {
+    $extraConditions = $this->genExtra($fields);
+    $q=$this->db->query("SELECT id, username FROM accounts". $extraConditions);
     return $this->fetchAll($q);
   }
 
@@ -327,9 +328,18 @@ class DB {
     $extraConditions = $this->genExtra($fields);
     $q=$this->db->query("SELECT * FROM worlds". $extraConditions."
       ORDER BY id DESC");
-    return $this->fetchAll($q);
-  }
+    $result = $this->fetchAll($q);
 
+    for ($i = 0; $i < count($result); $i++) {
+      //return $obj;
+      $worldId = $result[$i]["id"];
+      $qq = $this->db->query("SELECT collaborator_id, username FROM collaborators, accounts WHERE world_id='$worldId' AND accounts.id = collaborator_id");
+      $collabs = $this->fetchAll($qq);
+      $result[$i]["collaborators"] = $collabs;
+    }
+
+    return $result;
+  }
 
   /**
    * Fetches hub data of a world.
@@ -527,30 +537,44 @@ class DB {
   }
 
   /**
-   * Creates a new review.
+   * Adds a collaborator to a world.
    *
-   * @param string $worldId World Id under which review is being created.
+   * @param string $worldId World Id
    * @param string $userId The user id.
-   * @param string $rating Rating.
-   * @param string $text Review content.
    *
-   * @return array|false Returns an associative array with review data
-   *    if review is created successfully, else returns false.
+   * @return boolean true/false if successful/failed.
    */
-  public function addCollaborator($worldId, $userId, $rating, $text) {
+  public function addCollaborator($worldId, $userId) {
     $worldId = $this->sanitize($worldId);
     $userId = $this->sanitize($userId);
-    $rating = $this->sanitize($rating);
-    $text = $this->sanitize($text);
 
-    $q=$this->db->query("INSERT into reviews (world_id, user_id, rating, text)
-      VALUES ('$worldId', '$userId', '$rating', '$text')");
+    $q=$this->db->query("INSERT into collaborators (world_id, collaborator_id)
+      VALUES ('$worldId', '$userId')");
 
     if ($q !== false) {
-      $insertId = $this->db->insert_id;
-      $userQ = $this->db->query("SELECT * FROM reviews
-        WHERE id='$insertId'");
-      return $this->fetchAll($userQ)[0];
+      return true;
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
+   * Removes a collaborator to a world.
+   *
+   * @param string $worldId World Id
+   * @param string $userId The user id.
+   *
+   * @return boolean true/false if successful/failed.
+   */
+  public function removeCollaborator($worldId, $userId) {
+    $worldId = $this->sanitize($worldId);
+    $userId = $this->sanitize($userId);
+
+    $q=$this->db->query("DELETE FROM collaborators
+      WHERE world_id='$worldId' AND collaborator_id='$userId'");
+
+    if ($q !== false) {
+      return true;
     } else {
       return false; //error
     }
@@ -591,7 +615,14 @@ class DB {
         if ($extra_conditions != " WHERE") {
           $extra_conditions.=" AND ";
         }
-        $extra_conditions .= " {$field} = '{$val}' ";
+        $op = " = '{$val}' ";
+
+        if (0 === strpos($field, '*like_')) {
+          $op = " LIKE '%{$val}%' ";
+          $field = str_replace("*like_", "", $field);
+        }
+
+        $extra_conditions .= " {$field}". $op;
       }
     }
     return $extra_conditions;

@@ -593,6 +593,10 @@ hr {
   margin: 0;
 }
 
+.noPadding {
+  padding: 0;
+}
+
 .worldProfilePlayRow {
   align-content: center;
 }

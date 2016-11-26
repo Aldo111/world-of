@@ -1,0 +1,53 @@
+<md-dialog aria-label="Account Form">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Account Options</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          x</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content layout-padding layout-margin>
+      <div>You can add other users as <b>collaborators</b>, granting them the same editing abilities that you have on your world.</div>
+      <div layout="row">
+        <md-autocomplete
+            flex="100"
+            md-selected-item="ctrl.selectedItem"
+            md-search-text="ctrl.searchText"
+            md-selected-item-change="ctrl.selectedItemChange(item)"
+            md-items="item in ctrl.querySearch(ctrl.searchText)"
+            md-item-text="item.username"
+            md-min-length="3"
+            md-match-case-insensitive="true"
+            placeholder="Find a user..">
+          <md-item-template>
+            <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.username}}</span>
+          </md-item-template>
+          <md-not-found>
+            No states matching "{{ctrl.searchText}}" were found.
+            <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
+          </md-not-found>
+        </md-autocomplete>
+        <md-button class="md-primary" ng-click="ctrl.addCollab()">Add</md-button>
+      </div>
+      <span class="warningMessage" ng-if="ctrl.collabError">{{ctrl.selectedItem.username}} is already a collaborator.</span><br>
+      <br>
+
+      <b>{{ctrl.world.collaborators.length}} Existing Collaborator<span ng-if="ctrl.world.collaborators.length != 1">s</span></b>
+      <br>
+      <div style="padding-top: 0; margin-top: 0; margin-bottom: 0 !important; padding-bottom: 0 !important;" ng-repeat="collab in ctrl.world.collaborators track by $index">
+        {{$index + 1}}. {{collab.username}} <md-button class="md-warn" ng-click="ctrl.removeCollab($index)">-Remove</md-button>
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions class='accountDialogActions' layout="row">
+      <md-button class="md-primary" ng-click="ctrl.save()">
+        Done
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
