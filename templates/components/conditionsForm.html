@@ -17,16 +17,13 @@
 
       <md-select class="conditionOpSelect"
       ng-model="condition.lhs" aria-label="Which variable" placeholder="Which variable?">
-        <md-option ng-repeat="stateValue in ctrl.stateValues" ng-value="stateValue">
-          {{ stateValue }}
+        <md-option ng-repeat="stateValue in ctrl.stateValues" ng-value="stateValue.name">
+          {{ stateValue.name }}
         </md-option>
       </md-select>
 
-      <md-select class="conditionOpSelect" ng-model="condition.op"  aria-label="What type of operation">
-        <md-option ng-repeat="(op, opVal) in ctrl.ops.number" ng-if="condition.lhs !== '*links'" ng-value="opVal">
-          {{ op }}
-        </md-option>
-        <md-option ng-repeat="(op, opVal) in ctrl.ops.links"  ng-value="opVal">
+      <md-select class="conditionOpSelect" ng-model="condition.op"  aria-label="What type of operation" placeholder="Check for..?">
+        <md-option ng-repeat="(op, opVal) in ctrl.ops[ctrl.getType(condition.lhs)]"  ng-value="opVal">
           {{ op }}
         </md-option>
       </md-select>

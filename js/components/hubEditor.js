@@ -118,7 +118,8 @@ app.component('hubEditor', {
       controllerAs: 'ctrl',
       locals: {
         conditionSet: angular.copy(conditionSet),
-        worldId: this.worldId
+        worldId: this.worldId,
+        world: this.world
       },
       bindToController: true
     }).then(function(data) {
