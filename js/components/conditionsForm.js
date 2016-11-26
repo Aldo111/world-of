@@ -7,15 +7,31 @@ app.component('conditionsForm', {
     conditionSet: '=',
     parentSet: '=?',
     parentPosition: '<?',
-    worldId: '<?'
+    worldId: '<?',
+    world: '<?'
   },
   controller: function($scope, CONDITIONS_OPS, ConditionFactory, _, API) {
     this.ops = CONDITIONS_OPS;
+    console.log(this.ops);
 
     this.logical = _.invert(CONDITIONS_OPS.logical);
     this.worldLinks = [];
+    var stateVariables = JSON.parse(this.world.stateVariables || "[]");
 
-    this.stateValues = ['*links', 'name', 'armor'];
+    this.stateValues = [{
+      name: '*links', type: 'links'}
+      ].concat(stateVariables);
+
+    console.log(this.stateValues);
+
+    this.getType = function(name) {
+      for (var i = 0; i < this.stateValues.length; i++) {
+        if (this.stateValues[i].name == name) {
+          return this.stateValues[i].type;
+        }
+      }
+      return 'text';
+    }.bind(this);
 
     this.createCondition = function() {
       var condition = ConditionFactory.createCondition('',
