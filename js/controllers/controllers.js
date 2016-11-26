@@ -48,6 +48,10 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
   this.world = {};
 
+  this.gotoProfile = function() {
+    $state.go('main.world-profile', {id: this.world.id});
+  }.bind(this);
+
   this.openCollaboratorsForm = function() {
      $mdDialog.show({
       templateUrl: 'templates/dialogs/collaborators-form.html',
