@@ -67,7 +67,7 @@ header > .row {
   color: #000;
 }
 
-.navBar > div {
+.navBar > div > div {
   flex: 1;
   max-width: 100px;
   text-align: center;
@@ -439,9 +439,10 @@ hr {
   align-items: center;
 }
 
-.titleRow .search {
+.titleRow .search, .search {
   margin-left: 10px;
   text-align: right;
+  max-width: none !important;
 }
 
 .search input {
