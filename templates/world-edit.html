@@ -1,6 +1,6 @@
 <div layout="row" class="titleRow">
   <h1 flex=100>
-    {{ ctrl.world.name }}
+    <u class="pointer" ng-click="ctrl.gotoProfile()">{{ ctrl.world.name }}</u>
     <md-button class="md-icon-button" ng-click="ctrl.deleteWorld()">
       <i class="material-icons">
         delete
