@@ -56,7 +56,7 @@ class API {
 
     // Get a list of all users
     $this->app->get("/users", function($request, $response, $args) use ($that) {
-      $result = $that->db->getUsers();
+      $result = $that->db->getUsers($_GET);
       $result = $that->createListResult($result);
       return $that->storeResult($result, $response);
     });
@@ -403,6 +403,45 @@ class API {
           }
 
         }
+        return $that->storeResult($result, $response);
+    });
+
+    // Add new collaborator
+    $this->app->post("/worlds/{id}/collaborators",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $details = $request->getParsedBody();
+        $fields = $_GET;
+        $worldId = $request->getAttribute("id");
+        $collabId = $details["collaborator_id"];
+        $r = false;
+
+        if (isset($collabId)) {
+          $r = $that->db->addCollaborator($worldId, $collabId);
+        }
+
+        $result =  $r === false ? $that->errorMsg("World not found.") :
+          $that->successMsg();
+
+        return $that->storeResult($result, $response);
+    });
+
+    // Add new collaborator
+    $this->app->delete("/worlds/{id}/collaborators/{collab_id}",
+      function ($request, $response, $args) use ($that) {
+        // Query string parameters
+        $fields = $_GET;
+        $worldId = $request->getAttribute("id");
+        $collabId = $request->getAttribute("collab_id");
+        $r = false;
+
+        if (isset($collabId)) {
+          $r = $that->db->removeCollaborator($worldId, $collabId);
+        }
+
+        $result =  $r === false ? $that->errorMsg("World not found.") :
+          $that->successMsg();
+
         return $that->storeResult($result, $response);
     });
 

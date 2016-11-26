@@ -63,6 +63,19 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
   this.world = {};
 
+  this.openCollaboratorsForm = function() {
+     $mdDialog.show({
+      templateUrl: 'templates/dialogs/collaborators-form.html',
+      clickOutsideToClose: true,
+      controller: 'CollaboratorsFormCtrl',
+      controllerAs: 'ctrl',
+      locals: {
+        world: this.world,
+      },
+      bindToController: true
+    });
+  }.bind(this);
+
   this.openPlayerStateEditor = function() {
      $mdDialog.show({
       templateUrl: 'templates/dialogs/player-state-editor.html',
