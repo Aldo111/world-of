@@ -1,11 +1,35 @@
 <div class="navBar row" ng-if="ctrl.currentState !== 'main.home' && ctrl.user">
-  <div
-    ng-repeat="tab in ctrl.tabs"
-    ng-click="ctrl.goto(tab.page)"
-    class="navTab noSelect"
-    ng-class="{currentTab: ctrl.currentState == tab.page}"
-    ng-if="!tab.authOnly || (tab.authOnly && ctrl.user)"
-    >
-    <md-icon class="noSelect">{{ tab.icon }}</md-icon>
+  <div layout="row" flex="100">
+    <div
+      ng-repeat="tab in ctrl.tabs"
+      ng-click="ctrl.goto(tab.page)"
+      class="navTab noSelect"
+      ng-class="{currentTab: ctrl.currentState == tab.page}"
+      ng-if="!tab.authOnly || (tab.authOnly && ctrl.user)"
+      >
+      <md-icon class="noSelect">{{ tab.icon }}</md-icon>
+    </div>
+  </div>
+  <div layout="row" class='search'>
+    <md-icon class="material-icons">search</md-icon>
+    <md-autocomplete
+        style="margin-right: 5px"
+        flex="80"
+        md-selected-item-change="ctrl.gotoWorld(ctrl.selectedItem.id)"
+        md-selected-item="ctrl.selectedItem"
+        md-search-text="ctrl.searchText"
+        md-items="item in ctrl.querySearch(ctrl.searchText)"
+        md-item-text="item.name"
+        md-min-length="3"
+        md-match-case-insensitive="true"
+        placeholder="Find a world..">
+      <md-item-template>
+        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
+      </md-item-template>
+      <md-not-found>
+        No states matching "{{ctrl.searchText}}" were found.
+        <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
+      </md-not-found>
+    </md-autocomplete>
   </div>
 </div>

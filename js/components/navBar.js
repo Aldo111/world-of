@@ -1,8 +1,22 @@
 app.component('navBar', {
   templateUrl: 'templates/components/navBar.html',
-  controller: function($state, User, $scope, EventManager) {
+  controller: function($state, User, $scope, EventManager, API, $q) {
     this.currentState = '';
     this.user = User.getUser();
+
+    this.querySearch = function(query) {
+      return API.getWorlds({
+        '*likeName': query
+      }).then(function(response) {
+        return $q.resolve(response.result);
+      });
+    };
+
+    this.gotoWorld = function(id) {
+      if (id) {
+        $state.go('main.world-profile', {id: id});
+      }
+    };
 
     // Convenience function for creating objects for the tabs.
     var Tab = function(name, icon, page, authOnly) {

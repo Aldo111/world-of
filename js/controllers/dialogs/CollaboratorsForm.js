@@ -1,4 +1,4 @@
-app.controller('CollaboratorsFormCtrl', function($mdDialog, API, $q) {
+app.controller('CollaboratorsFormCtrl', function($mdDialog, $state, API, $q) {
 
   this.collaborators = this.world.collaborators || [];
   this.selectedItem = null;
