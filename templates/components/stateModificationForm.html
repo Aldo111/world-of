@@ -1,4 +1,8 @@
-<div ng-if="ctrl.stateVariables.length > 0" layout="column" class="conditionSetHeader" style="align-items:center">
+<div>The <b>Modifications Editor</b> let's you modify the values of player's attributes (i.e. their player state) over the course of a story.</div>
+<br>
+<div class="generalMessage" ng-if="!ctrl.isLinkedHub">As this is a regular text section, if there are any conditions on it, then the modifiers are applied only if the conditions are satisfied (i.e. when the section can be seen by the player).</div>
+<div class="generalMessage" ng-if="ctrl.isLinkedHub">As this is a linked section, the modifiers are applied only if the player clicks on the link.</div>
+<div ng-if="ctrl.stateVariables.length > 0" layout="column" style="align-items:center">
   <div ng-repeat="modification in ctrl.stateModifications">
     <md-select placeholder="Which variable?" class="conditionOpSelect" ng-model="modification.lhs">
       <md-option ng-repeat="variable in ctrl.stateVariables track by $index"

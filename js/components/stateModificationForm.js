@@ -6,6 +6,7 @@ app.component('stateModificationForm', {
   bindings: {
     stateVariables: '=',
     stateModifications: '=',
+    isLinkedHub: '=?'
   },
   controller: function($scope, MOD_OPS, playerStateFactory, _, API) {
 
