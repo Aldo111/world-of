@@ -23,6 +23,7 @@ app.service("Storage", function($window) {
   };
 
   this.getObject = function(key) {
+    console.log(key);
     if (!this.has(key)) {
       return null;
     } else {

@@ -206,6 +206,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 
     API.getWorlds({id: this.worldId}).then(function(response) {
       this.world = response.result[0];
+      this.worldId = this.world.id;
       this.initializePlayerState();
       this.fetchSectionData(this.world.startHub);
     }.bind(this), function(response) {
@@ -219,6 +220,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
    * Function to initialize player state
    */
   this.initializePlayerState = function() {
+    Player.setCurrentWorld(this.worldId);
     var stateVariables = JSON.parse(this.world.stateVariables) || [];
     var state = {};
 
@@ -250,6 +252,9 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
       worldId: this.worldId,
       hubId: hubId
     }).then(function(response) {
+      console.log(response);
+      console.log(this.worldId);
+      console.log(hubId);
       this.hubId = hubId;
       Player.setCurrentHub(hubId);
       this.filterSections(response.result);
@@ -277,12 +282,24 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   }.bind(this);
 
   this.load = function() {
-    Player.loadData();
-    this.hubId = Player.getCurrentHub();
-    // Do not evaluate on a loaded state
-    this.doNotEvaluate = true;
-    this.fetchSectionData(this.hubId);
-
+    // Check if there's a save file for this first
+    // Then check for linked world data
+    if (!Player.loadData()) {
+      console.log('here');
+      if (this.world.linkedWorld) {
+        var origHubId = Player.getCurrentHub();
+        Player.loadData(this.world.linkedWorld);
+        Player.reset(); //Don't want links, hubId from other save
+        Player.setCurrentHub(origHubId);
+        this.hubId = origHubId;
+        this.fetchSectionData(this.hubId);
+      }
+    } else {
+      this.hubId = Player.getCurrentHub();
+      // Do not evaluate on a loaded state
+      this.doNotEvaluate = true;
+      this.fetchSectionData(this.hubId);
+    }
   }.bind(this);
 
   /**

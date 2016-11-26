@@ -49,8 +49,8 @@ app.factory('Player', function(Storage, EventManager, _) {
     });
   };
 
-  var loadData = function() {
-    var data = Storage.getObject(storageName + '_' + worldId);
+  var loadData = function(wId) {
+    var data = Storage.getObject(storageName + '_' + (wId || worldId));
 
     if (!data) {
       return false;
@@ -58,7 +58,6 @@ app.factory('Player', function(Storage, EventManager, _) {
       links = data.links;
       setCurrentHub(data.hubId);
       init(data.state);
-      console.log(data);
       return true;
     }
   };
