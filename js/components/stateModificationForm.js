@@ -19,8 +19,6 @@ app.component('stateModificationForm', {
       this.variableTypes[obj.name] = obj.type;
     }.bind(this));
 
-    console.log(this.variableTypes);
-
     this.getModTypes = function(variable) {
 
     };

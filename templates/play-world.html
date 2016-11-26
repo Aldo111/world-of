@@ -1,4 +1,4 @@
-<h2 align="center"> {{ ctrl.world.name }} </h2>
+<h2 align="center"> {{ ctrl.world.name }} <md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button></h2>
 <div layout="row" class="storyContent">
   <div class="storyContainer statsBox" ng-if="ctrl.publicStats.length > 0">
     <div ng-repeat="name in ctrl.publicStats">

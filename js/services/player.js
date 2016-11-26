@@ -3,7 +3,7 @@ app.factory('Player', function(Storage, EventManager, _) {
 	var storageName = 'worldOfPlayerData';
 
 	var worldId;
-	var hubId;
+	var hubId = null;
   var links = [];
   var state = {};
 
@@ -41,11 +41,11 @@ app.factory('Player', function(Storage, EventManager, _) {
     return state;
   };
 
-  var saveData = function() {
+  var saveData = function(st) {
     Storage.setObject(storageName + '_' + worldId, {
       links: links,
       hubId: hubId,
-      state: state
+      state: st || state
     });
   };
 
@@ -58,7 +58,7 @@ app.factory('Player', function(Storage, EventManager, _) {
       links = data.links;
       setCurrentHub(data.hubId);
       init(data.state);
-
+      console.log(data);
       return true;
     }
   };

@@ -193,6 +193,9 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   this.world = null;
   this.playerState = {};
   this.publicStats = [];
+  this.hubId = null;
+  this.doNotEvaluate = false;
+
   /**
    * Function to fetch hub data
    */
@@ -235,8 +238,6 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
 
     Player.init(state);
 
-    console.log(Player.getState());
-
   }.bind(this);
 
   /**
@@ -249,7 +250,10 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
       worldId: this.worldId,
       hubId: hubId
     }).then(function(response) {
+      this.hubId = hubId;
+      Player.setCurrentHub(hubId);
       this.filterSections(response.result);
+      this.doNotEvaluate = false;
       Loader.hide();
     }.bind(this), function(response) {
       Loader.hide();
@@ -261,9 +265,25 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
    *
    */
   this.evaluateSectionModifier = function(section) {
+    if (this.doNotEvaluate) {
+      return;
+    }
     var modifications = JSON.parse(section.stateModifiers) || [];
     playerStateFactory.evaluateModifications(modifications, Player.getState());
   };
+
+  this.save = function() {
+    Player.saveData(this.playerState);
+  }.bind(this);
+
+  this.load = function() {
+    Player.loadData();
+    this.hubId = Player.getCurrentHub();
+    // Do not evaluate on a loaded state
+    this.doNotEvaluate = true;
+    this.fetchSectionData(this.hubId);
+
+  }.bind(this);
 
   /**
    * Function to filter sections based on conditions
@@ -299,7 +319,6 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
    * Function to switch hubs.
    */
   this.gotoHub = function(section) {
-    console.log(section);
     this.evaluateSectionModifier(section);
     Player.visitLink(section.id);
     this.fetchSectionData(section.linkedHub);
