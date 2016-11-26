@@ -179,6 +179,10 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
       setOptions(null, 'delete'));
   };
 
+  var getUserCollaborations = function(userId) {
+    return invokeEndpoint('users/' + userId + '/collaborations');
+  };
+
   return {
     url: baseURL,
     login: login,
@@ -199,7 +203,8 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     createWorldReview: createWorldReview,
     updateWorldReview: updateWorldReview,
     addCollaborator: addCollaborator,
-    removeCollaborator: removeCollaborator
+    removeCollaborator: removeCollaborator,
+    getUserCollaborations: getUserCollaborations
   };
 
 });

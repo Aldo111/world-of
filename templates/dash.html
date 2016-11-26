@@ -10,36 +10,23 @@
   <div class="worldDashboardCard createWorldCard" ng-click="ctrl.createWorld()">
       <span class="centerBox">+</span>
   </div>
-  <div class="worldDashboardCard"
+  <world-card world="world"
     ng-repeat="world in ctrl.worlds | filter: {'name': ctrl.worldFilter}"
-    >
-    <div class="column">
-      <div ng-click="ctrl.editWorld(world.id)">
-        <h2 align="center">{{world.name}}</h2>
-      </div>
-      <div class="row worldDashboardToolbar">
-        <div>
-          <md-button class="md-icon-button">
-            <i class="material-icons md-48">
-              favorite
-            </i>
-          </md-button>
-        </div>
-        <div>
-          <md-button class="md-icon-button" ng-click="ctrl.playWorld(world.id)">
-            <i class="material-icons">
-              play_arrow
-            </i>
-          </md-button>
-        </div>
-        <div>
-          <md-button class="md-icon-button" ng-click="ctrl.openShare(world.id)">
-            <i class="material-icons">
-              share
-            </i>
-          </md-button>
-        </div>
-      </div>
-    </div>
+    ></world-card>
+</div>
+
+
+<div layout="row" class="titleRow">
+  <h1 flex=1>Collaborations</h1>
+  <div flex class='search'>
+    <md-icon class="material-icons">search</md-icon>
+    <input ng-model="ctrl.collabFilter" type="text">
   </div>
+</div>
+
+<div layout="row worldDashboardCards noSelect">
+  <world-card world="collab"
+    ng-repeat="collab in ctrl.collabs | filter: {'name': ctrl.collabFilter}"
+    ></world-card>
+    <span ng-if="ctrl.collabs.length == 0">You are not a collaborator on any world.</span>
 </div>

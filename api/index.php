@@ -72,6 +72,17 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Get a user by ID
+    $this->app->get("/users/{id}/collaborations",
+      function ($request, $response, $args) use ($that) {
+        $user_id = $request->getAttribute("id");
+        $r = $that->db->getUserCollaborations($user_id, $_GET);
+
+        $result =  $r === false ? $that->errorMsg("User not found.") : $that->createListResult($r);
+
+        return $that->storeResult($result, $response);
+    });
+
     // Get worlds
     $this->app->get("/worlds",
       function ($request, $response, $args) use ($that) {

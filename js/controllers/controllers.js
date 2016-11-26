@@ -6,10 +6,16 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API,
   Player, Loader) {
   // Stores worlds for dashboard
   this.worlds = [];
+  this.collabs = [];
   this.worldFilter = '';
 
   API.getWorlds({'user_id': User.getId()}).then(function(response) {
     this.worlds = response.result;
+  }.bind(this));
+
+  API.getUserCollaborations(User.getId()).then(function(response) {
+    this.collabs = response.result;
+    console.log(response);
   }.bind(this));
 
   this.createWorld = function() {
@@ -30,27 +36,6 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API,
       }
     }.bind(this));
   }.bind(this);
-
-  this.editWorld = function(id) {
-    $state.go('main.world-edit', {id: id});
-  };
-
-  this.playWorld = function(worldId) {
-    Player.setCurrentWorld(worldId);
-    $state.go('main.play-world', {id: worldId});
-  };
-  this.openShare = function(worldId){
-	    $mdDialog.show({
-      templateUrl: 'templates/dialogs/share-button.html',
-      clickOutsideToClose: true,
-      controller: 'ShareButton',
-      controllerAs: 'ctrl',
-      locals: {
-        worldId: worldId
-      },
-      bindToController: true
-    });
-  };
 });
 
 app.controller('WorldEditCtrl', function($scope, $stateParams, API,

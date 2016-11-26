@@ -202,7 +202,6 @@ md-button {
   background-color: #eee;
   width: 250px;
   position: relative;
-  min-height: 150px;
   cursor: pointer;
 }
 

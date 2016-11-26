@@ -69,6 +69,24 @@ class DB {
   }
 
   /**
+   * Fetches world collaboration data by user id.
+   *
+   * @param int $user_id The user id.
+   *
+   * @return array|false Returns an associative array with world data
+   *    if user exists, else returns false.
+   */
+  public function getUserCollaborations($user_id) {
+    $q=$this->db->query("SELECT worlds.* FROM collaborators, worlds
+      WHERE collaborators.collaborator_id = '$user_id' AND collaborators.world_id = worlds.id");
+    if ($q != false) {
+      return $this->fetchAll($q);
+    } else {
+      return false; //error
+    }
+  }
+
+  /**
    * Creates a new user account.
    *
    * @param string $username The username.
