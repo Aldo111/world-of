@@ -90,7 +90,7 @@ This hub has been set as the starting hub for your world.
       </div>
       <div>
         <md-button class="md-icon-button" ng-click="ctrl.openModificationEditor(section)"
-          ng-class="{activeSectionButton: section.stateModifiers}">
+          ng-class="{activeSectionButton: section.stateModifiers && section.stateModifiers.length > 0}">
           <i class="material-icons">
             accessibility
           </i>

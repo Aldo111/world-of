@@ -143,10 +143,10 @@ app.component('hubEditor', {
       },
       bindToController: true
     }).then(function(data) {
-      if (data) {
         section.stateModifiers = JSON.stringify(data);
-      }
-      console.log(section.stateModifiers);
+        if (!data) {
+          section.stateModifiers = null;
+        }
     }.bind(this));
 }.bind(this);
 

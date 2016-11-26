@@ -11,6 +11,9 @@ app.controller('StateModificationCtrl', function($scope, $state, API, User,
 
   this.save = function() {
     //var modifications = playerStateFactory.cleanup(this.modifications);
+    if (this.modifications && this.modifications.length === 0) {
+      this.modifications = null;
+    }
     $mdDialog.hide(this.modifications);
   }.bind(this);
 
