@@ -1,0 +1,1 @@
+ALTER TABLE `worlds` CHANGE `start_world` `start_hub` INT(255) NOT NULL DEFAULT '0';
