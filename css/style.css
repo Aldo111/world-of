@@ -234,6 +234,7 @@ md-button {
 
 .createWorldCard {
   line-height: 50%;
+  min-height: 100px;
   border: 3px dashed orange;
   font-size: 24pt;
   font-weight: bold;
