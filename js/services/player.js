@@ -1,4 +1,4 @@
-app.factory('Player', function(Storage, EventManager) {
+app.factory('Player', function(Storage, EventManager, _) {
 	var player = null;
 	var storageName = 'worldOfPlayerData';
 
@@ -41,6 +41,28 @@ app.factory('Player', function(Storage, EventManager) {
     return state;
   };
 
+  var saveData = function() {
+    Storage.setObject(storageName + '_' + worldId, {
+      links: links,
+      hubId: hubId,
+      state: state
+    });
+  };
+
+  var loadData = function() {
+    var data = Storage.getObject(storageName + '_' + worldId);
+
+    if (!data) {
+      return false;
+    } else {
+      links = data.links;
+      setCurrentHub(data.hubId);
+      init(data.state);
+
+      return true;
+    }
+  };
+
 	return {
 		init: init,
 		getCurrentWorld: getCurrentWorld,
@@ -49,6 +71,8 @@ app.factory('Player', function(Storage, EventManager) {
 		setCurrentHub: setCurrentHub,
     getState: getState,
     visitLink: visitLink,
-    reset: reset
+    reset: reset,
+    saveData: saveData,
+    loadData: loadData
 	};
 });
