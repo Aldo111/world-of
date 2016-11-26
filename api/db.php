@@ -126,7 +126,7 @@ class DB {
     $userId = $this->sanitize($userId);
     $name = $this->sanitize($name);
     $description = $this->sanitize($description);
-    $inheritedWorld = NULL;
+    $inheritedWorld = 0;
     $stateVariables = NULL;
 
     if (isset($optionals) && isset($optionals['linked_world']) && isset($optionals['state_variables'])) {
