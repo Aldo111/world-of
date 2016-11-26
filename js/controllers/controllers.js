@@ -221,7 +221,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
    */
   this.initializePlayerState = function() {
     Player.setCurrentWorld(this.worldId);
-    var stateVariables = JSON.parse(this.world.stateVariables) || [];
+    var stateVariables = JSON.parse(this.world.stateVariables || '[]');
     var state = {};
 
     _.each(stateVariables, function(variable) {
