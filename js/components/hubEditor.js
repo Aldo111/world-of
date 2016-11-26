@@ -139,8 +139,8 @@ app.component('hubEditor', {
       controller: 'StateModificationCtrl',
       controllerAs: 'ctrl',
       locals: {
-        stateVariables: JSON.parse(this.world.stateVariables) || [],
-        stateModifications: JSON.parse(section.stateModifiers) || [],
+        stateVariables: JSON.parse(this.world.stateVariables || '[]'),
+        stateModifications: JSON.parse(section.stateModifiers || '[]'),
         isLinkedHub: section.linkedHub || false
       },
       bindToController: true
