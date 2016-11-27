@@ -18,7 +18,7 @@
     <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="node_modules/angular-material/angular-material.min.js"></script>
     <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script src="node_modules/angular-socialshare/dist/angular-socialshare.min.js"></script>
+	<script src="node_modules/angular-socialshare/dist/angular-socialshare.min.js"></script>
 	
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
@@ -36,9 +36,7 @@
       rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Abel"
     rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Dosis:300,600" rel="stylesheet">
-			
-		
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
 
