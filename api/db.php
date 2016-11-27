@@ -478,7 +478,7 @@ class DB {
    *
    * @param string $worldId The world id.
    *
-   * @return array|false Returns an associative array with section data or false
+   * @return array|false Returns an associative array with review data or false
    * if failed.
    */
   public function getReviews($worldId) {
@@ -537,11 +537,11 @@ class DB {
   }
 
   /**
-   * Fetches reviews of a world.
+   * Fetches metrics of a world.
    *
    * @param string $worldId The world id.
    *
-   * @return array|false Returns an associative array with section data or false
+   * @return array|false Returns an associative array with metrics data or false
    * if failed.
    */
   public function getWorldMetrics($worldId) {

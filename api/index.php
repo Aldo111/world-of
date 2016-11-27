@@ -306,7 +306,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
-    //
+    // Update a world
     $this->app->put("/worlds/{id}",
       function($request, $response, $args) use ($that) {
         $details = $request->getParsedBody();
@@ -328,6 +328,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Delete a world
     $this->app->delete("/worlds/{id}",
       function($request, $response, $args) use ($that) {
         $id = $request->getAttribute("id");
@@ -345,6 +346,7 @@ class API {
         return $that->storeResult($result, $response);
     });
 
+    // Delete a hub
     $this->app->delete("/worlds/{id}/hubs/{hubId}",
       function($request, $response, $args) use ($that) {
         $hubId = $request->getAttribute("hubId");
@@ -431,13 +433,13 @@ class API {
           $r = $that->db->addCollaborator($worldId, $collabId);
         }
 
-        $result =  $r === false ? $that->errorMsg("World not found.") :
+        $result =  $r === false ? $that->errorMsg("Failed to add new collaborator.") :
           $that->successMsg();
 
         return $that->storeResult($result, $response);
     });
 
-    // Add new collaborator
+    // Remove collaborator
     $this->app->delete("/worlds/{id}/collaborators/{collab_id}",
       function ($request, $response, $args) use ($that) {
         // Query string parameters
@@ -450,7 +452,7 @@ class API {
           $r = $that->db->removeCollaborator($worldId, $collabId);
         }
 
-        $result =  $r === false ? $that->errorMsg("World not found.") :
+        $result =  $r === false ? $that->errorMsg("Failed to remove new collaborator.") :
           $that->successMsg();
 
         return $that->storeResult($result, $response);
