@@ -227,6 +227,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     Player.setCurrentWorld(this.worldId);
     var stateVariables = JSON.parse(this.world.stateVariables || '[]');
     var state = {};
+    this.publicStats = [];
 
     _.each(stateVariables, function(variable) {
 
@@ -256,9 +257,6 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
       worldId: this.worldId,
       hubId: hubId
     }).then(function(response) {
-      console.log(response);
-      console.log(this.worldId);
-      console.log(hubId);
       this.hubId = hubId;
       Player.setCurrentHub(hubId);
       this.filterSections(response.result);
@@ -289,14 +287,15 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     // Check if there's a save file for this first
     // Then check for linked world data
     if (!Player.loadData()) {
-      console.log('here');
       if (this.world.linkedWorld) {
         var origHubId = Player.getCurrentHub();
-        Player.loadData(this.world.linkedWorld);
+        Player.loadData(this.world.linkedWorld, true);
         Player.reset(); //Don't want links, hubId from other save
         Player.setCurrentHub(origHubId);
         this.hubId = origHubId;
         this.fetchSectionData(this.hubId);
+        console.log("Got it: ");
+        console.log(Player.getState());
       }
     } else {
       this.hubId = Player.getCurrentHub();
@@ -304,6 +303,10 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
       this.doNotEvaluate = true;
       this.fetchSectionData(this.hubId);
     }
+  }.bind(this);
+
+  this.deleteSave = function() {
+    Player.deleteSave(this.world.id);
   }.bind(this);
 
   /**

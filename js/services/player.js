@@ -7,8 +7,12 @@ app.factory('Player', function(Storage, EventManager, _) {
   var links = [];
   var state = {};
 
-	var init = function(initialState) {
-    state = angular.copy(initialState);
+	var init = function(initialState, extend) {
+    if (extend) {
+      _.extend(state, angular.copy(initialState));
+    } else {
+      state = angular.copy(initialState);
+    }
 	};
 
 	var getCurrentWorld = function() {
@@ -49,7 +53,7 @@ app.factory('Player', function(Storage, EventManager, _) {
     });
   };
 
-  var loadData = function(wId) {
+  var loadData = function(wId, extend) {
     var data = Storage.getObject(storageName + '_' + (wId || worldId));
 
     if (!data) {
@@ -57,9 +61,13 @@ app.factory('Player', function(Storage, EventManager, _) {
     } else {
       links = data.links;
       setCurrentHub(data.hubId);
-      init(data.state);
+      init(data.state, extend);
       return true;
     }
+  };
+
+  var deleteSave = function(wId) {
+    Storage.remove(storageName + '_' + (wId || worldId));
   };
 
 	return {
@@ -72,6 +80,7 @@ app.factory('Player', function(Storage, EventManager, _) {
     visitLink: visitLink,
     reset: reset,
     saveData: saveData,
-    loadData: loadData
+    loadData: loadData,
+    deleteSave: deleteSave
 	};
 });
