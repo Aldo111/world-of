@@ -1,4 +1,5 @@
-<h2 align="center"> {{ ctrl.world.name }} <md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button></h2>
+<div style='background: white; height: 100%; margin-top: -14px'>
+<h2 align="center"> {{ ctrl.world.name }}<br><md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button></h2>
 <div layout="row" class="storyContent">
   <div class="storyContainer statsBox" ng-if="ctrl.publicStats.length > 0">
     <div ng-repeat="name in ctrl.publicStats">
@@ -16,4 +17,5 @@
       </md-button>
     </div>
   </div>
+</div>
 </div>

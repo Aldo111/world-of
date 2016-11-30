@@ -14,10 +14,10 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
       return false;
     }
 
-    var [lhs, op, rhs] = [data[condition.lhs] || null, condition.op,
-      condition.rhs || null];
+    var [lhs, op, rhs] = [data[condition.lhs], condition.op,
+      condition.rhs];
 
-    if (!lhs) {
+    if (typeof lhs === 'undefined') {
       return false;
     }
 
@@ -28,6 +28,11 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
         return lhs == rhs;
       case CONDITIONS_OPS.text.NEQ:
         return lhs != rhs;
+      case CONDITIONS_OPS.number.EQ:
+        console.log(lhs + ', ' + rhs);
+        return parseFloat(lhs) == parseFloat(rhs);
+      case CONDITIONS_OPS.number.NEQ:
+        return parseFloat(lhs) != parseFloat(rhs);
       case CONDITIONS_OPS.number.GT:
         return lhs > parseFloat(rhs);
       case CONDITIONS_OPS.number.LT:
@@ -127,7 +132,7 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
   };
 
   var createConditionSet = function(conditions, op) {
-    return new ConditionSet(conditions, op);
+    return new ConditionSet(conditions, op || CONDITIONS_OPS.logical.AND);
   };
 
   return {

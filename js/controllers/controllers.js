@@ -173,7 +173,7 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
   this.playWorld = function() {
     Player.setCurrentWorld(this.worldId);
-    $state.go('main.play-world', {id: this.worldId});
+    $state.go('play-world', {id: this.worldId});
   }.bind(this);
 
   this.deleteWorld = function() {
@@ -227,6 +227,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     Player.setCurrentWorld(this.worldId);
     var stateVariables = JSON.parse(this.world.stateVariables || '[]');
     var state = {};
+    this.publicStats = [];
 
     _.each(stateVariables, function(variable) {
 
@@ -243,7 +244,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     }.bind(this));
 
     Player.init(state);
-
+    console.log(state);
   }.bind(this);
 
   /**
@@ -256,9 +257,6 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
       worldId: this.worldId,
       hubId: hubId
     }).then(function(response) {
-      console.log(response);
-      console.log(this.worldId);
-      console.log(hubId);
       this.hubId = hubId;
       Player.setCurrentHub(hubId);
       this.filterSections(response.result);
@@ -289,14 +287,15 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     // Check if there's a save file for this first
     // Then check for linked world data
     if (!Player.loadData()) {
-      console.log('here');
       if (this.world.linkedWorld) {
         var origHubId = Player.getCurrentHub();
-        Player.loadData(this.world.linkedWorld);
+        Player.loadData(this.world.linkedWorld, true);
         Player.reset(); //Don't want links, hubId from other save
         Player.setCurrentHub(origHubId);
         this.hubId = origHubId;
         this.fetchSectionData(this.hubId);
+        console.log("Got it: ");
+        console.log(Player.getState());
       }
     } else {
       this.hubId = Player.getCurrentHub();
@@ -306,6 +305,10 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     }
   }.bind(this);
 
+  this.deleteSave = function() {
+    Player.deleteSave(this.world.id);
+  }.bind(this);
+
   /**
    * Function to filter sections based on conditions
    * and execute modifiers
@@ -313,12 +316,15 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   this.filterSections = function(sections) {
     var data = Player.getState();
     var results = [];
+    console.log(sections);
     // Evaluate sections to be displayed based on any conditions
     for (var i = 0; i < sections.length; i++) {
       if (sections[i].conditions) {
         var conditions = JSON.parse(sections[i].conditions);
         var valid = ConditionFactory.evaluateConditionSet(conditions,
         Player.getState());
+        console.log('Checking');
+        console.log(conditions);
         if (valid) {
           results.push(sections[i]);
           if (!sections[i].linkedHub) {
@@ -391,7 +397,7 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
 
   this.playWorld = function() {
     Player.setCurrentWorld(this.world.id);
-    $state.go('main.play-world', {id: this.world.id});
+    $state.go('play-world', {id: this.world.id});
   }.bind(this);
 
   this.fetchWorldData();

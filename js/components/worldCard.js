@@ -11,7 +11,7 @@ app.component('worldCard', {
 
     this.playWorld = function(worldId) {
       Player.setCurrentWorld(worldId);
-      $state.go('main.play-world', {id: worldId});
+      $state.go('play-world', {id: worldId});
     };
     this.openShare = function(worldId){
         $mdDialog.show({

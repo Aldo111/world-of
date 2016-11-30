@@ -17,14 +17,14 @@ app.factory('playerStateFactory', function(MOD_OPS) {
   };
 
   var evaluateModification = function(modification, data) {
-    if (!data) {
+    if (!data || !data.hasOwnProperty(modification.lhs)) {
       return false;
     }
 
-    var [lhs, op, rhs] = [data[modification.lhs] || null, modification.op,
+    var [lhs, op, rhs] = [data[modification.lhs], modification.op,
       modification.rhs || null];
 
-    if (!lhs) {
+    if (typeof lhs === 'undefined') {
       return false;
     }
 

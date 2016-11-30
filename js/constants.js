@@ -9,12 +9,12 @@ app.constant('CONDITIONS_OPS', {
     'CHOSEN': 'CHSN'
   },
   'text': {
-    'EQ': '===',
-    'NEQ': '!=='
+    'EQ': 't===',
+    'NEQ': 't!=='
   },
   'number': {
-    'EQ': '===',
-    'NEQ': '!==',
+    'EQ': 'n===',
+    'NEQ': 'n!==',
     'GT': '>',
     'LT': '<',
     'GTE': '>=',
