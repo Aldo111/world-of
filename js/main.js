@@ -3,8 +3,6 @@ var exploreOn = false;
 var relateOn = false;
 var createOn = false;
 
-console.log("I am alive");
-
 $(document).ready(function() {
 	
 	$(document).one('click', function() {
@@ -19,7 +17,7 @@ $(document).ready(function() {
 		if (grown && !exploreOn) {
 			$('#explore-up').hide();
 			$('.move').animate({'top': '+=83vh'}, 1500, 'swing');
-			$('#sketch').animate({'top': '+=50vh'}, 1500, 'swing', function() {
+			$('#defaultCanvas0').animate({'top': '+=50vh'}, 1500, 'swing', function() {
 				$('#explore-down').show();
 			});
 			exploreOn = true;
@@ -27,7 +25,7 @@ $(document).ready(function() {
 		else if (grown && exploreOn) {
 			$('#explore-down').hide();
 			$('.move').animate({'top': '-=83vh'}, 1500, 'swing');
-			$('#sketch').animate({'top': '-=50vh'}, 1500, 'swing', function() {
+			$('#defaultCanvas0').animate({'top': '-=50vh'}, 1500, 'swing', function() {
 				$('#explore-up').show();
 			});
 			exploreOn = false;
@@ -38,7 +36,7 @@ $(document).ready(function() {
 		if (grown && !relateOn) {
 			$('#relate-left').hide();
 			$('.move').animate({'left': '+=83vw'}, 1500, 'swing');
-			$('#sketch').animate({'left': '+=50vw'}, 1500, 'swing', function() {
+			$('#defaultCanvas0').animate({'left': '+=50vw'}, 1500, 'swing', function() {
 				$('#relate-right').show();
 			});
 			relateOn = true;
@@ -46,7 +44,7 @@ $(document).ready(function() {
 		else if (grown && relateOn) {
 			$('#relate-right').hide();
 			$('.move').animate({'left': '-=83vw'}, 1500, 'swing');
-			$('#sketch').animate({'left': '-=50vw'}, 1500, 'swing', function() {
+			$('#defaultCanvas0').animate({'left': '-=50vw'}, 1500, 'swing', function() {
 				$('#relate-left').show();
 			});
 			relateOn = false;
@@ -57,7 +55,7 @@ $(document).ready(function() {
 		if (grown && !createOn) {
 			$('#create-right').hide();
 			$('.move').animate({'left': '-=83vw'}, 1500, 'swing');
-			$('#sketch').animate({'left': '-=50vw'}, 1500, 'swing', function() {
+			$('#defaultCanvas0').animate({'left': '-=50vw'}, 1500, 'swing', function() {
 				$('#create-left').show();
 			});
 			createOn = true;
@@ -65,7 +63,7 @@ $(document).ready(function() {
 		else if (grown && createOn) {
 			$('#create-left').hide();
 			$('.move').animate({'left': '+=83vw'}, 1500, 'swing');
-			$('#sketch').animate({'left': '+=50vw'}, 1500, 'swing', function() {
+			$('#defaultCanvas0').animate({'left': '+=50vw'}, 1500, 'swing', function() {
 				$('#create-right').show();
 			});
 			createOn = false;

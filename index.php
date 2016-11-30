@@ -37,6 +37,7 @@
     <link href="https://fonts.googleapis.com/css?family=Abel"
     rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
 

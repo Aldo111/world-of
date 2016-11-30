@@ -696,6 +696,7 @@ hr {
 	position: absolute;
 	top: -50vh;
 	left: -50vw;
+	z-index: -1;
 }
 
 .tags1 {
@@ -882,4 +883,38 @@ hr {
 
 #create-left {
 	left: 86vw;
+}
+
+.paragraph {
+	position: absolute;
+	display: table;
+	width: 60vw;
+	height: 60vh;
+	font-family: 'Open+Sans', sans-serif;
+	font-size: 3vmin;
+	letter-spacing: 0.03vmin;
+	text-align: center;
+	vertical-align: middle;
+	display: table;
+	color: #383838;
+}
+
+.paragraph p {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#explore-paragraph {
+	top: -65vh;
+	left: 20vw;
+}
+
+#relate-paragraph {
+	top: 20vh;
+	left: -65vw;
+}
+
+#create-paragraph {
+	top: 20vh;
+	left: 105vw;
 }
