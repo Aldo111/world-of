@@ -15,7 +15,7 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
     }
 
     var [lhs, op, rhs] = [data[condition.lhs] || null, condition.op,
-      condition.rhs || null];
+      condition.rhs];
 
     if (!lhs) {
       return false;
