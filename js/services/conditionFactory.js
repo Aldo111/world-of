@@ -21,6 +21,10 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
       return false;
     }
 
+    console.log(condition.lhs);
+    console.log(lhs);
+    console.log(condition.rhs);
+
     switch (op) {
       case CONDITIONS_OPS.links.CHOSEN:
         return lhs.indexOf(rhs) >= 0;

@@ -44,7 +44,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         authorization: true
       }
     })
-    .state('main.play-world', {
+    .state('play-world', {
       url: '/worlds/:id/play',
       templateUrl: 'templates/play-world.html',
       controller: 'PlayCtrl',

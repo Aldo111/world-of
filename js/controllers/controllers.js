@@ -244,7 +244,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     }.bind(this));
 
     Player.init(state);
-
+    console.log(state);
   }.bind(this);
 
   /**
@@ -316,6 +316,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   this.filterSections = function(sections) {
     var data = Player.getState();
     var results = [];
+    console.log(sections);
     // Evaluate sections to be displayed based on any conditions
     for (var i = 0; i < sections.length; i++) {
       if (sections[i].conditions) {
