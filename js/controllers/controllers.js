@@ -173,7 +173,7 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
   this.playWorld = function() {
     Player.setCurrentWorld(this.worldId);
-    $state.go('main.play-world', {id: this.worldId});
+    $state.go('play-world', {id: this.worldId});
   }.bind(this);
 
   this.deleteWorld = function() {
@@ -323,6 +323,8 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
         var conditions = JSON.parse(sections[i].conditions);
         var valid = ConditionFactory.evaluateConditionSet(conditions,
         Player.getState());
+        console.log('Checking');
+        console.log(conditions);
         if (valid) {
           results.push(sections[i]);
           if (!sections[i].linkedHub) {
@@ -395,7 +397,7 @@ app.controller('WorldProfileCtrl', function($scope, $state, $stateParams, User,
 
   this.playWorld = function() {
     Player.setCurrentWorld(this.world.id);
-    $state.go('main.play-world', {id: this.world.id});
+    $state.go('play-world', {id: this.world.id});
   }.bind(this);
 
   this.fetchWorldData();
