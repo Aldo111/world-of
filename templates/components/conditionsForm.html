@@ -40,7 +40,7 @@
       <md-button class="md-flat md-warn" ng-click="ctrl.deleteCondition($index)">- Delete</md-button>
     </div>
     <div ng-if="condition.conditions && condition.op">
-      <conditions-form condition-set="condition" parent-set="ctrl.conditionSet" parent-position="$index" world-id="ctrl.worldId"></conditions-form>
+      <conditions-form condition-set="condition" parent-set="ctrl.conditionSet" parent-position="$index" world="ctrl.world" world-id="ctrl.worldId"></conditions-form>
     </div>
     <div ng-if="ctrl.conditionSet.conditions.length - 1 !== $index">
       <div class='logicText' align="center"><b>{{ ctrl.logical[ctrl.conditionSet.op] }}</b>

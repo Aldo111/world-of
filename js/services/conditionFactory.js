@@ -127,7 +127,7 @@ app.factory('ConditionFactory', function(CONDITIONS_OPS) {
   };
 
   var createConditionSet = function(conditions, op) {
-    return new ConditionSet(conditions, op);
+    return new ConditionSet(conditions, op || CONDITIONS_OPS.logical.AND);
   };
 
   return {
