@@ -19,7 +19,7 @@
     <script src="node_modules/angular-material/angular-material.min.js"></script>
     <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script src="node_modules/angular-socialshare/dist/angular-socialshare.min.js"></script>
-	
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <link rel="stylesheet"
@@ -27,9 +27,8 @@
 
      <!--material -->
 
-    <link rel="icon"
-      type="image/png"
-      href="img/logo.png">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Aguafina+Script"
@@ -40,6 +39,9 @@
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
 
+    <script src="js/app.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
     <?php
       // Setup script references by automatically parsing through js/
       function recurse($file)
@@ -54,6 +56,10 @@
               }
               else
               {
+                  if ($path === "js/app.js" || $path === "js/constants.js" || $path === "js/jquery-2.1.4.min.js" ) {
+                    return;
+                  }
+
                   $split = explode(".", $path);
                   if (in_array("js", $split)) {
                     echo "<script src=\"{$path}\"></script>\n\t";
@@ -61,9 +67,13 @@
               }
           }
       }
-      $iterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator('js/'));
-      recurse($iterator);
+      $folders = ["services", "controllers", "components"];
+      foreach ($folders as $folder) {
+        $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator('js/'.$folder.'/'));
+        recurse($iterator);
+      }
+
     ?>
 
 
