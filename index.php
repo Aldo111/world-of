@@ -38,6 +38,7 @@
     <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style_500px.css">
 
     <script src="js/app.js"></script>
     <script src="js/constants.js"></script>
