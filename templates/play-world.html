@@ -1,5 +1,5 @@
-<div style='background: white; height: 100%; margin-top: -14px'>
-<h2 align="center"> {{ ctrl.world.name }}<br><md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button></h2>
+<div layout="column" class='playWorldContainer'>
+<h2 align="center" class="playWorldHeader"> {{ ctrl.world.name }}<br><md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button></h2>
 <div layout="row" class="storyContent">
   <div class="storyContainer statsBox" ng-if="ctrl.publicStats.length > 0">
     <div ng-repeat="name in ctrl.publicStats">
@@ -11,7 +11,7 @@
       <div class="playSectionText"
       ng-bind-html="section.text" ng-if="!section.linkedHub">
       </div>
-      <md-button class="md-raised" ng-if="section.linkedHub"
+      <md-button class="md-raised playSectionButton" ng-if="section.linkedHub"
         ng-click="ctrl.gotoHub(section)">
         <i>{{ section.text }}</i>
       </md-button>
