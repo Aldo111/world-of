@@ -13,7 +13,7 @@ if (preg_match('/worlds\/([0-9]*)\//', $path, $matches)) {
     $world = $worlds[0];
     $name = $world['name'];
     $description = $world['description'];
-    $author = 'random';
+    $author = $world['username'];
   }
 
 
@@ -26,6 +26,7 @@ function generateMetas($title, $description, $author) {
   echo '<title>'.$title.'</title>';
   echo '<meta name="description" content="'.$description.'">';
   echo '<meta name="author" content="'.$author.'">';
+  echo '<meta property="og:image" content="http://'.$_SERVER['HTTP_HOST'].'/img/logo-200.png" />';
 }
 
 if (BASE_HREF !== null) {

@@ -343,9 +343,16 @@ class DB {
    * if failed.
    */
   public function getWorlds($fields) {
-    $extraConditions = $this->genExtra($fields);
-    $q=$this->db->query("SELECT * FROM worlds". $extraConditions."
-      ORDER BY id DESC");
+    $extraConditions = $this->genExtra($fields, 'worlds');
+    $extraUsername = " accounts.id=worlds.user_id";
+    if ($extraConditions == "") {
+      $extraConditions = " WHERE ".$extraUsername." ";
+    } else {
+      $extraConditions .=" AND ".$extraUsername." ";
+    }
+
+    $q=$this->db->query("SELECT worlds.*, username FROM worlds, accounts". $extraConditions."
+      ORDER BY worlds.id DESC");
     $result = $this->fetchAll($q);
 
     for ($i = 0; $i < count($result); $i++) {
@@ -623,9 +630,13 @@ class DB {
    *
    * @return string The extra conditions in string form.
    */
-  private function genExtra($fields) {
+  private function genExtra($fields, $table) {
     $extra_conditions = "";
-
+    if ($table === null) {
+      $table = "";
+    } else {
+      $table = $table.=".";
+    }
     // Handling extra conditions that can be appended to a db query.
     if (count($fields) > 0) {
       $extra_conditions = " WHERE";
@@ -640,7 +651,7 @@ class DB {
           $field = str_replace("*like_", "", $field);
         }
 
-        $extra_conditions .= " {$field}". $op;
+        $extra_conditions .= " {$table}{$field}". $op;
       }
     }
     return $extra_conditions;
