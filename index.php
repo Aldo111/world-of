@@ -5,13 +5,9 @@
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
     <meta name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=no">
-
     <?php
       require('api/meta.php');
     ?>
-
-    <base href="/world-of/">
-    <title>World Of</title>
 
     <script src="config.js"></script>
     <script src="node_modules/angular/angular.min.js"></script>
