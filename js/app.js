@@ -1,9 +1,9 @@
 var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize','720kb.socialshare']);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider,
-  $mdThemingProvider) {
+  $mdThemingProvider, $urlMatcherFactoryProvider) {
 
-
+  $urlMatcherFactoryProvider.strictMode(false)
   $urlRouterProvider.otherwise('/');
 
   // Define angular routes
