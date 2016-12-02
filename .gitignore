@@ -1,3 +1,4 @@
 api/config.php
 node_modules/
 config.js
+.htaccess

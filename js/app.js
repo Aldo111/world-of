@@ -1,6 +1,8 @@
 var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize','720kb.socialshare']);
 
-app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider,
+  $mdThemingProvider) {
+
 
   $urlRouterProvider.otherwise('/');
 
@@ -56,6 +58,8 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       controller: 'WorldProfileCtrl',
       controllerAs: 'ctrl'
     });
+
+  $locationProvider.html5Mode(true);
 
   // Define theme
   $mdThemingProvider.theme('default')

@@ -211,6 +211,7 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     API.getWorlds({id: this.worldId}).then(function(response) {
       this.world = response.result[0];
       this.worldId = this.world.id;
+      document.title = this.world.name;
       this.initializePlayerState();
       this.fetchSectionData(this.world.startHub);
     }.bind(this), function(response) {
