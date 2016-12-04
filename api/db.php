@@ -311,8 +311,7 @@ class DB {
     // instead of all, so as to avoid deleting/reinserting a LOT of stuff
 
     $deleteQ = $this->db->query("DELETE FROM hubs_content
-      WHERE id NOT IN (".implode(",", $ids).") AND hub_id='$hubId'");
-
+      WHERE id NOT IN ('".implode("','", $ids)."') AND hub_id='$hubId'");
 
     $insertQ=$this->db->query("INSERT into hubs_content (user_id, hub_id, `text`,
       ordering, conditions, linked_hub) VALUES ".implode(",", $insertSql));

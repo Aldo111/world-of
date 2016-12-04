@@ -11,6 +11,22 @@ app.component('hubEditor', {
 
   this.sections = [];
   this.worldId = this.world ? this.world.id || null : null;
+  /**
+   * Function to fetch hub data
+   */
+  this.fetchSectionData = function() {
+    Loader.show();
+
+    API.getWorldHubSections({
+      worldId: this.world.id,
+      hubId: this.hub.id
+    }).then(function(response) {
+      Loader.hide();
+      this.sections = response.result;
+    }.bind(this), function(response) {
+      Loader.hide();
+    });
+  }.bind(this);
 
   // Create a section textarea
   this.createSection = function() {
@@ -43,8 +59,10 @@ app.component('hubEditor', {
     Loader.show();
 
     API.saveSections(data).then(function(response) {
+      // TODO: have API return updated data to avoid second request
+      this.fetchSectionData();
       Loader.hide();
-    }, function(response) {
+    }.bind(this), function(response) {
       Loader.hide();
     });
   }.bind(this);
@@ -86,23 +104,6 @@ app.component('hubEditor', {
       Loader.hide();
     });
   };
-
-  /**
-   * Function to fetch hub data
-   */
-  this.fetchSectionData = function() {
-    Loader.show();
-
-    API.getWorldHubSections({
-      worldId: this.world.id,
-      hubId: this.hub.id
-    }).then(function(response) {
-      Loader.hide();
-      this.sections = response.result;
-    }.bind(this), function(response) {
-      Loader.hide();
-    });
-  }.bind(this);
 
   this.openConditionsEditor = function(section) {
     var conditionSet = JSON.parse(section.conditions || null);
