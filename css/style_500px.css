@@ -34,6 +34,14 @@
       margin-bottom: 10px;
     }
 
+    .worldEditTitleRow {
+      align-items: center !important;
+    }
+
+    .md-button {
+      font-size: 9pt;
+    }
+
     header {
       font-size: 16pt;
     }

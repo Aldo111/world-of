@@ -38,18 +38,16 @@ This hub has been set as the starting hub for your world.
    </div>
   <div ng-repeat="section in ctrl.sections track by $index" class="hubSection">
     <div class="pointer worldDashboardToolbar hubSectionToolbar hubSectionHeader" layout="row">
-      <div flex="100" align="left">Section {{$index}}</div>
-      <div>
-        <md-button class="md-icon-button"
-          ng-click="ctrl.confirmDeleteSection($index)">
-          <i class="material-icons md-48">
-            delete
-          </i>
-          <md-tooltip md-direction="top">
-            Delete
-          </md-tooltip>
-        </md-button>
-      </div>
+      <div align="left">Section {{$index}}</div>
+      <md-button class="md-icon-button"
+        ng-click="ctrl.confirmDeleteSection($index)">
+        <i class="material-icons md-48">
+          delete
+        </i>
+        <md-tooltip md-direction="top">
+          Delete
+        </md-tooltip>
+      </md-button>
     </div>
     <div class="hubSectionContent">
       <md-input-container class="md-block">

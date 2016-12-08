@@ -1,16 +1,8 @@
-<div layout="row" class="titleRow">
-  <h1 flex=100>
+<div layout="column" class="titleRow worldEditTitleRow" style='align-items: flex-start'>
+  <h1>
     <u class="pointer" ng-click="ctrl.gotoProfile()">{{ ctrl.world.name }}</u>
-    <md-button class="md-icon-button" ng-click="ctrl.deleteWorld()">
-      <i class="material-icons">
-        delete
-      </i>
-      <md-tooltip md-direction="top">
-        Delete World
-      </md-tooltip>
-    </md-button>
   </h1>
-  <div flex=100  style='text-align:right'>
+  <div>
     <md-button class="md-icon-button" ng-click="ctrl.openCollaboratorsForm()">
       <i class="material-icons">
         people
@@ -35,12 +27,16 @@
         Play World
       </md-tooltip>
     </md-button>
+    <md-button class="md-icon-button" ng-click="ctrl.deleteWorld()">
+      <i class="material-icons">
+        delete
+      </i>
+      <md-tooltip md-direction="top">
+        Delete World
+      </md-tooltip>
+    </md-button>
   </div>
 </div>
-
-<small>
-Here you can create hubs, the 'pages' of your world. Each hub consists of sections that comprise the actual content that is displayed.
-</small>
 
 <div layout = "row">
   <div class = "hubsList" layout = "column" >
@@ -78,7 +74,9 @@ Here you can create hubs, the 'pages' of your world. Each hub consists of sectio
 
   <div class="hubEditorContainer noSelect" layout="column" flex=100>
     <h3 ng-cloak class="defaultText hubNotSelectedMessage"
-      ng-if="ctrl.hub === null" class="hubContent">No hub selected.</h3>
+      ng-if="ctrl.hub === null && ctrl.hubs.length != 0" class="hubContent">No hub selected.</h3>
+    <h3 ng-cloak class="defaultText hubNotSelectedMessage"
+      ng-if="ctrl.hub === null && ctrl.hubs.length == 0" class="hubContent">You haven't created any hubs yet. Create a hub through the menu on the left.</h3>
     <hub-editor world="ctrl.world" hub="ctrl.hub" hubs="ctrl.hubs" ng-if="ctrl.hub !== null">
     </hub-editor>
   </div>
