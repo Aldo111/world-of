@@ -32,8 +32,8 @@ app.component('navBar', {
     this.tabs.push(new Tab('Home', 'home', 'main.dash'));
 
     // Authorized tabs only
-    this.tabs.push(new Tab('Player Templates', 'accessibility',
-      'main.player-templates', true));
+    /*this.tabs.push(new Tab('Player Templates', 'accessibility',
+      'main.player-templates', true));*/
 
 
     EventManager.onUserLoggedIn(function(user) {

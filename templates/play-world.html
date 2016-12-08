@@ -8,7 +8,7 @@
       </i>
     </md-button>
   </div>
-  <div class="playHeaderMenu" ng-class="{showPlayHeaderMenu: ctrl.showMenu}">
+  <div class="playHeaderMenu" ng-blur="ctrl.toggleMenu()" ng-class="{showPlayHeaderMenu: ctrl.showMenu}">
     <md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button>
   </div>
 </div>
