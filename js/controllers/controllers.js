@@ -199,6 +199,12 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   this.publicStats = [];
   this.hubId = null;
   this.doNotEvaluate = false;
+  this.showMenu = false;
+
+  this.toggleMenu = function() {
+    console.log('toggled');
+    this.showMenu = !this.showMenu;
+  }.bind(this);
 
   /**
    * Function to fetch hub data

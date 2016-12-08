@@ -517,7 +517,7 @@ hr {
   margin: 0 auto;
   align-items: flex-start;
   position: absolute;
-  top: 89px;
+  top: 70px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -533,17 +533,40 @@ hr {
 .playWorldHeader {
   z-index: 2;
   width: 100%;
-  background-color: #fdfdfd;
   margin: 0;
-  padding-top: 10px;
+  padding: 0px;
   border-bottom: 0px solid #eee;
   box-shadow: black 0px -10px 40px -10px;
   color: #000000;
 }
+
+.playWorldHeader > div {
+  align-items: center;
+}
+
 .playSectionButton {
   white-space: normal;
   text-align: left;
   line-height: 22pt;
+}
+
+.playHeaderBg {
+  background-color: #fdfdfd;
+}
+
+.playHeaderMenu {
+  width: 100%;
+  text-align: center;
+  max-height: 0px;
+  overflow: hidden;
+  opacity: 0.95;
+  background-color: #fff5d8;
+  transition: max-height 0.3s linear;
+}
+
+.showPlayHeaderMenu {
+  transition: max-height 0.3s linear;
+  max-height: 300px;
 }
 
 .statsBox {

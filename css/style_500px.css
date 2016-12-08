@@ -9,4 +9,16 @@
     .storyContent {
       width: initial;
     }
+
+    .hubsList {
+      width: 100px;
+    }
+
+    .hubsListCard {
+      width: initial;
+    }
+
+    header {
+      font-size: 16pt;
+    }
 }

@@ -1,5 +1,17 @@
 <div layout="column" class='playWorldContainer'>
-<h2 align="center" class="playWorldHeader"> {{ ctrl.world.name }}<br><md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button></h2>
+<div layout="column" class="playWorldHeader">
+  <div layout="row" class="playHeaderBg">
+    <h2 align="center" flex="100">{{ ctrl.world.name }}</h2>
+    <md-button class="md-icon-button" ng-click="ctrl.toggleMenu()">
+      <i class="material-icons">
+        menu
+      </i>
+    </md-button>
+  </div>
+  <div class="playHeaderMenu" ng-class="{showPlayHeaderMenu: ctrl.showMenu}">
+    <md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button>
+  </div>
+</div>
 <div layout="row" class="storyContent">
   <div class="storyContainer statsBox" ng-if="ctrl.publicStats.length > 0">
     <div ng-repeat="name in ctrl.publicStats">
