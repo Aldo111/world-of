@@ -11,11 +11,37 @@ app.component('hubEditor', {
 
   this.sections = [];
   this.worldId = this.world ? this.world.id || null : null;
+  this.stateVariables = JSON.parse(this.world.stateVariables || '[]');
+
   this.tinyMceOptions = {
     resize: false,
+    content_css : '/world-of/css/style.css',
+    body_class: 'playSectionText',
     height: 250,
-    plugins: 'print textcolor',
-    toolbar: 'undo redo styleselect bold italic print forecolor backcolor'
+    menubar: false,
+    forced_root_block: false,
+    plugins: 'textcolor noneditable contextmenu image link',
+    contextmenu_never_use_native: true,
+    contextmenu: "link | image | mybutton",
+    toolbar: 'undo redo styleselect bold italic forecolor backcolor link image mybutton',
+    setup: function(editor) {
+      editor.addButton('mybutton', {
+        text: '',
+        icon: 'icon-variables',
+        onclick: function() {
+          var selectedNode = editor.selection.getNode();
+          var classes = selectedNode.className;
+          var isVariable = classes.indexOf('editorVariable') > -1;
+
+          if (isVariable) {
+            var text = selectedNode.innerText;
+            var variableName = text.replace(/\[|\]/g,'');
+          }
+
+          editor.insertContent('<span class="editorVariable mceNonEditable">[[VARIABLE]]</span>');
+        }
+      });
+    }
   };
   /**
    * Function to fetch hub data
