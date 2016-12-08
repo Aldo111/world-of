@@ -22,6 +22,18 @@
       justify-content: center;
     }
 
+    .worldDashboardCard {
+      margin: 15px auto;
+    }
+
+    .dashTitleRow {
+      flex-direction: column;
+    }
+
+    .dashTitleRow h1 {
+      margin-bottom: 10px;
+    }
+
     header {
       font-size: 16pt;
     }

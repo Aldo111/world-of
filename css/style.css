@@ -461,6 +461,10 @@ hr {
   width: 100%;
 }
 
+.md-button {
+  min-width: 0 !important;
+}
+
 md-autocomplete {
   min-width: 0 !important;
   max-width: 250px;
