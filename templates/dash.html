@@ -1,12 +1,12 @@
 <div layout="row" class="titleRow">
   <h1 flex=1 >Your Worlds</h1>
-  <div flex class='search'>
+  <div flex layout="row" class='search'>
     <md-icon class="material-icons">search</md-icon>
     <input ng-model="ctrl.worldFilter" type="text">
   </div>
 </div>
 
-<div class="row worldDashboardCards noSelect">
+<div layout="row" class="worldDashboardCards noSelect">
   <div class="worldDashboardCard createWorldCard" ng-click="ctrl.createWorld()">
       <span class="centerBox">+</span>
   </div>
@@ -18,13 +18,13 @@
 
 <div layout="row" class="titleRow">
   <h1 flex=1>Collaborations</h1>
-  <div flex class='search'>
+  <div flex layout="row" class='search'>
     <md-icon class="material-icons">search</md-icon>
     <input ng-model="ctrl.collabFilter" type="text">
   </div>
 </div>
 
-<div layout="row worldDashboardCards noSelect">
+<div layout="row" class="worldDashboardCards noSelect">
   <world-card world="collab"
     ng-repeat="collab in ctrl.collabs | filter: {'name': ctrl.collabFilter}"
     ></world-card>

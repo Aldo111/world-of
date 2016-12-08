@@ -1,4 +1,4 @@
-<div class="navBar row" ng-if="ctrl.currentState !== 'main.home' && ctrl.user">
+<div class="navBar" layout="row" ng-if="ctrl.currentState !== 'main.home' && ctrl.user">
   <div layout="row" flex="100">
     <div
       ng-repeat="tab in ctrl.tabs"
@@ -10,11 +10,8 @@
       <md-icon class="noSelect">{{ tab.icon }}</md-icon>
     </div>
   </div>
-  <div layout="row" class='search'>
-    <md-icon class="material-icons">search</md-icon>
+  <div class='search'>
     <md-autocomplete
-        style="margin-right: 5px"
-        flex="80"
         md-selected-item-change="ctrl.gotoWorld(ctrl.selectedItem.id)"
         md-selected-item="ctrl.selectedItem"
         md-search-text="ctrl.searchText"

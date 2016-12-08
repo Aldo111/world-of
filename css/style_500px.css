@@ -18,6 +18,10 @@
       width: initial;
     }
 
+    .worldDashboardCards {
+      justify-content: center;
+    }
+
     header {
       font-size: 16pt;
     }

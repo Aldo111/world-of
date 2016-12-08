@@ -1,6 +1,7 @@
 * {
   -webkit-user-select: auto;
   outline: 0;
+  box-sizing: border-box;
 }
 
 body, .content {
@@ -36,7 +37,7 @@ h1, h2, h3, h4 {
   flex-grow: 1;
 }
 
-header {
+main-header {
   background-color:#232323;
   height:73px;
   color: white;
@@ -67,7 +68,7 @@ header > .row {
   color: #000;
 }
 
-.navBar > div > div {
+.navTab {
   flex: 1;
   max-width: 100px;
   text-align: center;
@@ -190,7 +191,8 @@ md-button {
 }
 
 .worldDashboardCards {
-
+  margin: 0 auto;
+  text-align: center;
   align-items: stretch;
   flex-wrap: wrap !important;
   padding: 15px;
@@ -205,18 +207,20 @@ md-button {
   cursor: pointer;
 }
 
-.worldDashboardCard > div {
+.worldDashboardCard > .title {
+  min-height: 120px;
   transition: background-color 0.2s;
 }
 
-.worldDashboardCard:hover > div {
+.worldDashboardCard > .title:hover {
   background-color: #f9f9f9;
 }
 
 .worldDashboardToolbar {
   position: relative;
-  margin: -5px;
+  height: auto;
   padding: 5px;
+  margin: -5px;
   background-color: #ddd;
   font-weight: bold;
   flex-grow: 0 !important;
@@ -235,6 +239,7 @@ md-button {
 .createWorldCard {
   line-height: 50%;
   min-height: 100px;
+  min-width: 250px;
   border: 3px dashed orange;
   font-size: 24pt;
   font-weight: bold;
@@ -445,10 +450,24 @@ hr {
 .titleRow .search, .search {
   margin-left: 10px;
   text-align: right;
+  max-width: 190px;
   max-width: none !important;
 }
 
-.search input {
+.navBar .search {
+  margin-top: 7px;
+  margin-right: 5px;
+  max-width: 250px !important;
+  width: 100%;
+}
+
+md-autocomplete {
+  min-width: 0 !important;
+  max-width: 250px;
+  width: 100%;
+}
+
+.titleRow .search input {
   outline: 0;
   width: 100%;
   max-width: 150px;
