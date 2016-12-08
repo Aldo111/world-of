@@ -806,3 +806,9 @@ md-autocomplete {
   margin: 0;
   padding: 0;
 }
+
+.mce-btn-group > div{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}

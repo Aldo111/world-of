@@ -11,6 +11,12 @@ app.component('hubEditor', {
 
   this.sections = [];
   this.worldId = this.world ? this.world.id || null : null;
+  this.tinyMceOptions = {
+    resize: false,
+    height: 250,
+    plugins: 'print textcolor',
+    toolbar: 'undo redo styleselect bold italic print forecolor backcolor'
+  };
   /**
    * Function to fetch hub data
    */

@@ -51,13 +51,11 @@ This hub has been set as the starting hub for your world.
     </div>
     <div class="hubSectionContent">
       <md-input-container class="md-block">
-        <label>Section text</label>
         <textarea
           class="hubSectionInput"
           ng-model="section.text"
+          ui-tinymce="ctrl.tinyMceOptions"
           md-no-autogrow="true"
-          maxlength="500"
-          md-maxlength="500"
           rows="{{ section.linkedHub ? 1: 4 }}" md-select-on-focus></textarea>
       </md-input-container>
     </div>
