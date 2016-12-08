@@ -443,6 +443,10 @@ hr {
   white-space: pre-wrap;
 }
 
+.playSectionText p {
+  margin: 0;
+}
+
 .titleRow {
   align-items: center;
 }
@@ -807,8 +811,31 @@ md-autocomplete {
   padding: 0;
 }
 
+/* TinyMCE overrides */
 .mce-btn-group > div{
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+}
+
+.mce-menubar {
+}
+
+.editorVariable {
+  background-color: #fffac4;
+  font-style: italic;
+}
+
+i.mce-i-icon-variables:before {
+  content: "accessibility";
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #000;
+  font-size: 1.3em;
+  text-align: center;
+  position: absolute;
+  left: 15%;
+  top
 }
