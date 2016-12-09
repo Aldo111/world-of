@@ -536,7 +536,7 @@ md-autocomplete {
 }
 
 .playWorldContainer {
-  height: 100%;
+
 }
 .conditionSetHeader h3 {
   margin: 0 !important;
@@ -555,6 +555,12 @@ md-autocomplete {
 }
 
 .playWorldContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
   background-color: white;
 }
 
@@ -563,8 +569,7 @@ md-autocomplete {
   width: 100%;
   margin: 0;
   padding: 0px;
-  border-bottom: 0px solid #eee;
-  box-shadow: black 0px -10px 40px -10px;
+  border-bottom: 1px solid #eee;
   color: #000000;
 }
 
@@ -579,7 +584,7 @@ md-autocomplete {
 }
 
 .playHeaderBg {
-  background-color: #fdfdfd;
+  background-color: #f3f3f3;
 }
 
 .playHeaderMenu {

@@ -1,33 +1,34 @@
-<div layout="column" class='playWorldContainer'>
-<div layout="column" class="playWorldHeader">
-  <div layout="row" class="playHeaderBg">
-    <h2 align="center" flex="100">{{ ctrl.world.name }}</h2>
-    <md-button class="md-icon-button" ng-click="ctrl.toggleMenu()">
-      <i class="material-icons">
-        menu
-      </i>
-    </md-button>
-  </div>
-  <div class="playHeaderMenu" ng-blur="ctrl.toggleMenu()" ng-class="{showPlayHeaderMenu: ctrl.showMenu}">
-    <md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button>
-  </div>
-</div>
-<div layout="row" class="storyContent">
-  <div class="storyContainer statsBox" ng-if="ctrl.publicStats.length > 0">
-    <div ng-repeat="name in ctrl.publicStats">
-    <b>{{ name }}</b>: {{ ctrl.playerState[name] }}
-    </div>
-  </div>
-  <div class="storyContainer storySections" flex="80">
-    <div ng-repeat="section in ctrl.sections">
-      <div class="playSectionText"
-      ng-bind-html="section.text" ng-if="!section.linkedHub">
-      </div>
-      <md-button class="md-raised playSectionButton" ng-if="section.linkedHub"
-        ng-click="ctrl.gotoHub(section)">
-        {{section.text}}
+<div class='playWorldContainer'>
+  <div layout="column" class="playWorldHeader">
+    <div layout="row" class="playHeaderBg">
+      <h2 align="center" flex="100">{{ ctrl.world.name }}</h2>
+      <md-button class="md-icon-button" ng-click="ctrl.toggleMenu()">
+        <i class="material-icons">
+          menu
+        </i>
       </md-button>
     </div>
+    <div class="playHeaderMenu" ng-blur="ctrl.toggleMenu()" ng-class="{showPlayHeaderMenu: ctrl.showMenu}">
+      <md-button ng-click="ctrl.save()">Save</md-button> <md-button ng-click="ctrl.load()">Load</md-button><md-button ng-click="ctrl.deleteSave()">Unsave</md-button>
+    </div>
+  </div>
+  <div layout="row" class="storyContent">
+    <div class="storyContainer statsBox" ng-if="ctrl.publicStats.length > 0">
+      <div ng-repeat="name in ctrl.publicStats">
+      <b>{{ name }}</b>: {{ ctrl.playerState[name] }}
+      </div>
+    </div>
+    <div class="storyContainer storySections" flex="80">
+      <div ng-repeat="section in ctrl.sections">
+        <div class="playSectionText"
+        ng-bind-html="section.text" ng-if="!section.linkedHub">
+        </div>
+        <md-button class="md-raised playSectionButton" ng-if="section.linkedHub"
+          ng-click="ctrl.gotoHub(section)">
+          {{section.text}}
+        </md-button>
+      </div>
+    </div>
   </div>
 </div>
-</div>
+
