@@ -535,21 +535,22 @@ md-autocomplete {
   text-align: center;
 }
 
+.playWorldContainer {
+  height: 100%;
+}
 .conditionSetHeader h3 {
   margin: 0 !important;
   padding: 0 !important;
 }
 
 .storyContent {
+  flex-wrap: wrap;
   margin: 0 auto;
   align-items: flex-start;
-  position: absolute;
-  top: 70px;
+  position: relative;
+  top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
   background-color: white;
-  overflow: auto;
   z-index: 1;
 }
 
