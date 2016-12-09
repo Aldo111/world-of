@@ -39,7 +39,7 @@ app.controller("DashCtrl", function($scope, $state, $mdDialog, User, API,
 });
 
 app.controller('WorldEditCtrl', function($scope, $stateParams, API,
-  $mdDialog, Loader, Player, $state, EventManager) {
+  $mdDialog, Loader, Player, $state, EventManager, User) {
   this.worldId = parseInt($stateParams.id) || null;
 
   this.hubs = [];
@@ -97,7 +97,7 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
     Loader.show();
 
 
-    API.getWorldHubs(this.worldId).then(function(response) {
+    API.getWorldHubs(this.world.id).then(function(response) {
       this.hubs = response.result;
       if (this.hubs.length > 0) {
         this.editHub(this.hubs[0]);
@@ -110,18 +110,31 @@ app.controller('WorldEditCtrl', function($scope, $stateParams, API,
 
 
   this.init = function() {
-    API.getWorlds({id: this.worldId}).then(function(response) {
+    API.getWorlds({id: this.worldId, userId: User.getId()}).then(
+      function(response) {
       if (response.count === 0) {
-        $state.go('main.dash');
+        // Check collaboration
+        API.getUserCollaborations(User.getId(), {worldId: this.worldId}).then(
+          function(response) {
+            this.initializeWorld(response.result[0]);
+          }.bind(this));
       } else {
-        this.world = response.result[0];
+        this.initializeWorld(response.result[0]);
       }
     }.bind(this));
-
-    this.fetchHubs();
-
+    // Setup an event to reload anytime hubs are deleted
     EventManager.onHubDeleted(this.fetchHubs);
   }.bind(this);
+
+  this.initializeWorld = function(world) {
+    if (!world) {
+      $state.go('main.dash');
+      return null;
+    }
+    this.world = world;
+    this.fetchHubs();
+  }.bind(this);
+
 
 
   this.editHub = function(hub) {

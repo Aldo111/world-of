@@ -76,9 +76,13 @@ class DB {
    * @return array|false Returns an associative array with world data
    *    if user exists, else returns false.
    */
-  public function getUserCollaborations($user_id) {
+  public function getUserCollaborations($user_id, $fields) {
+    $extra = "";
+    if (isset($fields['world_id'])) {
+      $extra = " AND worlds.id='".$fields['world_id']."'";
+    }
     $q=$this->db->query("SELECT worlds.* FROM collaborators, worlds
-      WHERE collaborators.collaborator_id = '$user_id' AND collaborators.world_id = worlds.id");
+      WHERE collaborators.collaborator_id = '$user_id' AND collaborators.world_id = worlds.id".$extra);
     if ($q != false) {
       return $this->fetchAll($q);
     } else {
@@ -626,10 +630,11 @@ class DB {
    * a 'WHERE ..' string that can be appended at the end of an SQL query.
    *
    * @param array $fields Associative array containing key/value pairs for SQL.
+   * @param string $table (optional) Specifies a table prefix to use.
    *
    * @return string The extra conditions in string form.
    */
-  private function genExtra($fields, $table) {
+  private function genExtra($fields, $table=null) {
     $extra_conditions = "";
     if ($table === null) {
       $table = "";

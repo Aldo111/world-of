@@ -189,8 +189,9 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
       setOptions(null, 'delete'));
   };
 
-  var getUserCollaborations = function(userId) {
-    return invokeEndpoint('users/' + userId + '/collaborations');
+  var getUserCollaborations = function(userId, data) {
+    return invokeEndpoint('users/' + userId + '/collaborations',
+      setOptions(data, 'get'));
   };
 
   return {
