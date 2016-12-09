@@ -22,13 +22,13 @@
         </md-option>
       </md-select>
 
-      <md-select class="conditionOpSelect" ng-model="condition.op"  aria-label="What type of operation" placeholder="Check for..?">
+      <md-select class="conditionOpSelect" ng-if="condition.lhs && condition.lhs.length > 0" ng-model="condition.op"  aria-label="What type of operation" placeholder="Check for..?">
         <md-option ng-repeat="(op, opVal) in ctrl.ops[ctrl.getType(condition.lhs)]"  ng-value="opVal">
           {{ op }}
         </md-option>
       </md-select>
 
-      <input ng-model="condition.rhs" ng-if="condition.lhs !== '*links'" type="text">
+      <input ng-model="condition.rhs" ng-if="condition.op" ng-if="condition.lhs !== '*links'" type="text">
       <md-select class="conditionOpSelect" ng-if="condition.lhs === '*links'"
       ng-model="condition.rhs" aria-label="Which link" placeholder="Choose a link">
 
