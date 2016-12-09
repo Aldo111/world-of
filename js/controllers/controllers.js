@@ -345,7 +345,8 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
         console.log(editorVariables.length);
         editorVariables.each(function(i) {
           var value = editorVariables[i].innerText.replace(/\[|\]/g,'');
-          editorVariables[i].innerText = data[value] || '';
+          editorVariables[i].innerText = data.hasOwnProperty(value) ?
+            data[value] : '';
           editorVariables[i].className = '';
         });
         // Substituting it back in the original section's text
