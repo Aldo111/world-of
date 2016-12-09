@@ -1,4 +1,5 @@
-var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize','720kb.socialshare', 'ui.tinymce' ]);
+var app = angular.module('worldof', ['ui.router', 'ngMaterial', 'ngSanitize',
+  '720kb.socialshare', 'ui.tinymce' ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider,
   $mdThemingProvider, $urlMatcherFactoryProvider) {

@@ -9,7 +9,7 @@ app.factory('EventManager', function($rootScope) {
   };
 
   var on = function(name, callback) {
-    eventScope.$on(name, function(event, data) {
+    return eventScope.$on(name, function(event, data) {
       callback(data);
     });
   };
@@ -19,21 +19,21 @@ app.factory('EventManager', function($rootScope) {
       broadcast('user-logged-in', user);
     },
     onUserLoggedIn: function(callback) {
-      on('user-logged-in', callback);
+      return on('user-logged-in', callback);
     },
 
     userLoggedOut: function(user) {
       broadcast('user-logged-out', user);
     },
     onUserLoggedOut: function(callback) {
-      on('user-logged-out', callback);
+      return on('user-logged-out', callback);
     },
 
     hubDeleted: function() {
       broadcast('hub-deleted');
     },
     onHubDeleted: function(callback) {
-      on('hub-deleted', callback);
+      return on('hub-deleted', callback);
     }
 
   }

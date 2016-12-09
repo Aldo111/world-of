@@ -251,7 +251,6 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
     }.bind(this));
 
     Player.init(state);
-    console.log(state);
   }.bind(this);
 
   /**
@@ -301,8 +300,6 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
         Player.setCurrentHub(origHubId);
         this.hubId = origHubId;
         this.fetchSectionData(this.hubId);
-        console.log("Got it: ");
-        console.log(Player.getState());
       }
     } else {
       this.hubId = Player.getCurrentHub();
@@ -323,26 +320,37 @@ app.controller('PlayCtrl', function($scope, $state, $stateParams, User, Loader,
   this.filterSections = function(sections) {
     var data = Player.getState();
     var results = [];
-    console.log(sections);
     // Evaluate sections to be displayed based on any conditions
     for (var i = 0; i < sections.length; i++) {
+      var sectionToPush = null;
       if (sections[i].conditions) {
         var conditions = JSON.parse(sections[i].conditions);
         var valid = ConditionFactory.evaluateConditionSet(conditions,
         Player.getState());
-        console.log('Checking');
-        console.log(conditions);
         if (valid) {
-          results.push(sections[i]);
-          if (!sections[i].linkedHub) {
-            this.evaluateSectionModifier(sections[i]);
-          }
+          sectionToPush = sections[i];
         }
       } else {
-        results.push(sections[i]);
-        if (!sections[i].linkedHub) {
-          this.evaluateSectionModifier(sections[i]);
+        sectionToPush = sections[i];
+      }
+      // Add valid section to filtered/final list
+      if (sectionToPush) {
+        if (!sectionToPush.linkedHub) {
+          this.evaluateSectionModifier(sectionToPush);
         }
+        // Wrapping section text inside a random element
+        var rootElement = $('<root>'+sectionToPush.text+'</root>');
+        // Fetching variables that need to be displayed within sections
+        var editorVariables = rootElement.find('.editorVariable');
+        console.log(editorVariables.length);
+        editorVariables.each(function(i) {
+          var value = editorVariables[i].innerText.replace(/\[|\]/g,'');
+          editorVariables[i].innerText = data[value] || '';
+          editorVariables[i].className = '';
+        });
+        // Substituting it back in the original section's text
+        sectionToPush.text = rootElement.html();
+        results.push(sectionToPush);
       }
     }
 

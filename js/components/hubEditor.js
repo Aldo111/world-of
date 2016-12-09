@@ -11,12 +11,16 @@ app.component('hubEditor', {
 
   this.sections = [];
   this.worldId = this.world ? this.world.id || null : null;
-  this.stateVariables = JSON.parse(this.world.stateVariables || '[]');
-  this.stateVariablesSimplified = [];
-  _.each(this.stateVariables, function(obj) {
-      this.stateVariablesSimplified.push({text: obj.name, value: obj.name});
-  }.bind(this));
 
+  this.setupVariables = function() {
+    this.stateVariables = JSON.parse(this.world.stateVariables || '[]');
+    this.stateVariablesSimplified = [];
+    _.each(this.stateVariables, function(obj) {
+        this.stateVariablesSimplified.push({text: obj.name, value: obj.name});
+    }.bind(this));
+  }.bind(this);
+
+  this.setupVariables();
   this.tinyMceOptions = {
     resize: false,
     content_css : '/world-of/css/style.css',
@@ -57,21 +61,24 @@ app.component('hubEditor', {
             var text = selectedNode.innerText;
             var variableName = text.replace(/\[|\]/g,'');
           }
-
-          editor.windowManager.open({
-            title: 'Display a Variable',
-            cmd: 'mceVariables',
-            body: [
-              {type: 'combobox', name: 'variable', label: 'Variable', value: variableName || this.stateVariablesSimplified[0].value, values: this.stateVariablesSimplified}
-            ],
-            onsubmit: function(e) {
-              editor.focus();
-              var value = e.data.variable || null;
-              if (value) {
-                editor.insertContent('<span class="editorVariable mceNonEditable">[['+ value +']]</span>');
+          this.setupVariables();
+          if (this.stateVariablesSimplified.length > 0) {
+            editor.windowManager.open({
+              title: 'Display a Variable',
+              cmd: 'mceVariables',
+              body: [
+                {type: 'combobox', name: 'variable', label: 'Variable', value: variableName || this.stateVariablesSimplified[0].value, values: this.stateVariablesSimplified}
+              ],
+              onsubmit: function(e) {
+                editor.focus();
+                var value = e.data.variable || null;
+                if (value) {
+                  editor.insertContent('<span class="editorVariable mceNonEditable">[['+ value +']]</span>');
+                }
               }
-            }
-          });
+            });
+          }
+
         }.bind(this)
       });
     }.bind(this)
