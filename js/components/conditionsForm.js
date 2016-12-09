@@ -8,21 +8,19 @@ app.component('conditionsForm', {
     parentSet: '=?',
     parentPosition: '<?',
     worldId: '<?',
-    world: '<?'
+    world: '<?',
+    worldLinks: '<?'
   },
   controller: function($scope, CONDITIONS_OPS, ConditionFactory, _, API) {
     this.ops = CONDITIONS_OPS;
     console.log(this.ops);
-
-    this.logical = _.invert(CONDITIONS_OPS.logical);
     this.worldLinks = [];
+    this.logical = _.invert(CONDITIONS_OPS.logical);
     var stateVariables = JSON.parse(this.world.stateVariables || "[]");
 
     this.stateValues = [{
       name: '*links', type: 'links'}
       ].concat(stateVariables);
-
-    console.log(this.stateValues);
 
     this.getType = function(name) {
       for (var i = 0; i < this.stateValues.length; i++) {
@@ -55,10 +53,9 @@ app.component('conditionsForm', {
       this.conditionSet.conditions.splice(id, 1);
     }.bind(this);
 
-
     // init stuff
-    if (this.worldId) {
-      API.getWorldLinks(this.worldId).then(function(response) {
+    if (this.world) {
+      API.getWorldLinks(this.world.id).then(function(response) {
         this.worldLinks = response.result;
       }.bind(this));
     }
