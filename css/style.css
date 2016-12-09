@@ -629,17 +629,33 @@ md-autocomplete {
 }
 
 .words {
-	/* positioning stuff */
-	position: absolute;
   text-align: center;
-  top: 45vh;
-  left: 50%;
-  width: 30vw;
-  height: 30vw;
-  margin:-15vw;
-	/* font stuff */
-	font-size: 3vw;
+  color: orange;
 	font-family: 'Dosis', sans-serif;
+  margin-bottom: 0;
+}
+
+.words + p {
+  font-family: 'Dosis';
+  margin: 0;
+  font-size: 14pt;
+  background-color: #eee;
+  min-height: 50px;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.logo {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.homeContainer {
+  text-align: center;
+  position: relative;
+  width: 100%;
 }
 
 #explore {
