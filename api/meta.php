@@ -33,7 +33,7 @@ if (BASE_HREF !== null) {
   define(BASE_HREF, '/');
 }
 echo '<base href="'.BASE_HREF.'">';
-
+echo '<script>window.base="'.BASE_HREF.'";</script>';
 
 ?>
 

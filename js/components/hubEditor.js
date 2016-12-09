@@ -23,7 +23,7 @@ app.component('hubEditor', {
   this.setupVariables();
   this.tinyMceOptions = {
     resize: false,
-    content_css : '/world-of/css/style.css',
+    content_css : window.base + 'css/style.css',
     body_class: 'playSectionText',
     height: 250,
     menubar: false,
