@@ -7,11 +7,15 @@ app.component('hubEditor', {
     hubs: '<?'
   },
   controller: function($scope, $state, User, API, $mdDialog, EventManager,
-    Loader, ConditionFactory) {
+    Loader, ConditionFactory, _) {
 
   this.sections = [];
   this.worldId = this.world ? this.world.id || null : null;
   this.stateVariables = JSON.parse(this.world.stateVariables || '[]');
+  this.stateVariablesSimplified = [];
+  _.each(this.stateVariables, function(obj) {
+      this.stateVariablesSimplified.push({text: obj.name, value: obj.name});
+  }.bind(this));
 
   this.tinyMceOptions = {
     resize: false,
@@ -23,25 +27,54 @@ app.component('hubEditor', {
     plugins: 'textcolor noneditable contextmenu image link',
     contextmenu_never_use_native: true,
     contextmenu: "link | image | mybutton",
-    toolbar: 'undo redo styleselect bold italic forecolor backcolor link image mybutton',
+    toolbar: 'undo redo styleselect bold italic forecolor backcolor link image variables',
     setup: function(editor) {
-      editor.addButton('mybutton', {
+
+      function isVariableElement(node) {
+        if (!node) {
+          return false;
+        }
+        return node.className.indexOf('editorVariable') > -1;
+      }
+
+      editor.on('dblclick', function(e) {
+        editor.execCommand('mceVariables');
+        if (isVariableElement(e.target)) {
+          editor.buttons.variables.onclick();
+        }
+      });
+
+      editor.addButton('variables', {
         text: '',
         icon: 'icon-variables',
         onclick: function() {
           var selectedNode = editor.selection.getNode();
           var classes = selectedNode.className;
-          var isVariable = classes.indexOf('editorVariable') > -1;
+          var isVariable = isVariableElement(selectedNode);
+          var variableName = null;
 
           if (isVariable) {
             var text = selectedNode.innerText;
             var variableName = text.replace(/\[|\]/g,'');
           }
 
-          editor.insertContent('<span class="editorVariable mceNonEditable">[[VARIABLE]]</span>');
-        }
+          editor.windowManager.open({
+            title: 'Display a Variable',
+            cmd: 'mceVariables',
+            body: [
+              {type: 'combobox', name: 'variable', label: 'Variable', value: variableName || this.stateVariablesSimplified[0].value, values: this.stateVariablesSimplified}
+            ],
+            onsubmit: function(e) {
+              editor.focus();
+              var value = e.data.variable || null;
+              if (value) {
+                editor.insertContent('<span class="editorVariable mceNonEditable">[['+ value +']]</span>');
+              }
+            }
+          });
+        }.bind(this)
       });
-    }
+    }.bind(this)
   };
   /**
    * Function to fetch hub data
