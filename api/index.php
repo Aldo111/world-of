@@ -199,7 +199,7 @@ class API {
           return $that->storeResult($result, $response);
         } else {
           $r = $that->auth->verifyUser($details["username"],
-            $details["password"]);
+            $that->auth->decodeClientPassword($details["password"]));
 
           // Incorrect details
           if ($r === false) {
@@ -222,7 +222,8 @@ class API {
           $result = $that->errorMsg("Missing input.");
         } else {
           $username = $details["username"];
-          $password = $that->auth->encryptPassword($details["password"]);
+          $password = $that->auth->encryptPassword(
+            $that->auth->decodeClientPassword($details["password"]));
 
           // Check if the username already exists
           if ($that->doesUserExist($username)) {

@@ -24,6 +24,17 @@ class Auth {
   }
 
   /**
+   * Decodes a doubly-base64 encoded password sent from the client.
+   *
+   * @param string $encoded The doubly-encoded password.
+   *
+   * @return string $decoded The decoded password.
+   */
+  public function decodeClientPassword($p) {
+    return base64_decode(base64_decode($p));
+  }
+
+  /**
    * Verifies user credentials (username and password).
    *
    * @param string $user_name A username.

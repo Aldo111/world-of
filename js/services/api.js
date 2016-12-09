@@ -89,11 +89,21 @@ app.factory('API', function($http, $q, Config, RequestFactory, User) {
     });
   };
 
+  var encodePassword = function(word) {
+    return btoa(btoa(word));
+  }
+
   var login = function(data) {
+    if (data.password) {
+      data.password = encodePassword(data.password);
+    }
     return invokeEndpoint('login', setOptions(data, 'post'));
   };
 
   var register = function(data) {
+    if (data.password) {
+      data.password = encodePassword(data.password);
+    }
     return invokeEndpoint('register', setOptions(data, 'post'));
   };
 
